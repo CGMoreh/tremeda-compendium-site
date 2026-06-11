@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Bibliographic databases: Web of Science, Scopus, OpenAlex – Building the TReMeDa Datasets</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../theme/02-classifier.html" rel="next">
+<link href="../theme/00-overview.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/01-databases.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Building the TReMeDa Datasets</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">THEME – the thematic dataset</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/00-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/01-databases.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/03-corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/04-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The THEME pipeline</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">META – the meta-analytical dataset</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">METHOD – the methodological dataset</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-databases-overview" id="toc-sec-databases-overview" class="nav-link active" data-scroll-target="#sec-databases-overview"><span class="header-section-number">1.1</span> What the three databases are, and what they add</a>
+  <ul class="collapse">
+  <li><a href="#web-of-science" id="toc-web-of-science" class="nav-link" data-scroll-target="#web-of-science"><span class="header-section-number">1.1.1</span> Web of Science</a></li>
+  <li><a href="#scopus" id="toc-scopus" class="nav-link" data-scroll-target="#scopus"><span class="header-section-number">1.1.2</span> Scopus</a></li>
+  <li><a href="#openalex" id="toc-openalex" class="nav-link" data-scroll-target="#openalex"><span class="header-section-number">1.1.3</span> OpenAlex</a></li>
+  </ul></li>
+  <li><a href="#sec-ch4-oa-method" id="toc-sec-ch4-oa-method" class="nav-link" data-scroll-target="#sec-ch4-oa-method"><span class="header-section-number">1.2</span> How OpenAlex builds its topics, and what it offers</a>
+  <ul class="collapse">
+  <li><a href="#where-trust-lives-in-the-openalex-topic-map" id="toc-where-trust-lives-in-the-openalex-topic-map" class="nav-link" data-scroll-target="#where-trust-lives-in-the-openalex-topic-map"><span class="header-section-number">1.2.1</span> Where “trust” lives in the OpenAlex topic map</a></li>
+  </ul></li>
+  <li><a href="#sec-databases-abstracts" id="toc-sec-databases-abstracts" class="nav-link" data-scroll-target="#sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone: the abstract is closing</a></li>
+  <li><a href="#sec-databases-selection" id="toc-sec-databases-selection" class="nav-link" data-scroll-target="#sec-databases-selection"><span class="header-section-number">1.4</span> The selection design: three moments</a>
+  <ul class="collapse">
+  <li><a href="#selection-in-the-curated-databases-a-precise-keyword-design" id="toc-selection-in-the-curated-databases-a-precise-keyword-design" class="nav-link" data-scroll-target="#selection-in-the-curated-databases-a-precise-keyword-design"><span class="header-section-number">1.4.1</span> Selection in the curated databases: a precise keyword design</a></li>
+  <li><a href="#selection-in-openalex-by-topic-not-by-words" id="toc-selection-in-openalex-by-topic-not-by-words" class="nav-link" data-scroll-target="#selection-in-openalex-by-topic-not-by-words"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic, not by words</a></li>
+  </ul></li>
+  <li><a href="#sec-databases-backfill" id="toc-sec-databases-backfill" class="nav-link" data-scroll-target="#sec-databases-backfill"><span class="header-section-number">1.5</span> Completing the only-OpenAlex region: the curated DOI-backfill</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.6</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/01-databases.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-theme-background" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Status: background + the implemented selection design
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This notebook does two things. First it sets out what is already known – from the literature and from each provider’s own documentation – about the three bibliographic databases this project relies on: their coverage, their search tools, and the keyword and classification systems they add. Then it sets out the <strong>selection design</strong> the project actually ran on them, and the curated by-DOI backfill that completes it. The empirical corpus that results is the subject of <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a>.</p>
+</div>
+</div>
+<p>The thematic dataset is discovered from three bibliographic databases – <strong>Web of Science</strong>, <strong>Scopus</strong> and <strong>OpenAlex</strong> – chosen because they are the three most authoritative sources the team has institutional access to, and because they are complementary rather than interchangeable. This notebook first describes what each one is and what it adds beyond a list of references (its search tools and its keyword/classification systems), then turns to the issue that shapes every later design choice – the metadata we query, the abstract above all, is not stable – and finally sets out how the project searches all three and reconciles the result.</p>
+<section id="sec-databases-overview" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-databases-overview"><span class="header-section-number">1.1</span> What the three databases are, and what they add</h2>
+<p>All three index scholarly works and let us search them, but they are built differently, cover the literature differently, and – crucially for a keyword project – attach different <em>added</em> metadata to each record. The differences are not incidental; they are the reason no single source suffices.</p>
+<section id="web-of-science" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="web-of-science"><span class="header-section-number">1.1.1</span> Web of Science</h3>
+<p>Web of Science (Clarivate) is the oldest and the most <strong>selective</strong> of the three: its Core Collection is an editorially curated set of journals chosen for citation impact, so it is comparatively clean but narrower, and its coverage skews towards established English-language journals. For discovery, its <code>TS=</code> (“topic”) field reaches four fields at once – title, abstract, <strong>author keywords</strong>, and <strong>Keywords Plus</strong>. Keywords Plus is the distinctive addition: index terms generated <strong>algorithmically by Clarivate from the titles of the work’s cited references</strong>, not supplied by the author. Because they are derived from what a paper <em>cites</em> rather than what it <em>says</em>, Keywords Plus can surface a study on a term it never uses itself – a quantitative trust paper that cites the trust canon heavily can be retrieved on “trust” even when its own title and abstract never mention it. Web of Science also assigns each work the subject <strong>Categories</strong> and <strong>Research Areas</strong> of its journal – a journal-level classification, not a per-article one.</p>
+</section>
+<section id="scopus" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="scopus"><span class="header-section-number">1.1.2</span> Scopus</h3>
+<p>Scopus (Elsevier) is <strong>broader</strong>: it indexes more journals, conference proceedings and book series than Web of Science, so it returns more, at some cost in selectivity. Its <code>TITLE-ABS-KEY</code> field reaches title, abstract, <strong>author keywords</strong> and <strong>index keywords</strong>. The index keywords are Scopus’s distinctive addition: <strong>controlled-vocabulary terms assigned from standardised thesauri</strong> (for example Emtree for the biomedical literature) rather than chosen by the author – a curator/algorithm-assigned layer that normalises terminology across a field. Scopus classifies each source under the <strong>All Science Journal Classification</strong> (ASJC: 27 subject areas, ~300 minor categories) – again a journal-level scheme. The practical effect is that Scopus is the broadest keyword net of the three and the one most likely to return the cross-disciplinary tail.</p>
+</section>
+<section id="openalex" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="openalex"><span class="header-section-number">1.1.3</span> OpenAlex</h3>
+<p>OpenAlex <span class="citation" data-cites="priem2022openalex">(<a href="01-databases.html#ref-priem2022openalex" role="doc-biblioref">Priem et al., 2022</a>)</span> is the newcomer and the structural departure: a <strong>fully open</strong>, free, very large index (over 250 million works) launched in 2022 by the OurResearch non-profit as a successor to the discontinued Microsoft Academic Graph, built on open data, an open API and open-source code. Two features make it attractive as a backbone. It is open and queryable at scale without a subscription, so it can serve as the discovery substrate and citation graph for a project of this size. And rather than rely only on journal-level subject categories, it assigns <strong>each work its own machine-assigned topic</strong> from a citation-built hierarchy – the genuinely novel, LLM-infused addition that the next section unpacks, because three of this project’s design choices turn on how much weight those topic labels can bear. The trade-off is that OpenAlex is the least selective and, as the rest of this notebook shows, the most exposed to the metadata instability that now threatens keyword discovery.</p>
+</section>
+</section>
+<section id="sec-ch4-oa-method" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-ch4-oa-method"><span class="header-section-number">1.2</span> How OpenAlex builds its topics, and what it offers</h2>
+<p>Because the OpenAlex topic system is both the reason to use it and a thing to be cautious about, it is worth setting out exactly how those labels are made. The current scheme, <strong>Topics</strong>, is documented in the CWTS team’s open whitepaper and dataset <span class="citation" data-cites="vaneck2024data vaneckwaltman2024leiden">(<a href="01-databases.html#ref-vaneck2024data" role="doc-biblioref">Eck, 2024</a>; <a href="01-databases.html#ref-vaneckwaltman2024leiden" role="doc-biblioref">Eck &amp; Waltman, 2024</a>)</span> and in OpenAlex’s own end-to-end process notes: a four-step pipeline whose every label is the output of stacked automated layers, none of them systematically audited.</p>
+<ol type="1">
+<li><strong>Cluster.</strong> CWTS clustered the ~71 million OpenAlex works (2000–2023) that carry incoming or outgoing citations – linked by ~1.7 billion citation edges – using the extended direct-citation approach and the Leiden algorithm <span class="citation" data-cites="waltman2012methodology traag2019leiden">(<a href="01-databases.html#ref-waltman2012methodology" role="doc-biblioref">Waltman &amp; Eck, 2012</a>; <a href="01-databases.html#ref-traag2019leiden" role="doc-biblioref">Traag et al., 2019</a>)</span>. This produced <strong>4,521 micro-level</strong> research areas, grouped into <strong>917 meso</strong> and <strong>20 macro</strong> areas. The clusters are defined purely by citation structure: no text, no keywords.</li>
+<li><strong>Label.</strong> To name 4,521 clusters without manual effort, CWTS fed the <strong>titles of a sample of each cluster’s most-cited papers</strong> to a large language model (an updated <strong>GPT-3.5 Turbo</strong>; the open labelling tool also supports GPT-4) which returned, per cluster, a short label, a long label, ten keywords, a summary and a Wikipedia URL <span class="citation" data-cites="vaneck2024data">(<a href="01-databases.html#ref-vaneck2024data" role="doc-biblioref">Eck, 2024</a>)</span>. The authors note that they did not systematically evaluate label quality and that the same approach failed at higher aggregation levels. The labels, keywords and summaries in the mapping table are this model’s output.</li>
+<li><strong>Map to a hierarchy.</strong> OpenAlex then placed each citation-defined topic into the Scopus <strong>ASJC</strong> structure (4 domains, 26 fields, 254 subfields) that it exposes as <code>domain</code> / <code>field</code> / <code>subfield</code>, using a <em>second</em> LLM pass, because asking a person to place over 4,000 topics by hand was impractical. So the <code>domain</code> we filter on is not an intrinsic property of a paper – it is an LLM’s judgement about which ASJC bin a citation cluster’s machine-written label most resembles, and the team flags that some topics could sit in several subfields.</li>
+<li><strong>Classify works.</strong> Finally, to tag the ~250 million works – only a third of which carry citation data and only about half a usable abstract – OpenAlex trained a supervised model on the CWTS labels: a fine-tuned multilingual BERT over the merged title-and-abstract text, fed into a network that also takes a journal-name embedding and “gold citation” features. The model was trained with features randomly held out so it degrades gracefully when the abstract or the citations are missing. The per-work classifier is therefore <em>not</em> an LLM: the only LLM steps write the bin names (step 2) and file the bins into the hierarchy (step 3).</li>
+</ol>
+<p>Two properties matter for us. First, the per-work label is <strong>single</strong> (<code>primary_topic</code>) and is assigned from four signals of uneven reliability – title (~90% of works), abstract (~50%), journal name, and citations (~33%). Second, because the model was built to tolerate a missing abstract, abstract withdrawal does not break topic assignment outright; it removes the richest <em>text</em> signal and pushes the model onto title, journal and citation features. That fallback is adequate for placing a paper in broad subject space, but it is precisely the signal that cannot separate the <em>senses</em> of trust: a closed-access paper titled “Antecedents of relationship commitment,” stripped of its abstract, is placed by its journal and its citations, not by whether its trust is interpersonal, institutional or brand trust.</p>
+<section id="where-trust-lives-in-the-openalex-topic-map" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="where-trust-lives-in-the-openalex-topic-map"><span class="header-section-number">1.2.1</span> Where “trust” lives in the OpenAlex topic map</h3>
+<p>The mapping table also settles a question we had set aside: is there a single natural “trust topic” to scope on? There is not. Searching all topics’ labels, keywords and summaries for trust returns <strong>27 topics</strong>, spread across three domains (21 Social Sciences, 5 Physical Sciences, 1 Health Sciences) and many fields. Only one carries “trust” in its actual label – topic 10927, “Access Control and Trust” – and it is an online-reputation and computer-security cluster filed, through the step-3 mis-mapping above, under the Sociology and Political Science subfield: a clean instance of exactly the off-target trust this project wants to exclude. The trust the project <em>does</em> want is scattered across a handful of topics in different fields, several of which do not announce trust in their label at all (social capital, experimental behavioural economics, risk perception, e-government, policing, vaccine hesitancy, oxytocin-and-trust, culture-and-development). No single-topic scope can work, and scoping by topic <em>label</em> or <em>subfield name</em> is unsafe; the defensible middle path is a <strong>curated union of inspected topics</strong>, which is exactly what the selection design (<a href="#sec-databases-selection" class="quarto-xref"><span>section 1.4</span></a>) uses.</p>
+<p>Set against its construction, the OpenAlex topic system offers a great deal as <strong>input</strong> and very little as <strong>verdict</strong>. As input it is excellent: a free, citation-grounded clustering of the whole literature, with per-work labels robust to missing metadata. As a verdict it is weak for our purpose: single-label, three automated layers deep with no systematic audit, its domain placement an LLM’s guess about ASJC bins, and its discriminating text signal the very abstract now being withdrawn. The reasonable use is to lean on it for recall and structure and to reserve the in/out and trust-sense judgements for our own content-level screen (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>). Comparative work on OpenAlex coverage and metadata completeness reaches the same posture – strong as an open substrate, uneven enough to verify rather than trust blindly <span class="citation" data-cites="alonsoalvarez2025coverage">(<a href="01-databases.html#ref-alonsoalvarez2025coverage" role="doc-biblioref">Alonso-Álvarez &amp; Eck, 2025</a>)</span>.</p>
+</section>
+</section>
+<section id="sec-databases-abstracts" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone: the abstract is closing</h2>
+<p>A discovery design that leans on OpenAlex uses the abstract in three places at once: the keyword clause that finds candidate papers, any downstream abstract-level screen, and OpenAlex’s own abstract-fed topic labels. Anything that degrades the abstract degrades all three at once – and the degradation is not uniform: it falls hardest on closed-access, large-publisher, recent work, disproportionately the high-quality quantitative studies the project most wants to keep.</p>
+<p><strong>Abstracts are being withdrawn, and the incentive is AI.</strong> Aaron Tay’s <span class="citation" data-cites="tay2025petrol">(<a href="01-databases.html#ref-tay2025petrol" role="doc-biblioref">2025</a>)</span> analysis frames open abstracts as “the petrol tank for AI discovery” and measures the drain: Elsevier abstract coverage in OpenAlex fell from roughly 82% in November 2024 to 22.5% by September 2025, Springer Nature from about 50% to 35.8%. The OpenAlex maintainers describe the same process from inside – many abstracts were inherited from Microsoft Academic Graph without an open licence and have been removed on copyright grounds (Springer Nature, then ACS, OUP, Wiley, Cell Press, Elsevier and others). Now that AI companies will pay for training text, publishers have re-classified the abstract as a strategic asset and are closing the indirect channels open aggregators relied on, so the withdrawal will not simply reverse. Stansfield et al. <span class="citation" data-cites="stansfield2025openalex">(<a href="01-databases.html#ref-stansfield2025openalex" role="doc-biblioref">2025</a>)</span>, testing OpenAlex for systematic reviews, found previously retrievable studies became unfindable once their abstracts were removed, with recall drifting downward as the corpus changed underneath them.</p>
+<p><strong>The open-abstract commons was never full.</strong> The Initiative for Open Abstracts [I4OA; <span class="citation" data-cites="i4oa">Initiative for Open Abstracts (<a href="01-databases.html#ref-i4oa" role="doc-biblioref">2020</a>)</span>] asks publishers to deposit abstracts openly in Crossref; it succeeded with many smaller and fully-open publishers but not with the largest closed ones, and only on the order of 7% of Crossref works carry a deposited abstract. The open channel that should have absorbed the loss was always partial, and the scraped channel that masked that partiality is now closing.</p>
+<p><strong>Even the abstracts that remain are partly corrupt.</strong> Kim, Holst and Ginis <span class="citation" data-cites="kim2026integrity">(<a href="01-databases.html#ref-kim2026integrity" role="doc-biblioref">2026</a>)</span> assessed 10,000 sampled OpenAlex abstracts and found <strong>12% of records flagged <code>has_abstract=True</code> do not contain a valid scientific abstract</strong> (PubMed conclusion-only snippets, repository metadata, web-scrape chrome, truncation, placeholders, wrong genre). The rate falls over time but the failures cluster by era, source and document type, so they bias rather than merely add noise.</p>
+<p>For a baseline, Culbert et al. <span class="citation" data-cites="culbert2025reference">(<a href="01-databases.html#ref-culbert2025reference" role="doc-biblioref">2025</a>)</span> found OpenAlex abstract coverage of about 87% against over 92% for Web of Science and Scopus. The gap to the curated databases was already real before the latest withdrawals; it is widening month by month, and specifically for the closed-access, large-publisher, recent content the project cares about. <strong>That is the case for using all three sources rather than OpenAlex alone:</strong> the curated databases hold abstracts and curated keyword fields that OpenAlex is losing, while OpenAlex holds the open citation graph and the per-work topic net the curated databases lack. Each covers the others’ blind spots.</p>
+</section>
+<section id="sec-databases-selection" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-databases-selection"><span class="header-section-number">1.4</span> The selection design: three moments</h2>
+<p>Because no single query is both precise and complete, the project operationalises “the trust we want” at <strong>three moments</strong>, each with different strengths and blind spots, and combines them:</p>
+<ol type="1">
+<li><strong>Query-time selection in the curated databases</strong> – a deliberately precise keyword design run on Scopus and Web of Science.</li>
+<li><strong>Query-time selection in OpenAlex</strong> – selection by the work’s machine-assigned <em>topic</em> rather than by words, over a curated union of trust-bearing topics.</li>
+<li><strong>Record-level classification after retrieval</strong> – a transparent rule that reads each retrieved record and labels the <em>kind</em> of trust it is about.</li>
+</ol>
+<p>The first two decide what enters the corpus and are set out here; the third – the trust-sense classifier – is the subject of <a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>. All queries are archived verbatim in <code>data/queries/</code>.</p>
+<section id="selection-in-the-curated-databases-a-precise-keyword-design" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="selection-in-the-curated-databases-a-precise-keyword-design"><span class="header-section-number">1.4.1</span> Selection in the curated databases: a precise keyword design</h3>
+<p>Scopus and Web of Science are searched with the same logic in each database’s syntax: a block of explicit <strong>sense phrases</strong> (“social trust”, “political trust”, “institutional trust”, …), a <strong>proximity block</strong> pairing the trust word family with the objects of social-scientific trust (government, institutions, police, courts, media, science, experts, strangers, people, citizens, …) within three words, and a guarded <strong>confidence-in-institutions</strong> clause that picks up the survey-research idiom (“confidence in parliament”) without admitting the everyday sense of confidence. “Social capital” is deliberately excluded here, because it re-enters through the OpenAlex topic union and the reference miner; “trustee”/“trusteeship” are kept out by enumerating the trust terms rather than truncating <code>trust*</code>. There is no discipline restriction – breadth is cross-disciplinary, and precision is imposed later by the classifier and the screen. The range is 1999–2026 (buffer years around the 2000–2025 analysis window), English, articles and book chapters.</p>
+<p><strong>Scopus</strong> (Advanced Search):</p>
+<pre><code>TITLE-ABS-KEY(
+  ( {social trust} OR {political trust} OR {institutional trust} OR {interpersonal trust}
+    OR {generalized trust} OR {generalised trust} OR {particularized trust} OR {particularised trust}
+    OR {dispositional trust} OR {system trust} OR {civic trust} OR {personal trust}
+    OR {general trust} OR {public trust}
+    OR {political distrust} OR {institutional distrust} OR {social distrust} OR {public mistrust} )
+  OR ( (trust OR trusted OR trusting OR trusts OR trustworth* OR mistrust* OR distrust*)
+       W/3 (government* OR governance OR parliament* OR politician* OR institution* OR police OR court*
+            OR judiciary OR authorit* OR media OR science OR scientist* OR expert* OR stranger*
+            OR others OR neighbour* OR neighbor* OR people OR citizen* OR society OR state) )
+  OR ( confidence W/3 (government* OR parliament* OR institution* OR police OR court* OR politician* OR authorit*) )
+)
+AND PUBYEAR &gt; 1998 AND PUBYEAR &lt; 2027 AND LANGUAGE(English) AND (DOCTYPE(ar) OR DOCTYPE(ch))</code></pre>
+<p><strong>Web of Science</strong> (Core Collection; <code>TS=</code> reaches title, abstract, author keywords and the cited-reference-derived Keywords Plus; <code>?</code> is a single-character wildcard):</p>
+<pre><code>TS=(
+  ( "social trust" OR "political trust" OR "institutional trust" OR "interpersonal trust"
+    OR "generali?ed trust" OR "particulari?ed trust" OR "dispositional trust" OR "system trust"
+    OR "civic trust" OR "personal trust" OR "general trust" OR "public trust"
+    OR "political distrust" OR "institutional distrust" OR "social distrust" OR "public mistrust" )
+  OR ( (trust OR trusted OR trusting OR trusts OR trustworth* OR mistrust* OR distrust*)
+       NEAR/3 (government* OR governance OR parliament* OR politician* OR institution* OR police OR court*
+               OR judiciary OR authorit* OR media OR science OR scientist* OR expert* OR stranger*
+               OR others OR neighbour* OR neighbor* OR people OR citizen* OR society OR state) )
+  OR ( confidence NEAR/3 (government* OR parliament* OR institution* OR police OR court* OR politician* OR authorit*) )
+)
+AND PY=(1999-2026) AND LA=(English) AND DT=(Article OR "Book Chapter")</code></pre>
+</section>
+<section id="selection-in-openalex-by-topic-not-by-words" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="selection-in-openalex-by-topic-not-by-words"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic, not by words</h3>
+<p>OpenAlex is queried differently, because its strength is the machine-assigned <strong>topic</strong> of each work (<a href="#sec-ch4-oa-method" class="quarto-xref"><span>section 1.2</span></a>). Rather than restrict to one topic – which would capture only the trust-<em>defining</em> core – the pull uses a curated <strong>union of twelve topics</strong> where trust research concentrates across domains, intersected with the trust keyword family so that off-target members of those topics are filtered at the source. The twelve topics:</p>
+<div id="tbl-classifier-topics" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-classifier-topics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1: The twelve OpenAlex topics in the discovery union.
+</figcaption>
+<div aria-describedby="tbl-classifier-topics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Topic ID</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T10646</td>
+<td>Behavioural-economics trust games</td>
+</tr>
+<tr class="even">
+<td>T10827</td>
+<td>Patient–provider communication</td>
+</tr>
+<tr class="odd">
+<td>T10833</td>
+<td>Vaccine hesitancy</td>
+</tr>
+<tr class="even">
+<td>T10953</td>
+<td>E-government</td>
+</tr>
+<tr class="odd">
+<td>T11076</td>
+<td>Policing and legitimacy</td>
+</tr>
+<tr class="even">
+<td>T11239</td>
+<td>Social capital</td>
+</tr>
+<tr class="odd">
+<td>T11541</td>
+<td>Oxytocin / neuro-trust</td>
+</tr>
+<tr class="even">
+<td>T11573</td>
+<td>Risk perception</td>
+</tr>
+<tr class="odd">
+<td>T11696</td>
+<td>Conflict and negotiation</td>
+</tr>
+<tr class="even">
+<td>T12028</td>
+<td>Knowledge management</td>
+</tr>
+<tr class="odd">
+<td>T12121</td>
+<td>Cooperative studies</td>
+</tr>
+<tr class="even">
+<td>T12312</td>
+<td>Culture, economy and development</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The live API call (1999–2026, English, articles and book chapters):</p>
+<pre><code>GET https://api.openalex.org/works?filter=
+  primary_topic.id:T10646|T10827|T10833|T10953|T11076|T11239|T11541|T11573|T11696|T12028|T12121|T12312,
+  title_and_abstract.search:trust OR distrust OR mistrust OR trustworthy OR trustworthiness OR distrustful OR mistrustful OR untrustworthy,
+  language:en, 
+  type:article|book-chapter, 
+  publication_year:1999-2026</code></pre>
+<p>A by-DOI <strong>crosswalk</strong> then fetches the full OpenAlex record for every curated (Scopus/WoS) work not already in the topic pull, so the citation graph and OpenAlex metadata attach to every work. The collection scripts (<code>Scripts/collect/openalex-topic.R</code>, <code>Scripts/collect/openalex-crosswalk.R</code>) hold the exact parameters.</p>
+</section>
+</section>
+<section id="sec-databases-backfill" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-databases-backfill"><span class="header-section-number">1.5</span> Completing the only-OpenAlex region: the curated DOI-backfill</h2>
+<p>Selection by these three channels leaves one large, awkward group: works the OpenAlex topic search returned but the curated keyword searches did not – the <strong>only-OpenAlex</strong> (pull-only) region. Two terms keep the next step straight. The <strong>OpenAlex pull</strong> is what the topic search returned; the <strong>OpenAlex database</strong> is what OpenAlex holds regardless of any query; symmetrically, the <strong>curated searches</strong> are what the Scopus/WoS keyword queries returned, and the <strong>curated databases</strong> are those indexes in full. A pull-only work was not <em>returned</em> by a curated search, but its DOI may nonetheless <em>exist</em> in a curated database – the search simply did not match it.</p>
+<p>A <strong>reverse check</strong> establishes which: for every pull-only work with a DOI, the live Scopus and Web of Science APIs are asked whether that DOI exists in their database at all (<code>Scripts/collect/reverse-check.py</code>). The works whose DOI does exist there – present in a curated database but missed by the curated search – are <strong>recoverable</strong>: their abstract and curated keyword fields are sitting in a record the keyword search never returned. A bulk by-DOI pull then fetches those full curated records (<code>Scripts/collect/backfill-build-queries.py</code> builds the queries; the exports are re-merged in assembly), enriching the pull-only works with curated abstracts, author/index keywords and Keywords Plus, and document types they otherwise lacked.</p>
+<p>Two safeguards matter. The backfill is <strong>metadata only</strong>: it fills the <code>Scopus_*</code> / <code>WoS_*</code> fields and is flagged (<code>scopus_backfilled</code> / <code>wos_backfilled</code> / <code>curated_backfill</code>), but it never sets the retrieval-sense membership flags <code>in_Scopus</code> / <code>in_WoS</code> – those continue to mean “the <em>search</em> returned it”, so every coverage, overlap and added-value result in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a> is unaffected by the backfill. And it respects the licence boundary: recovered abstracts are tagged licensed and used for local classification, never redistributed and never sent to an external service. What this backfill recovers, and how much of the abstract gap it closes, is reported in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a>.</p>
+</section>
+<section id="references" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="references"><span class="header-section-number">1.6</span> References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-alonsoalvarez2025coverage" class="csl-entry" role="listitem">
+Alonso-Álvarez, P. &amp; Eck, N.J. van (2025) <span>‘<a href="https://doi.org/10.1162/QSS.a.396">Coverage and metadata
+completeness and accuracy of african research publications in
+<span>OpenAlex</span>: A comparative analysis</a>’</span>,
+<em>Quantitative Science Studies</em>, 6pp. 1336–1357.
+</div>
+<div id="ref-culbert2025reference" class="csl-entry" role="listitem">
+Culbert, J.H., Hobert, A., Jahn, N., Haupka, N., Schmidt, M., Donner, P.
+&amp; Mayr, P. (2025) <span>‘<a href="https://doi.org/10.1007/s11192-025-05293-3">Reference coverage
+analysis of <span>OpenAlex</span> compared to <span class="nocase">Web
+of Science</span> and <span>Scopus</span></a>’</span>,
+<em>Scientometrics</em>, 130(4), pp. 2475–2492.
+</div>
+<div id="ref-vaneck2024data" class="csl-entry" role="listitem">
+Eck, N.J. van (2024) <em><a href="https://doi.org/10.5281/zenodo.10560276">Classification of
+research publications based on data from <span>OpenAlex</span> (version
+2023nov)</a></em>.
+</div>
+<div id="ref-vaneckwaltman2024leiden" class="csl-entry" role="listitem">
+Eck, N.J. van &amp; Waltman, L. (2024) <em><a href="https://www.leidenmadtrics.nl/articles/an-open-approach-for-classifying-research-publications">An
+open approach for classifying research publications</a></em>.
+</div>
+<div id="ref-i4oa" class="csl-entry" role="listitem">
+Initiative for Open Abstracts (2020) <em><a href="https://i4oa.org/">Initiative for open abstracts
+(<span>I4OA</span>)</a></em>.
+</div>
+<div id="ref-kim2026integrity" class="csl-entry" role="listitem">
+Kim, S., Holst, V. &amp; Ginis, V. (2026) <span>‘<a href="https://doi.org/10.48550/arXiv.2605.20168">One in eight
+<span>OpenAlex</span> abstracts has integrity issues</a>’</span>,
+<em>arXiv preprint</em>, arXiv:2605.20168 [cs.DL].
+</div>
+<div id="ref-priem2022openalex" class="csl-entry" role="listitem">
+Priem, J., Piwowar, H. &amp; Orr, R. (2022) <span>‘<a href="https://doi.org/10.48550/arXiv.2205.01833"><span>OpenAlex</span>:
+A fully-open index of scholarly works, authors, venues, institutions,
+and concepts</a>’</span>, <em>arXiv preprint</em>, arXiv:2205.01833
+[cs.DL].
+</div>
+<div id="ref-stansfield2025openalex" class="csl-entry" role="listitem">
+Stansfield, C., Dehdarirad, H., Thomas, J., Mathew, S. &amp;
+O’Mara-Eves, A. (2025) <span>‘<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12302543/">Analysing the
+utility of <span>OpenAlex</span> to identify studies for systematic
+reviews: Methods and a case study</a>’</span>, <em>(preprint)</em>,
+</div>
+<div id="ref-tay2025petrol" class="csl-entry" role="listitem">
+Tay, A. (2025) <em><a href="https://aarontay.substack.com/p/the-petrol-tank-for-ai-discovery">The
+petrol tank for <span>AI</span> discovery might be running dry as
+publishers close access to scholarly content such as abstracts due to
+<span>AI</span> incentives</a></em>.
+</div>
+<div id="ref-traag2019leiden" class="csl-entry" role="listitem">
+Traag, V.A., Waltman, L. &amp; Eck, N.J. van (2019) <span>‘<a href="https://doi.org/10.1038/s41598-019-41695-z">From
+<span>Louvain</span> to <span>Leiden</span>: Guaranteeing well-connected
+communities</a>’</span>, <em>Scientific Reports</em>, 9p. 5233.
+</div>
+<div id="ref-waltman2012methodology" class="csl-entry" role="listitem">
+Waltman, L. &amp; Eck, N.J. van (2012) <span>‘<a href="https://doi.org/10.1002/asi.22748">A new methodology for
+constructing a publication-level classification system of
+science</a>’</span>, <em>Journal of the American Society for Information
+Science and Technology</em>, 63(12), pp. 2378–2392.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../theme/00-overview.html" class="pagination-link" aria-label="Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../theme/02-classifier.html" class="pagination-link" aria-label="Defining and detecting trust">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

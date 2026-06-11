@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; The THEME corpus – Building the TReMeDa Datasets</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../theme/04-pipeline.html" rel="next">
+<link href="../theme/02-classifier.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/03-corpus.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Building the TReMeDa Datasets</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">THEME – the thematic dataset</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/00-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/01-databases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/03-corpus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/04-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The THEME pipeline</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">META – the meta-analytical dataset</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">METHOD – the methodological dataset</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-corpus-audit" id="toc-sec-corpus-audit" class="nav-link active" data-scroll-target="#sec-corpus-audit"><span class="header-section-number">3.1</span> What the 2015 audit established</a></li>
+  <li><a href="#sec-corpus-sizes" id="toc-sec-corpus-sizes" class="nav-link" data-scroll-target="#sec-corpus-sizes"><span class="header-section-number">3.2</span> The collection</a></li>
+  <li><a href="#sec-corpus-coverage" id="toc-sec-corpus-coverage" class="nav-link" data-scroll-target="#sec-corpus-coverage"><span class="header-section-number">3.3</span> Coverage: does the OpenAlex database contain the curated records?</a></li>
+  <li><a href="#sec-corpus-overlap" id="toc-sec-corpus-overlap" class="nav-link" data-scroll-target="#sec-corpus-overlap"><span class="header-section-number">3.4</span> Overlap and uniqueness</a></li>
+  <li><a href="#sec-corpus-subsets" id="toc-sec-corpus-subsets" class="nav-link" data-scroll-target="#sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does OpenAlex’s classifier add value?</a></li>
+  <li><a href="#sec-corpus-reverse" id="toc-sec-corpus-reverse" class="nav-link" data-scroll-target="#sec-corpus-reverse"><span class="header-section-number">3.6</span> The only-OpenAlex region: recoverable or genuinely unique?</a></li>
+  <li><a href="#sec-corpus-where" id="toc-sec-corpus-where" class="nav-link" data-scroll-target="#sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust signal sits in each database</a></li>
+  <li><a href="#sec-corpus-trend" id="toc-sec-corpus-trend" class="nav-link" data-scroll-target="#sec-corpus-trend"><span class="header-section-number">3.8</span> How trust research has grown, 2000–2025</a></li>
+  <li><a href="#sec-corpus-triage" id="toc-sec-corpus-triage" class="nav-link" data-scroll-target="#sec-corpus-triage"><span class="header-section-number">3.9</span> The trust-sense triage across the corpus</a></li>
+  <li><a href="#sec-corpus-noabstract" id="toc-sec-corpus-noabstract" class="nav-link" data-scroll-target="#sec-corpus-noabstract"><span class="header-section-number">3.10</span> What is still without an abstract</a></li>
+  <li><a href="#sec-corpus-datasets" id="toc-sec-corpus-datasets" class="nav-link" data-scroll-target="#sec-corpus-datasets"><span class="header-section-number">3.11</span> The assembled dataset</a></li>
+  <li><a href="#sec-corpus-rec" id="toc-sec-corpus-rec" class="nav-link" data-scroll-target="#sec-corpus-rec"><span class="header-section-number">3.12</span> What the corpus establishes</a></li>
+  <li><a href="#sec-corpus-repro" id="toc-sec-corpus-repro" class="nav-link" data-scroll-target="#sec-corpus-repro"><span class="header-section-number">3.13</span> Reproducibility</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/03-corpus.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-theme-corpus" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Status: scripted and reproducible
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The corpus is built by the pipeline in <code>Scripts/</code> (collection → <code>assemble/1-spine.py</code> → <code>assemble/2-abstracts.py</code> → <code>derive/variables.py</code>), which writes the analysis dataset <code>data/final/corpus_derived.parquet</code>. Every table and figure in this notebook is computed from that <code>corpus_derived</code> dataset, imported via the R <code>arrow</code> package.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>R session setup</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinytable)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Uniform table style for every tt(): content rows at 0.9, headers at 0.95 bold,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># everything left-aligned, columns sized to content. Applies to HTML and Typst alike.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tinytable_tt_theme =</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_tinytable</span>() <span class="sc">|&gt;</span>                            <span class="co"># keep the default top/header/bottom rules</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">style_tt</span>(<span class="at">align =</span> <span class="st">"l"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">style_tt</span>(<span class="at">fontsize =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="dv">0</span>, <span class="at">fontsize =</span> <span class="fl">0.95</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data/final/corpus_derived.parquet"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"in_OpenAlex"</span>, <span class="st">"in_WoS"</span>, <span class="st">"in_Scopus"</span>, <span class="st">"in_OA_db"</span>, <span class="st">"in_scopus_db"</span>, <span class="st">"in_wos_db"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"reverse_doctype"</span>, <span class="st">"in_analysis_window"</span>, <span class="st">"year_resolved"</span>, <span class="st">"doi"</span>, <span class="st">"trust_scope"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"trust_sense"</span>, <span class="st">"sense_basis"</span>, <span class="st">"scope_conflict"</span>, <span class="st">"title"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"abstract"</span>, <span class="st">"abstract_open_available"</span>, <span class="st">"curated_backfill"</span>, <span class="st">"type"</span>, <span class="st">"oa_source_type"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"OA_abstract"</span>, <span class="st">"OA_keywords"</span>, <span class="st">"Scopus_Abstract"</span>, <span class="st">"Scopus_Author Keywords"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Scopus_Index Keywords"</span>, <span class="st">"WoS_Abstract"</span>, <span class="st">"WoS_Author Keywords"</span>, <span class="st">"WoS_Keywords Plus"</span>))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="sc">!</span><span class="fu">is.na</span>(x) <span class="sc">&amp;</span> x <span class="sc">!=</span> <span class="st">""</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Append a "Total" row summing the numeric columns. Used only for partition tables</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># (mutually exclusive rows), where the column totals are meaningful.</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>add_total_row <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">label =</span> <span class="st">"Total"</span>) {</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), sum)) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="st">"{names(df)[1]}"</span> <span class="sc">:</span><span class="er">=</span> label)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>region_of <span class="ot">&lt;-</span> <span class="cf">function</span>(oa, sc, wo) {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  parts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"OpenAlex"</span>, <span class="st">"Scopus"</span>, <span class="st">"WoS"</span>)[<span class="fu">c</span>(oa, sc, wo)]</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(parts) <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">paste</span>(<span class="st">"only"</span>, parts)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">length</span>(parts) <span class="sc">==</span> <span class="dv">3</span>) <span class="st">"all three"</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">paste</span>(parts, <span class="at">collapse =</span> <span class="st">"+"</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>aw <span class="ot">&lt;-</span> cd <span class="sc">|&gt;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(in_analysis_window) <span class="sc">|&gt;</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">pmap_chr</span>(<span class="fu">list</span>(in_OpenAlex, in_Scopus, in_WoS), region_of))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="sec-corpus-audit" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-corpus-audit"><span class="header-section-number">3.1</span> What the 2015 audit established</h2>
+<p>Before this corpus was assembled, a focused audit on a single complete year (2015) tested the design across the three databases. It is not re-run here – it is preserved, runnable, in <code>Scripts/2015-audit/</code> – but it settled four things that motivated the collection approach, all of which the full corpus below then confirms at scale:</p>
+<ol type="1">
+<li><strong>Coverage is near-total.</strong> OpenAlex contained essentially all (98.9–100%) of the trust research the curated Scopus and Web of Science searches returned, so OpenAlex can serve as the discovery substrate and citation backbone.</li>
+<li><strong>No single query retrieves it all.</strong> The OpenAlex topic-union retrieved under a tenth of the curated trust OpenAlex itself contains, and Web of Science was largely a subset of Scopus – because trust is studied <em>inside</em> hundreds of substantive topics, not in one.</li>
+<li><strong>The databases are complementary.</strong> Each channel held in-scope works the others missed, so recall has to come from merging all three by DOI, with precision imposed afterwards by the classifier and the screen.</li>
+<li><strong>The only-OpenAlex works are mostly recoverable.</strong> About two-thirds of the works only OpenAlex returned existed in a curated database after all – missed by the keyword <em>query</em>, not absent from the <em>database</em> – which is what later makes the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) worthwhile.</li>
+</ol>
+<p>This notebook applies the same three searches (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>, <a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>section 1.4</span></a>) to the whole period and reports the result not as a test but as the <strong>assembled corpus</strong> the rest of the project works from. To resolve publication-year boundary mismatches across databases, the pull spans 1999–2026; 1999 and 2026 are buffer years, and the analysis window is <strong>2000–2025</strong> (a work enters the window if <em>any</em> source dates it inside it). Of 75,302 unique works in the full pull, <strong>71,108 fall in the analysis window</strong>; the rest are dated only to a buffer year in every source.</p>
+<p>Two terms recur throughout, with the same meaning as in the databases notebook (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>). The <strong>OpenAlex pull</strong> is the set of works the twelve-topic search returned; the <strong>OpenAlex database</strong> is what OpenAlex holds regardless of any query. The same split applies to the curated side – the <strong>curated searches</strong> (the Scopus and Web of Science keyword queries) versus the <strong>curated databases</strong> (those two indexes in full). ‘Recoverable’ therefore means present in a curated database but not returned by the curated searches, and a work can sit in the OpenAlex-pull-only region yet still exist in a curated database – a distinction that matters directly for the abstract gap (<a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>).</p>
+</section>
+<section id="sec-corpus-sizes" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-corpus-sizes"><span class="header-section-number">3.2</span> The collection</h2>
+<p>Each search is deduplicated within its own source before any comparison.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Database =</span> <span class="fu">c</span>(<span class="st">"Scopus"</span>, <span class="st">"Web of Science"</span>, <span class="st">"OpenAlex pull (topic-union)"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Records  =</span> <span class="fu">c</span>(<span class="fu">sum</span>(aw<span class="sc">$</span>in_Scopus), <span class="fu">sum</span>(aw<span class="sc">$</span>in_WoS), <span class="fu">sum</span>(aw<span class="sc">$</span>in_OpenAlex))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"Records"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-sizes" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-sizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Works returned by each search, 2000–2025 analysis window (deduplicated within each source).
+</figcaption>
+<div aria-describedby="tbl-corpus-sizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_qtg8h719wqh89ur89j2v = TinyTable.createTableFunctions("tinytable_qtg8h719wqh89ur89j2v");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_chxyqrwatulmp1h0ovfe',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_z3okctrjwoplp8vlw4yy',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_ipxle6r08v1beu9q5b5z',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_qtg8h719wqh89ur89j2v.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_qtg8h719wqh89ur89j2v td.tinytable_css_chxyqrwatulmp1h0ovfe, #tinytable_qtg8h719wqh89ur89j2v th.tinytable_css_chxyqrwatulmp1h0ovfe {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_qtg8h719wqh89ur89j2v td.tinytable_css_z3okctrjwoplp8vlw4yy, #tinytable_qtg8h719wqh89ur89j2v th.tinytable_css_z3okctrjwoplp8vlw4yy { text-align: left; font-size: 0.9em }
+    #tinytable_qtg8h719wqh89ur89j2v td.tinytable_css_ipxle6r08v1beu9q5b5z, #tinytable_qtg8h719wqh89ur89j2v th.tinytable_css_ipxle6r08v1beu9q5b5z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_qtg8h719wqh89ur89j2v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Database</th>
+                <th scope="col" data-row="0" data-col="2">Records</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Scopus</td>
+                  <td data-row="1" data-col="2">48,626</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">Web of Science</td>
+                  <td data-row="2" data-col="2">35,444</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">OpenAlex pull (topic-union)</td>
+                  <td data-row="3" data-col="2">23,807</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (June 2026): Scopus 48,626 | Web of Science 35,444 | OpenAlex 23,807 -->
+<p>Scopus is the broadest keyword search, Web of Science the more selective, and the OpenAlex twelve-topic union – which captures the trust-<em>defining</em> core rather than trust-as-studied-everywhere – the smallest.</p>
+</section>
+<section id="sec-corpus-coverage" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-corpus-coverage"><span class="header-section-number">3.3</span> Coverage: does the OpenAlex database contain the curated records?</h2>
+<p>For every Scopus and Web of Science record with a DOI, the by-DOI crosswalk asks whether that DOI exists anywhere in the OpenAlex database – a query-independent check, read offline from the topic pull plus the crosswalk.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cov <span class="ot">&lt;-</span> <span class="cf">function</span>(flag, label) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  doid <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span> <span class="fu">filter</span>(flag <span class="sc">&amp;</span> <span class="fu">nz</span>(doi))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  indb <span class="ot">&lt;-</span> <span class="fu">sum</span>(doid<span class="sc">$</span>in_OA_db, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">Source =</span> label, <span class="st">`</span><span class="at">DOI'd records</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">nrow</span>(doid), <span class="st">`</span><span class="at">In OpenAlex</span><span class="st">`</span> <span class="ot">=</span> indb,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">In OpenAlex %</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> indb <span class="sc">/</span> <span class="fu">nrow</span>(doid), <span class="dv">1</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Genuinely absent</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">nrow</span>(doid) <span class="sc">-</span> indb,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Absent %</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> (<span class="fu">nrow</span>(doid) <span class="sc">-</span> indb) <span class="sc">/</span> <span class="fu">nrow</span>(doid), <span class="dv">1</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">No-DOI</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(flag <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">nz</span>(aw<span class="sc">$</span>doi)))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(<span class="fu">cov</span>(aw<span class="sc">$</span>in_Scopus, <span class="st">"Scopus"</span>), <span class="fu">cov</span>(aw<span class="sc">$</span>in_WoS, <span class="st">"Web of Science"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="fu">c</span>(<span class="st">"DOI'd records"</span>, <span class="st">"In OpenAlex"</span>, <span class="st">"Genuinely absent"</span>, <span class="st">"No-DOI"</span>), <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Presence of each curated record in the OpenAlex database, full corpus.
+</figcaption>
+<div aria-describedby="tbl-corpus-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_tdp5q346dev6wj2ciefj = TinyTable.createTableFunctions("tinytable_tdp5q346dev6wj2ciefj");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '2', j: 1 }, { i: '2', j: 2 }, { i: '2', j: 3 }, { i: '2', j: 4 }, { i: '2', j: 5 }, { i: '2', j: 6 }, { i: '2', j: 7 } ], css_id: 'tinytable_css_c8te12f93vvexwk8wg2b',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '1', j: 2 }, { i: '1', j: 3 }, { i: '1', j: 4 }, { i: '1', j: 5 }, { i: '1', j: 6 }, { i: '1', j: 7 } ], css_id: 'tinytable_css_buiy1ei8h92wjgb13q1b',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 } ], css_id: 'tinytable_css_c8dozyl8igb4fxrsazi0',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_tdp5q346dev6wj2ciefj.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_tdp5q346dev6wj2ciefj td.tinytable_css_c8te12f93vvexwk8wg2b, #tinytable_tdp5q346dev6wj2ciefj th.tinytable_css_c8te12f93vvexwk8wg2b {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_tdp5q346dev6wj2ciefj td.tinytable_css_buiy1ei8h92wjgb13q1b, #tinytable_tdp5q346dev6wj2ciefj th.tinytable_css_buiy1ei8h92wjgb13q1b { text-align: left; font-size: 0.9em }
+    #tinytable_tdp5q346dev6wj2ciefj td.tinytable_css_c8dozyl8igb4fxrsazi0, #tinytable_tdp5q346dev6wj2ciefj th.tinytable_css_c8dozyl8igb4fxrsazi0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_tdp5q346dev6wj2ciefj" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Source</th>
+                <th scope="col" data-row="0" data-col="2">DOI'd records</th>
+                <th scope="col" data-row="0" data-col="3">In OpenAlex</th>
+                <th scope="col" data-row="0" data-col="4">In OpenAlex %</th>
+                <th scope="col" data-row="0" data-col="5">Genuinely absent</th>
+                <th scope="col" data-row="0" data-col="6">Absent %</th>
+                <th scope="col" data-row="0" data-col="7">No-DOI</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Scopus</td>
+                  <td data-row="1" data-col="2">45,898</td>
+                  <td data-row="1" data-col="3">45,179</td>
+                  <td data-row="1" data-col="4">98.4</td>
+                  <td data-row="1" data-col="5">719</td>
+                  <td data-row="1" data-col="6">1.6</td>
+                  <td data-row="1" data-col="7">2,728</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">Web of Science</td>
+                  <td data-row="2" data-col="2">34,326</td>
+                  <td data-row="2" data-col="3">34,007</td>
+                  <td data-row="2" data-col="4">99.1</td>
+                  <td data-row="2" data-col="5">319</td>
+                  <td data-row="2" data-col="6">0.9</td>
+                  <td data-row="2" data-col="7">1,118</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (June 2026):
+Scopus:          DOI'd 45,898 | in OA 45,179 (98.4%) | absent 719 (1.6%) | no-DOI 2,728
+Web of Science:  DOI'd 34,326 | in OA 34,007 (99.1%) | absent 319 (0.9%) | no-DOI 1,118 -->
+<p>The single-year result holds across the quarter-century: genuine absence is <strong>1.6%</strong> of DOI’d Scopus records and <strong>0.9%</strong> of Web of Science (an upper bound – a few malformed DOIs fail to resolve). <strong>The OpenAlex database contains essentially all the trust research the curated searches return</strong>, so it can serve as the discovery substrate and citation backbone, with curated records recoverable by DOI.</p>
+</section>
+<section id="sec-corpus-overlap" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-corpus-overlap"><span class="header-section-number">3.4</span> Overlap and uniqueness</h2>
+<p>Coverage is near-total, but the <em>retrieved</em> sets overlap modestly.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">as.character</span>(<span class="fu">glue</span>(<span class="st">"{format(sum(x &amp; y), big.mark = ',')} ({round(100 * sum(x &amp; y) / sum(y), 1)}%)"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Comparison =</span> <span class="fu">c</span>(<span class="st">"Scopus found in OpenAlex"</span>, <span class="st">"WoS found in OpenAlex"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"WoS found in Scopus"</span>, <span class="st">"Scopus found in WoS"</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">Overlap    =</span> <span class="fu">c</span>(<span class="fu">pc</span>(aw<span class="sc">$</span>in_OpenAlex, aw<span class="sc">$</span>in_Scopus), <span class="fu">pc</span>(aw<span class="sc">$</span>in_OpenAlex, aw<span class="sc">$</span>in_WoS),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">pc</span>(aw<span class="sc">$</span>in_WoS <span class="sc">&amp;</span> aw<span class="sc">$</span>in_Scopus, aw<span class="sc">$</span>in_WoS), <span class="fu">pc</span>(aw<span class="sc">$</span>in_WoS <span class="sc">&amp;</span> aw<span class="sc">$</span>in_Scopus, aw<span class="sc">$</span>in_Scopus))) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-overlap" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-overlap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.3: Pairwise retrieval overlap across the window corpus.
+</figcaption>
+<div aria-describedby="tbl-corpus-overlap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_vx2pqi77mm7l6ccvfys8 = TinyTable.createTableFunctions("tinytable_vx2pqi77mm7l6ccvfys8");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_b1jw3ted9rpzskn2tbh1',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_rzayijo30fnh1i3m1yi0',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_pryzpbeatc5ikvb7k17p',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_vx2pqi77mm7l6ccvfys8.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_vx2pqi77mm7l6ccvfys8 td.tinytable_css_b1jw3ted9rpzskn2tbh1, #tinytable_vx2pqi77mm7l6ccvfys8 th.tinytable_css_b1jw3ted9rpzskn2tbh1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_vx2pqi77mm7l6ccvfys8 td.tinytable_css_rzayijo30fnh1i3m1yi0, #tinytable_vx2pqi77mm7l6ccvfys8 th.tinytable_css_rzayijo30fnh1i3m1yi0 { text-align: left; font-size: 0.9em }
+    #tinytable_vx2pqi77mm7l6ccvfys8 td.tinytable_css_pryzpbeatc5ikvb7k17p, #tinytable_vx2pqi77mm7l6ccvfys8 th.tinytable_css_pryzpbeatc5ikvb7k17p {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_vx2pqi77mm7l6ccvfys8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Comparison</th>
+                <th scope="col" data-row="0" data-col="2">Overlap</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Scopus found in OpenAlex</td>
+                  <td data-row="1" data-col="2">5,480 (11.3%)</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">WoS found in OpenAlex</td>
+                  <td data-row="2" data-col="2">4,687 (13.2%)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">WoS found in Scopus</td>
+                  <td data-row="3" data-col="2">30,843 (87%)</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Scopus found in WoS</td>
+                  <td data-row="4" data-col="2">30,843 (63.4%)</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot: Scopus-in-OA 5,480 (11.3%) | WoS-in-OA 4,687 (13.2%) | WoS-in-Scopus 30,843 (87.0%) | Scopus-in-WoS (63.4%) -->
+<p>The OpenAlex pull retrieves about 11–13% of the curated trust the database overwhelmingly contains, and Web of Science is largely a subset of Scopus (87%) – both curated searches run the same precise query, while the OpenAlex pull draws a different boundary. <em>Why</em> each search returns less than its database holds was settled at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>) and is consistent with the corpus: the dominant filter is substantive – trust is scattered across topics outside the twelve-topic net – with document-type exclusions accounting for much of the reverse gap.</p>
+</section>
+<section id="sec-corpus-subsets" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does OpenAlex’s classifier add value?</h2>
+<p>Each work sits in one of seven Venn regions and is triaged by the trust-sense classifier (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) into in-scope, out-of-scope or undetermined.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"only OpenAlex"</span>, <span class="st">"only Scopus"</span>, <span class="st">"only WoS"</span>, <span class="st">"OpenAlex+Scopus"</span>, <span class="st">"OpenAlex+WoS"</span>, <span class="st">"Scopus+WoS"</span>, <span class="st">"all three"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>subsets_tab <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.by =</span> region,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">in-scope</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(trust_scope <span class="sc">==</span> <span class="st">"in-scope"</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">out-of-scope</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(trust_scope <span class="sc">==</span> <span class="st">"out-of-scope"</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">undetermined =</span> <span class="fu">sum</span>(trust_scope <span class="sc">==</span> <span class="st">"undetermined"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">factor</span>(region, <span class="at">levels =</span> ord)) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_total_row</span>()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>subsets_tab <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="fu">c</span>(<span class="st">"n"</span>, <span class="st">"in-scope"</span>, <span class="st">"out-of-scope"</span>, <span class="st">"undetermined"</span>), <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="fu">nrow</span>(subsets_tab), <span class="at">line =</span> <span class="st">"t"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-subsets" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-subsets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.4: The window corpus by Venn region and trust_scope.
+</figcaption>
+<div aria-describedby="tbl-corpus-subsets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_ef5mghpsxcyvh62x9lvu = TinyTable.createTableFunctions("tinytable_ef5mghpsxcyvh62x9lvu");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 }, { i: '8', j: 4 }, { i: '8', j: 5 } ], css_id: 'tinytable_css_kljx25xdlobc06e3h6z3',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '6', j: 4 }, { i: '7', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 }, { i: '6', j: 5 }, { i: '7', j: 5 } ], css_id: 'tinytable_css_cqq26k9nvtphu64wuhzq',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_1omf24dygsfb4gtko0l7',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_ef5mghpsxcyvh62x9lvu.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_ef5mghpsxcyvh62x9lvu td.tinytable_css_kljx25xdlobc06e3h6z3, #tinytable_ef5mghpsxcyvh62x9lvu th.tinytable_css_kljx25xdlobc06e3h6z3 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_ef5mghpsxcyvh62x9lvu td.tinytable_css_cqq26k9nvtphu64wuhzq, #tinytable_ef5mghpsxcyvh62x9lvu th.tinytable_css_cqq26k9nvtphu64wuhzq { text-align: left; font-size: 0.9em }
+    #tinytable_ef5mghpsxcyvh62x9lvu td.tinytable_css_1omf24dygsfb4gtko0l7, #tinytable_ef5mghpsxcyvh62x9lvu th.tinytable_css_1omf24dygsfb4gtko0l7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_ef5mghpsxcyvh62x9lvu" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">region</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+                <th scope="col" data-row="0" data-col="3">in-scope</th>
+                <th scope="col" data-row="0" data-col="4">out-of-scope</th>
+                <th scope="col" data-row="0" data-col="5">undetermined</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">only OpenAlex</td>
+                  <td data-row="1" data-col="2">17,881</td>
+                  <td data-row="1" data-col="3">4,919</td>
+                  <td data-row="1" data-col="4">197</td>
+                  <td data-row="1" data-col="5">12,765</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">only Scopus</td>
+                  <td data-row="2" data-col="2">16,544</td>
+                  <td data-row="2" data-col="3">8,756</td>
+                  <td data-row="2" data-col="4">1,048</td>
+                  <td data-row="2" data-col="5">6,740</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">only WoS</td>
+                  <td data-row="3" data-col="2">4,155</td>
+                  <td data-row="3" data-col="3">2,574</td>
+                  <td data-row="3" data-col="4">126</td>
+                  <td data-row="3" data-col="5">1,455</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">OpenAlex+Scopus</td>
+                  <td data-row="4" data-col="2">1,239</td>
+                  <td data-row="4" data-col="3">915</td>
+                  <td data-row="4" data-col="4">20</td>
+                  <td data-row="4" data-col="5">304</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">OpenAlex+WoS</td>
+                  <td data-row="5" data-col="2">446</td>
+                  <td data-row="5" data-col="3">335</td>
+                  <td data-row="5" data-col="4">4</td>
+                  <td data-row="5" data-col="5">107</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">Scopus+WoS</td>
+                  <td data-row="6" data-col="2">26,602</td>
+                  <td data-row="6" data-col="3">16,785</td>
+                  <td data-row="6" data-col="4">734</td>
+                  <td data-row="6" data-col="5">9,083</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">all three</td>
+                  <td data-row="7" data-col="2">4,241</td>
+                  <td data-row="7" data-col="3">3,499</td>
+                  <td data-row="7" data-col="4">31</td>
+                  <td data-row="7" data-col="5">711</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">Total</td>
+                  <td data-row="8" data-col="2">71,108</td>
+                  <td data-row="8" data-col="3">37,783</td>
+                  <td data-row="8" data-col="4">2,160</td>
+                  <td data-row="8" data-col="5">31,165</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (June 2026):
+ only OpenAlex     17,881 | in 4,919  out 197   und 12,765
+ only Scopus       16,544 | in 8,756  out 1,048 und 6,740
+ only WoS           4,155 | in 2,574  out 126   und 1,455
+ OpenAlex+Scopus    1,239 | in 915    out 20    und 304
+ OpenAlex+WoS         446 | in 335    out 4      und 107
+ Scopus+WoS        26,602 | in 16,785 out 734   und 9,083
+ all three          4,241 | in 3,499  out 31    und 711
+ Total             71,108 | in 37,783 out 2,160 und 31,165 -->
+<p>The added-value finding replicates with force. OpenAlex’s topic search found <strong>17,881 trust works that both curated keyword searches missed</strong>; just 1.1% are out-of-scope, 27% are in-scope, and the rest await the content screen. The conclusion is bidirectional – the only-Scopus region holds 8,756 in-scope works the other two searches miss, the only-WoS region 2,574 – so no single channel is sufficient; the curated keyword searches contribute the largest blocks of uniquely-relevant recall, and works found in all three are the most clearly in-scope (83%).</p>
+</section>
+<section id="sec-corpus-reverse" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-corpus-reverse"><span class="header-section-number">3.6</span> The only-OpenAlex region: recoverable or genuinely unique?</h2>
+<p>The Venn table shows OpenAlex’s topic search surfaced 17,881 works the curated searches missed, but not whether those works are <em>genuinely</em> outside the subscription databases or merely missed by the curated <em>queries</em>. A reverse check settles it, exactly as at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>): for every only-OpenAlex work with a DOI, the live Scopus and Web of Science APIs were asked whether the DOI exists in their database at all (<code>Scripts/collect/reverse-check.py</code>), capturing the curated document type where it does.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>oo  <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span> <span class="fu">filter</span>(in_OpenAlex <span class="sc">&amp;</span> <span class="sc">!</span>in_WoS <span class="sc">&amp;</span> <span class="sc">!</span>in_Scopus)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ood <span class="ot">&lt;-</span> oo <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">nz</span>(doi))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>either <span class="ot">&lt;-</span> <span class="fu">sum</span>(ood<span class="sc">$</span>in_scopus_db <span class="sc">%in%</span> <span class="cn">TRUE</span> <span class="sc">|</span> ood<span class="sc">$</span>in_wos_db <span class="sc">%in%</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Of the only-OpenAlex works</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"with a DOI, in Scopus"</span>, <span class="st">"with a DOI, in Web of Science"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">"with a DOI, in either curated database (recoverable)"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="st">"with a DOI, in neither (genuinely OpenAlex-unique)"</span>, <span class="st">"no DOI (unverifiable)"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="fu">sum</span>(ood<span class="sc">$</span>in_scopus_db <span class="sc">%in%</span> <span class="cn">TRUE</span>), <span class="fu">sum</span>(ood<span class="sc">$</span>in_wos_db <span class="sc">%in%</span> <span class="cn">TRUE</span>), either,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">nrow</span>(ood) <span class="sc">-</span> either, <span class="fu">nrow</span>(oo) <span class="sc">-</span> <span class="fu">nrow</span>(ood))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"n"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-reverse" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-reverse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.5: The only-OpenAlex region split by the reverse check against the curated databases.
+</figcaption>
+<div aria-describedby="tbl-corpus-reverse-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_v0zy27sbrc4g5otet5kg = TinyTable.createTableFunctions("tinytable_v0zy27sbrc4g5otet5kg");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_8bgsvxyhlaff1obmw3so',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_mv67g58kf4jjwztc6lbc',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_8i7nicp022e6vxjzmml0',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_v0zy27sbrc4g5otet5kg.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_v0zy27sbrc4g5otet5kg td.tinytable_css_8bgsvxyhlaff1obmw3so, #tinytable_v0zy27sbrc4g5otet5kg th.tinytable_css_8bgsvxyhlaff1obmw3so {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_v0zy27sbrc4g5otet5kg td.tinytable_css_mv67g58kf4jjwztc6lbc, #tinytable_v0zy27sbrc4g5otet5kg th.tinytable_css_mv67g58kf4jjwztc6lbc { text-align: left; font-size: 0.9em }
+    #tinytable_v0zy27sbrc4g5otet5kg td.tinytable_css_8i7nicp022e6vxjzmml0, #tinytable_v0zy27sbrc4g5otet5kg th.tinytable_css_8i7nicp022e6vxjzmml0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_v0zy27sbrc4g5otet5kg" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Of the only-OpenAlex works</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">with a DOI, in Scopus</td>
+                  <td data-row="1" data-col="2">9,459</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">with a DOI, in Web of Science</td>
+                  <td data-row="2" data-col="2">7,239</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">with a DOI, in either curated database (recoverable)</td>
+                  <td data-row="3" data-col="2">9,946</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">with a DOI, in neither (genuinely OpenAlex-unique)</td>
+                  <td data-row="4" data-col="2">5,672</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">no DOI (unverifiable)</td>
+                  <td data-row="5" data-col="2">2,263</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell" data-tbl-cap="Curated document type of the recoverable only-OpenAlex works (top genres).">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>oo <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((in_scopus_db <span class="sc">%in%</span> <span class="cn">TRUE</span> <span class="sc">|</span> in_wos_db <span class="sc">%in%</span> <span class="cn">TRUE</span>), <span class="fu">nz</span>(reverse_doctype)) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">curated document type</span><span class="st">`</span> <span class="ot">=</span> reverse_doctype, <span class="at">name =</span> <span class="st">"n"</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"n"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_xtinodjhe95sksdbcyja = TinyTable.createTableFunctions("tinytable_xtinodjhe95sksdbcyja");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_9bjcczidk7ww1oz0zf27',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_7nkslruk37925qzezkuf',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_0ugsr6hz4073q34tsuyl',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_xtinodjhe95sksdbcyja.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_xtinodjhe95sksdbcyja td.tinytable_css_9bjcczidk7ww1oz0zf27, #tinytable_xtinodjhe95sksdbcyja th.tinytable_css_9bjcczidk7ww1oz0zf27 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_xtinodjhe95sksdbcyja td.tinytable_css_7nkslruk37925qzezkuf, #tinytable_xtinodjhe95sksdbcyja th.tinytable_css_7nkslruk37925qzezkuf { text-align: left; font-size: 0.9em }
+    #tinytable_xtinodjhe95sksdbcyja td.tinytable_css_0ugsr6hz4073q34tsuyl, #tinytable_xtinodjhe95sksdbcyja th.tinytable_css_0ugsr6hz4073q34tsuyl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_xtinodjhe95sksdbcyja" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true"><caption><p>Curated document type of the recoverable only-OpenAlex works (top
+genres).</p></caption>
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">curated document type</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">Article</td>
+                  <td data-row="1" data-col="2">7,288</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">Book Chapter</td>
+                  <td data-row="2" data-col="2">616</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Conference Paper</td>
+                  <td data-row="3" data-col="2">505</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Review</td>
+                  <td data-row="4" data-col="2">366</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">Editorial material</td>
+                  <td data-row="5" data-col="2">333</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">Meeting</td>
+                  <td data-row="6" data-col="2">290</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">Abstract</td>
+                  <td data-row="7" data-col="2">176</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">Article; Meeting</td>
+                  <td data-row="8" data-col="2">94</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<!-- snapshot (June 2026): only-OA window 17,881; with-DOI 15,618; in Scopus 9,459; in WoS 7,239;
+ in either (recoverable) 9,946 (64%); in neither (OpenAlex-unique) 5,672 (36%); no-DOI 2,263.
+ recoverable doctype: Article 7,288; Book Chapter 616; Conference Paper 505; Review 366; Editorial 333; Meeting 290 -->
+<p>The single-year pattern holds at scale. Of the only-OpenAlex works with a DOI, <strong>9,946 (64%) are recoverable</strong> – they exist in Scopus or Web of Science, the curated <em>queries</em> simply did not return them – and only <strong>5,672 (36%) are genuinely outside both subscription databases</strong>, OpenAlex’s true unique contribution. The recoverable works’ curated document types are dominated by <strong>Article (7,288) and Book Chapter (616)</strong> – exactly the types the curated query accepts, so these are genuine in-scope articles the keyword or field match failed to return – with the genres the query excludes by document type (Conference Paper 505, Review 366, Editorial 333, Meeting 290) a substantial but minority share that OpenAlex admits under its coarse “article” type. These 9,946 recoverable works are precisely what the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) then enriches with curated abstracts and keywords; what that recovers is reported in <a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>.</p>
+</section>
+<section id="sec-corpus-where" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust signal sits in each database</h2>
+<p>A question that bridges to whatever screens the corpus next: in which field of each database’s record does the trust term actually appear? The classifier and any abstract-level screen can read a match in the title or abstract directly; a match only in the keyword fields – Web of Science’s cited-reference-derived Keywords Plus above all (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) – is findable but needs the keyword fields read; and a work a search returned on a trust term now absent from its held title, abstract and keywords is the abstract-withdrawal tail made visible. The table scans each returned record’s held fields for the trust word family (computed inline, not stored in the dataset; it approximates the finer categories of the single-year audit).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>has_trust <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { x <span class="ot">&lt;-</span> <span class="fu">as.character</span>(x); x[<span class="fu">is.na</span>(x)] <span class="ot">&lt;-</span> <span class="st">""</span>; <span class="fu">grepl</span>(<span class="st">"(?i)</span><span class="sc">\\</span><span class="st">b(?:dis|mis|un)?trust"</span>, x, <span class="at">perl =</span> <span class="cn">TRUE</span>) }</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>where_row <span class="ot">&lt;-</span> <span class="cf">function</span>(member, abs_col, kw_cols, label) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> aw[aw[[member]] <span class="sc">%in%</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  ta <span class="ot">&lt;-</span> <span class="fu">has_trust</span>(s<span class="sc">$</span>title) <span class="sc">|</span> <span class="fu">has_trust</span>(s[[abs_col]])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  kw <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">`</span><span class="at">|</span><span class="st">`</span>, <span class="fu">lapply</span>(kw_cols, <span class="cf">function</span>(c) <span class="fu">has_trust</span>(s[[c]])))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">Source =</span> label, <span class="st">`</span><span class="at">returned</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">nrow</span>(s),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">title / abstract</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(ta),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">keywords only</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(<span class="sc">!</span>ta <span class="sc">&amp;</span> kw),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">elsewhere / withheld</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(<span class="sc">!</span>ta <span class="sc">&amp;</span> <span class="sc">!</span>kw))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">where_row</span>(<span class="st">"in_OpenAlex"</span>, <span class="st">"OA_abstract"</span>, <span class="fu">c</span>(<span class="st">"OA_keywords"</span>), <span class="st">"OpenAlex pull"</span>),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">where_row</span>(<span class="st">"in_Scopus"</span>, <span class="st">"Scopus_Abstract"</span>, <span class="fu">c</span>(<span class="st">"Scopus_Author Keywords"</span>, <span class="st">"Scopus_Index Keywords"</span>), <span class="st">"Scopus"</span>),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">where_row</span>(<span class="st">"in_WoS"</span>, <span class="st">"WoS_Abstract"</span>, <span class="fu">c</span>(<span class="st">"WoS_Author Keywords"</span>, <span class="st">"WoS_Keywords Plus"</span>), <span class="st">"Web of Science"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-where" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-where-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.6: Where the trust term sits in each source’s held record (works that source returned).
+</figcaption>
+<div aria-describedby="tbl-corpus-where-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_suoo212bjo0oz7jmjm9b = TinyTable.createTableFunctions("tinytable_suoo212bjo0oz7jmjm9b");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 }, { i: '3', j: 4 }, { i: '3', j: 5 } ], css_id: 'tinytable_css_9xcm177b4i5dfjr2mjto',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 } ], css_id: 'tinytable_css_bimexgs276u9wghpw8jz',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_1fd7o3gg9h4accymo1gq',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_suoo212bjo0oz7jmjm9b.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_suoo212bjo0oz7jmjm9b td.tinytable_css_9xcm177b4i5dfjr2mjto, #tinytable_suoo212bjo0oz7jmjm9b th.tinytable_css_9xcm177b4i5dfjr2mjto {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_suoo212bjo0oz7jmjm9b td.tinytable_css_bimexgs276u9wghpw8jz, #tinytable_suoo212bjo0oz7jmjm9b th.tinytable_css_bimexgs276u9wghpw8jz { text-align: left; font-size: 0.9em }
+    #tinytable_suoo212bjo0oz7jmjm9b td.tinytable_css_1fd7o3gg9h4accymo1gq, #tinytable_suoo212bjo0oz7jmjm9b th.tinytable_css_1fd7o3gg9h4accymo1gq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_suoo212bjo0oz7jmjm9b" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Source</th>
+                <th scope="col" data-row="0" data-col="2">returned</th>
+                <th scope="col" data-row="0" data-col="3">title / abstract</th>
+                <th scope="col" data-row="0" data-col="4">keywords only</th>
+                <th scope="col" data-row="0" data-col="5">elsewhere / withheld</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">OpenAlex pull</td>
+                  <td data-row="1" data-col="2">23,807</td>
+                  <td data-row="1" data-col="3">21,432</td>
+                  <td data-row="1" data-col="4">184</td>
+                  <td data-row="1" data-col="5">2,191</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">Scopus</td>
+                  <td data-row="2" data-col="2">48,626</td>
+                  <td data-row="2" data-col="3">46,330</td>
+                  <td data-row="2" data-col="4">578</td>
+                  <td data-row="2" data-col="5">1,718</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Web of Science</td>
+                  <td data-row="3" data-col="2">35,444</td>
+                  <td data-row="3" data-col="3">33,428</td>
+                  <td data-row="3" data-col="4">1,018</td>
+                  <td data-row="3" data-col="5">998</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (June 2026):
+ OpenAlex pull (23,807): title/abstract 21,432 | keywords-only 184 | elsewhere/withheld 2,191
+ Scopus (48,626):        title/abstract 46,330 | keywords-only 578 | elsewhere/withheld 1,718
+ Web of Science (35,444): title/abstract 33,428 | keywords-only 1,018 | elsewhere/withheld 998 -->
+<p>For most records the trust signal is in the title or abstract, where any screen can read it. The exceptions are instructive. <strong>Web of Science carries the most keyword-only matches (1,018)</strong> – its Keywords Plus, generated from the titles of a work’s cited references, retrieves studies that engage the trust literature heavily without naming trust in their own text. <strong>OpenAlex shows the largest “elsewhere/withheld” tail (2,191)</strong>: works its topic search returned on a trust term that is no longer present in the held title, abstract or keywords – the abstract drought (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) made visible, since the search index remembered a match the record no longer exposes. Both are arguments for retaining the curated keyword fields and for the abstract backfill: the trust signal is not always where a naive title-and-abstract screen would look.</p>
+</section>
+<section id="sec-corpus-trend" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-corpus-trend"><span class="header-section-number">3.8</span> How trust research has grown, 2000–2025</h2>
+<p>The corpus shows what a single year cannot: the trajectory of the field and of each search’s grip on it.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year_resolved <span class="sc">&gt;=</span> <span class="dv">2000</span>, year_resolved <span class="sc">&lt;=</span> <span class="dv">2025</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.by =</span> year_resolved,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">Union =</span> <span class="fu">n</span>(), <span class="at">OpenAlex =</span> <span class="fu">sum</span>(in_OpenAlex), <span class="at">WoS =</span> <span class="fu">sum</span>(in_WoS), <span class="at">Scopus =</span> <span class="fu">sum</span>(in_Scopus)) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year_resolved) <span class="sc">|&gt;</span>                          <span class="co"># .by does not sort; type="o" needs ordered x</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>year_resolved, <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"works"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tinyplot</span>(works <span class="sc">~</span> year_resolved <span class="sc">|</span> series, <span class="at">data =</span> long, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">"publication year"</span>, <span class="at">ylab =</span> <span class="st">"works per year"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">""</span>, <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="cn">NULL</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-corpus-trend" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corpus-trend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-corpus_files/figure-html/fig-corpus-trend-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corpus-trend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Trust-research works per year, 2000–2025: the deduplicated union and the share retrieved by each database search. The 2025 figure is inflated by online-first/in-press records and is read as a lower bound on the most recent year.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<!-- snapshot: union 412 (2000) -> 8,997 (2025); OpenAlex 152 -> 1,996; WoS 175 -> 5,464; Scopus 239 -> 7,040 -->
+<p>The same years, split by the trust-sense triage, show how the <em>relevant</em> share has held up as the field grew.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ys <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year_resolved <span class="sc">&gt;=</span> <span class="dv">2000</span>, year_resolved <span class="sc">&lt;=</span> <span class="dv">2025</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year_resolved, trust_scope, <span class="at">name =</span> <span class="st">"works"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tinyplot</span>(works <span class="sc">~</span> year_resolved <span class="sc">|</span> trust_scope, <span class="at">data =</span> ys, <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">"publication year"</span>, <span class="at">ylab =</span> <span class="st">"works per year"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">""</span>, <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="cn">NULL</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-corpus-trend-scope" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-corpus-trend-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-corpus_files/figure-html/fig-corpus-trend-scope-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corpus-trend-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Trust-research works per year by trust_scope, 2000–2025: in-scope, undetermined and out-of-scope. The in-scope share holds steady across the period, so the growth is growth in relevant trust research, not in noise.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<!-- snapshot: in-scope 170 (2000) -> 5,859 (2025); undetermined 239 -> 2,868; out-of-scope 3 -> 270 -->
+<p>Three things stand out. The field has grown roughly twentyfold – from about 412 works in 2000 to several thousand a year by the early 2020s. The curated searches scale with that growth while the OpenAlex topic-union flattens (it levels off around 1,000–2,000 works a year and dips in the most recent years), consistent with a fixed twelve-topic net capturing a shrinking fraction of a widening field and with the abstract drought eroding the keyword clause OpenAlex depends on (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>). The 2025 column is depressed for OpenAlex and inflated for the curated databases by online-first effects at the collection boundary, so the final year is read as provisional. And throughout, the <strong>in-scope share holds steady</strong> (<a href="#fig-corpus-trend-scope" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>): the growth is growth in relevant trust research, not in noise, with out-of-scope work a thin, roughly constant band.</p>
+</section>
+<section id="sec-corpus-triage" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="sec-corpus-triage"><span class="header-section-number">3.9</span> The trust-sense triage across the corpus</h2>
+<p>The record-level classifier (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) labels every work’s <code>trust_scope</code> and records where the sense came from. Across the window corpus:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>scope_tab <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(trust_scope, <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">%</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_total_row</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>scope_tab <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"n"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="fu">nrow</span>(scope_tab), <span class="at">line =</span> <span class="st">"t"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-scope" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.7: The trust_scope triage over the window corpus, and where each resolved sense came from.
+</figcaption>
+<div aria-describedby="tbl-corpus-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_1dj0buamz74hltmq7qrm = TinyTable.createTableFunctions("tinytable_1dj0buamz74hltmq7qrm");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_6sxzwt48o9b4x3zaovih',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_p7xtluclj357y9f0dzw8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_ub7drp19bw25b9engdey',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_1dj0buamz74hltmq7qrm.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_1dj0buamz74hltmq7qrm td.tinytable_css_6sxzwt48o9b4x3zaovih, #tinytable_1dj0buamz74hltmq7qrm th.tinytable_css_6sxzwt48o9b4x3zaovih {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_1dj0buamz74hltmq7qrm td.tinytable_css_p7xtluclj357y9f0dzw8, #tinytable_1dj0buamz74hltmq7qrm th.tinytable_css_p7xtluclj357y9f0dzw8 { text-align: left; font-size: 0.9em }
+    #tinytable_1dj0buamz74hltmq7qrm td.tinytable_css_ub7drp19bw25b9engdey, #tinytable_1dj0buamz74hltmq7qrm th.tinytable_css_ub7drp19bw25b9engdey {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_1dj0buamz74hltmq7qrm" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">trust_scope</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+                <th scope="col" data-row="0" data-col="3">%</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">in-scope</td>
+                  <td data-row="1" data-col="2">37,783</td>
+                  <td data-row="1" data-col="3">53.1</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">out-of-scope</td>
+                  <td data-row="2" data-col="2">2,160</td>
+                  <td data-row="2" data-col="3">3.0</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">undetermined</td>
+                  <td data-row="3" data-col="2">31,165</td>
+                  <td data-row="3" data-col="3">43.8</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Total</td>
+                  <td data-row="4" data-col="2">71,108</td>
+                  <td data-row="4" data-col="3">99.9</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>basis_tab <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span> <span class="fu">count</span>(sense_basis, <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span> <span class="fu">add_total_row</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>basis_tab <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>(<span class="at">caption =</span> <span class="st">"Where each work's combined sense came from (none = undetermined)."</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"n"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="fu">nrow</span>(basis_tab), <span class="at">line =</span> <span class="st">"t"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_08dek67gdciyljtosw3t = TinyTable.createTableFunctions("tinytable_08dek67gdciyljtosw3t");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_swffo83hs6b8b4z4ugvz',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_4xg1h3ae1flb3hmd0xul',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_n9csdp9xf3tgebw85uje',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_08dek67gdciyljtosw3t.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_08dek67gdciyljtosw3t td.tinytable_css_swffo83hs6b8b4z4ugvz, #tinytable_08dek67gdciyljtosw3t th.tinytable_css_swffo83hs6b8b4z4ugvz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_08dek67gdciyljtosw3t td.tinytable_css_4xg1h3ae1flb3hmd0xul, #tinytable_08dek67gdciyljtosw3t th.tinytable_css_4xg1h3ae1flb3hmd0xul { text-align: left; font-size: 0.9em }
+    #tinytable_08dek67gdciyljtosw3t td.tinytable_css_n9csdp9xf3tgebw85uje, #tinytable_08dek67gdciyljtosw3t th.tinytable_css_n9csdp9xf3tgebw85uje {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_08dek67gdciyljtosw3t" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <caption>Where each work's combined sense came from (none = undetermined).</caption>
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">sense_basis</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">both</td>
+                  <td data-row="1" data-col="2">8,779</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">keywords</td>
+                  <td data-row="2" data-col="2">2,135</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">none</td>
+                  <td data-row="3" data-col="2">31,165</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">text</td>
+                  <td data-row="4" data-col="2">29,029</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">Total</td>
+                  <td data-row="5" data-col="2">71,108</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<!-- snapshot (window 71,108):
+ trust_scope: in-scope 37,783 (53.1%) | out-of-scope 2,160 (3.0%) | undetermined 31,165 (43.8%)
+ sense_basis: none 31,165 | text 29,029 | both 8,779 | keywords 2,135 | scope_conflict 213
+ leading in-scope: political 14,430; institutional/systems 6,215; generalised/social 5,853; interpersonal 2,775;
+   clinical/relational-health 1,882; science/experts 1,817; media/information 1,512
+ leading out-of-scope: technology 1,232; consumer/marketing 639; commercial-finance 152; security/computing 137 -->
+<p>The rule places <strong>53.1%</strong> of window works in-scope, <strong>3.0%</strong> out-of-scope, and leaves <strong>43.8%</strong> undetermined for the screen. Reading the keyword fields is not cosmetic: <strong>2,135 works were classified from their keywords alone</strong> (their title and abstract said nothing the rule could catch), and a further 8,779 had text and keywords agree; only <strong>213 works</strong> carry a scope conflict – a small, explicit review queue rather than a silent guess. The leading in-scope senses are political, institutional and generalised/social trust; the out-of-scope side is dominated by technology and consumer trust, exactly the contamination the triage is meant to hold back. Undetermined is the large residual by design (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) – it is the screen’s main queue, not a verdict of irrelevance.</p>
+</section>
+<section id="sec-corpus-noabstract" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="sec-corpus-noabstract"><span class="header-section-number">3.10</span> What is still without an abstract</h2>
+<p>The classifier and any downstream screen depend on the abstract, so the works that lack one are worth characterising. The curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) has already run: of the 9,946 recoverable only-OpenAlex works it recovered curated metadata for, it closed most of the abstract gap, and the residual no-abstract set is now <strong>1,859</strong> works (down from 3,278 before the backfill).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>noab <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">nz</span>(abstract))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>top_glue <span class="ot">&lt;-</span> <span class="cf">function</span>(col, k) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  noab <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>({{ col }}, <span class="at">name =</span> <span class="st">"n"</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> k) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">label =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">txt =</span> <span class="fu">glue</span>(<span class="st">"{label} {format(n, big.mark = ',')}"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(txt) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="at">collapse =</span> <span class="st">"; "</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">characteristic =</span> <span class="fu">c</span>(<span class="st">"document type (top 2)"</span>, <span class="st">"only in the OpenAlex pull (not returned by a curated search)"</span>, <span class="st">"OpenAlex venue type (top 3)"</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">top_glue</span>(type, <span class="dv">2</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">format</span>(<span class="fu">sum</span>(noab<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"only OpenAlex"</span>), <span class="at">big.mark =</span> <span class="st">","</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">top_glue</span>(oa_source_type, <span class="dv">3</span>))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-noabstract" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-noabstract-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.8: Characteristics of the works still with no abstract from any source (analysis window).
+</figcaption>
+<div aria-describedby="tbl-corpus-noabstract-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_i2fsvg20rn3vais1hk5v = TinyTable.createTableFunctions("tinytable_i2fsvg20rn3vais1hk5v");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_z1noqk5pumolero73g21',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_59y0zgzzddzh1rewse5q',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_9o1nqlpdd4ujfjz36hv8',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_i2fsvg20rn3vais1hk5v.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_i2fsvg20rn3vais1hk5v td.tinytable_css_z1noqk5pumolero73g21, #tinytable_i2fsvg20rn3vais1hk5v th.tinytable_css_z1noqk5pumolero73g21 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_i2fsvg20rn3vais1hk5v td.tinytable_css_59y0zgzzddzh1rewse5q, #tinytable_i2fsvg20rn3vais1hk5v th.tinytable_css_59y0zgzzddzh1rewse5q { text-align: left; font-size: 0.9em }
+    #tinytable_i2fsvg20rn3vais1hk5v td.tinytable_css_9o1nqlpdd4ujfjz36hv8, #tinytable_i2fsvg20rn3vais1hk5v th.tinytable_css_9o1nqlpdd4ujfjz36hv8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_i2fsvg20rn3vais1hk5v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">characteristic</th>
+                <th scope="col" data-row="0" data-col="2">value</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">document type (top 2)</td>
+                  <td data-row="1" data-col="2">article 1,143; book chapter   712</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">only in the OpenAlex pull (not returned by a curated search)</td>
+                  <td data-row="2" data-col="2">1,802</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">OpenAlex venue type (top 3)</td>
+                  <td data-row="3" data-col="2">journal 757; (none) 707; ebook platform 216</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (1,859 no-abstract works):
+type: article 1,143; book chapter 712   |   only in the pull: 1,802 (97%)
+oa_source_type: journal 757; (none) 707; ebook platform 216; book series 140   |   in_OA_db true 1,820 / false 39 -->
+<p>The residual is <strong>97% (1,802) pull-only</strong> works. Splitting them by the reverse check (<a href="#tbl-corpus-reverse" class="quarto-xref">Table&nbsp;<span>3.5</span></a>) shows what the backfill left behind:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>oo_na <span class="ot">&lt;-</span> aw <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">nz</span>(abstract), region <span class="sc">==</span> <span class="st">"only OpenAlex"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ood   <span class="ot">&lt;-</span> oo_na <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">nz</span>(doi))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>recoverable <span class="ot">&lt;-</span> <span class="fu">sum</span>(ood<span class="sc">$</span>in_scopus_db <span class="sc">%in%</span> <span class="cn">TRUE</span> <span class="sc">|</span> ood<span class="sc">$</span>in_wos_db <span class="sc">%in%</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>recover_tab <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Of the residual abstract-less pull-only works</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">"with a DOI, in a curated database (no abstract there either)"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>     <span class="st">"with a DOI, in neither (genuinely OpenAlex-unique)"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>     <span class="st">"no DOI (unverifiable)"</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(recoverable, <span class="fu">nrow</span>(ood) <span class="sc">-</span> recoverable, <span class="fu">nrow</span>(oo_na) <span class="sc">-</span> <span class="fu">nrow</span>(ood))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_total_row</span>()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>recover_tab <span class="sc">|&gt;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"n"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="fu">nrow</span>(recover_tab), <span class="at">line =</span> <span class="st">"t"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-corpus-noabstract-recover" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-noabstract-recover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.9: The residual abstract-less pull-only works split by the reverse check (after the curated backfill).
+</figcaption>
+<div aria-describedby="tbl-corpus-noabstract-recover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_y78nbeu5zfu1wli8ay4o = TinyTable.createTableFunctions("tinytable_y78nbeu5zfu1wli8ay4o");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_qxdzk9xz2594q39yb5bw',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_35llwrkx2mxnl39t89t4',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_vs6ycfr9w6p74gmr733i',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_y78nbeu5zfu1wli8ay4o.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_y78nbeu5zfu1wli8ay4o td.tinytable_css_qxdzk9xz2594q39yb5bw, #tinytable_y78nbeu5zfu1wli8ay4o th.tinytable_css_qxdzk9xz2594q39yb5bw {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_y78nbeu5zfu1wli8ay4o td.tinytable_css_35llwrkx2mxnl39t89t4, #tinytable_y78nbeu5zfu1wli8ay4o th.tinytable_css_35llwrkx2mxnl39t89t4 { text-align: left; font-size: 0.9em }
+    #tinytable_y78nbeu5zfu1wli8ay4o td.tinytable_css_vs6ycfr9w6p74gmr733i, #tinytable_y78nbeu5zfu1wli8ay4o th.tinytable_css_vs6ycfr9w6p74gmr733i {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_y78nbeu5zfu1wli8ay4o" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Of the residual abstract-less pull-only works</th>
+                <th scope="col" data-row="0" data-col="2">n</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">with a DOI, in a curated database (no abstract there either)</td>
+                  <td data-row="1" data-col="2">205</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">with a DOI, in neither (genuinely OpenAlex-unique)</td>
+                  <td data-row="2" data-col="2">1,098</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">no DOI (unverifiable)</td>
+                  <td data-row="3" data-col="2">499</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Total</td>
+                  <td data-row="4" data-col="2">1,802</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (June 2026): residual abstract-less pull-only 1,802 ->
+ in a curated db (no abstract there) 205 | genuinely OpenAlex-unique 1,098 | no-DOI 499 | Total 1,802 -->
+<p>Before the backfill, about 1,629 of the abstract-less pull-only works were recoverable; the curated pull supplied an abstract for most of them, leaving just <strong>205</strong> whose curated record carried no abstract either (conference and meeting items, mostly). What remains is overwhelmingly the <strong>genuinely OpenAlex-unique tail</strong> (1,098, in neither curated database) and the <strong>no-DOI tail</strong> (499) – works that cluster in book series, sourceless venues and ebook platforms rather than in the reputable journals, exactly where an abstract is least likely to exist anywhere. All are retained and flagged, not dropped; an open-access full-text channel at the META stage is the remaining route to the few that have one.</p>
+</section>
+<section id="sec-corpus-datasets" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="sec-corpus-datasets"><span class="header-section-number">3.11</span> The assembled dataset</h2>
+<p>The pipeline writes the analysis dataset to <code>data/final/corpus_derived.parquet</code>; the assembled base before classification is <code>corpus_raw.parquet</code> (same folder), the intermediate spine and the OpenAlex citation graph live in <code>data/intermediate/</code>, and every column is documented in <code>codebook.html</code> (<a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>, generated from the derivation registry). Parquet is the canonical format (read directly by these notebooks via R <code>arrow</code>); a CSV can be produced from any dataset on demand in one line of R or Python (see the RA guide). Of the 71,108 window works, <strong>69,249 (97.4%) carry an abstract</strong> – up from 95.4% before the curated backfill – of which <strong>52,353 have an openly-licensed copy available</strong> (<code>abstract_open_available</code>, i.e.&nbsp;an OpenAlex abstract exists) and the rest are licensed-only; each abstract is tagged by source, licence and whether it was backfilled, so external-API eligibility and any future redistribution are decided per work rather than by discarding data. The citation graph (2.77M edges) supports the reference miner; it is kept out of the working dataset so the corpus stays lean.</p>
+</section>
+<section id="sec-corpus-rec" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="sec-corpus-rec"><span class="header-section-number">3.12</span> What the corpus establishes</h2>
+<ol type="1">
+<li><strong>Coverage holds at scale.</strong> The OpenAlex database contains 98.4–99.1% of what the curated searches return across 2000–2025; it serves as the discovery substrate and citation backbone.</li>
+<li><strong>Discovery is multi-channel by necessity.</strong> The topic-union retrieves about an eighth of the curated trust it contains, and that fraction shrinks over time; recall comes from complementary channels merged by DOI.</li>
+<li><strong>The classifier’s value is real and large.</strong> The OpenAlex search surfaces 17,881 in-scope-dense, low-noise trust works the keyword searches miss; the curated searches contribute the largest blocks of uniquely-relevant recall. Precision is imposed downstream by the trust-sense triage, the document-type detail, and the content screen.</li>
+<li><strong>The curated backfill closed most of the abstract gap.</strong> Recovering curated records for the 9,946 recoverable pull-only works lifted abstract coverage to 97.4% and enriched the corpus with curated keywords and document types, leaving a residual of 1,859 works that genuinely lack an abstract anywhere.</li>
+</ol>
+<p>The 2015 audit chose the design; the 2000–2025 corpus confirms it and is the dataset the screening, extraction and reduction stages now operate on. Every column is catalogued in the codebook (<a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>).</p>
+</section>
+<section id="sec-corpus-repro" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="sec-corpus-repro"><span class="header-section-number">3.13</span> Reproducibility</h2>
+<p>The collection and merge are scripted under <code>Scripts/</code>: <code>collect/openalex-topic.R</code> and <code>collect/openalex-crosswalk.R</code> pull OpenAlex; the manual Scopus/WoS exports use the queries archived in <code>data/queries/</code> (and shown in <a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>section 1.4</span></a>); <code>collect/backfill-build-queries.py</code> builds the curated DOI-backfill queries for the recoverable pull-only works (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>). <code>assemble/1-spine.py</code> builds the deduplicated corpus and the citation graph and folds in the curated backfill as metadata only (never altering search membership), <code>assemble/2-abstracts.py</code> resolves the abstract ladder into <code>corpus_raw</code>, <code>derive/variables.py</code> adds the classification and flags, and <code>codebook.py</code> documents every column from <code>derivations.yaml</code>. Matching uses normalised DOIs then exact normalised titles (fuzzy title matching for the no-DOI tail is a documented deferred refinement). Every table and figure above recomputes from <code>corpus_derived.parquet</code>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../theme/02-classifier.html" class="pagination-link" aria-label="Defining and detecting trust">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../theme/04-pipeline.html" class="pagination-link" aria-label="The THEME pipeline">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The THEME pipeline</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
