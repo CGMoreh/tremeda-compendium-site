@@ -41,10 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -74,6 +78,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
+<link rel="stylesheet" href="../tremeda.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -98,9 +103,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -140,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -158,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
       </ul>
@@ -213,7 +225,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="which-sources-and-can-one-suffice">Which sources, and can one suffice?</h2>
 <p>The conventional approach combines several subscription databases – expensive to maintain and awkward to keep current. OpenAlex is an attractive single source – open, free, very large, and queryable by API – but only if it does not <em>miss</em> what the curated databases (Scopus, Web of Science) would catch. The way to find out is to compare them directly. A focused single-year (2015) audit did this across the three most authoritative bibliographic databases the team has institutional access to, verifying every apparent gap against the live databases to separate a genuine coverage gap from a mere retrieval gap; it is summarised in <a href="03-corpus.html#sec-corpus-audit" class="quarto-xref"><span>What the 2015 audit established</span></a>.</p>
 <p>The audit reaches a layered answer. The OpenAlex <em>database contains</em> almost everything the curated searches return, so coverage is not the obstacle; but no single query <em>retrieves</em> it all, because each database draws its disciplinary and document-type boundaries differently. Discovery therefore has to draw on all three sources together, merged by identifier and filtered downstream.</p>
-<p>The databases notebook also sets out the <strong>selection design</strong> built on that answer – the curated Scopus and Web of Science keyword searches, the OpenAlex twelve-topic union, and the by-DOI backfill that recovers curated metadata for the only-OpenAlex works (<a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>The selection design: three moments</span></a>, <a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>Completing the only-OpenAlex region: the curated DOI-backfill</span></a>). A further notebook describes the record-level <strong>trust classifier</strong> that triages each retrieved record (<a href="02-classifier.html" class="quarto-xref"><span>2&nbsp; Defining and detecting trust</span></a>); the assembled <strong>2000–2025 corpus</strong> is reported and interrogated in <a href="03-corpus.html" class="quarto-xref"><span>3&nbsp; The THEME corpus</span></a>; the construction <strong>pipeline</strong> is summarised visually in <a href="04-pipeline.html" class="quarto-xref"><span>4&nbsp; The THEME pipeline</span></a>; and every column of the dataset is catalogued in the <strong>codebook</strong> (<a href="05-codebook.html" class="quarto-xref"><span>5&nbsp; The corpus codebook</span></a>). A disciplinary-core test and a citation reference miner for sources that keyword search cannot see are planned for a later stage, building on the same evidence.</p>
+<p>The databases notebook also sets out the <strong>selection design</strong> built on that answer – the curated Scopus and Web of Science keyword searches, the OpenAlex twelve-topic union, and the by-DOI backfill that recovers curated metadata for the only-OpenAlex works (<a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>The selection design</span></a>, <a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>Completing the only-OpenAlex region: the curated DOI-backfill</span></a>). A further notebook describes the record-level <strong>trust classifier</strong> that triages each retrieved record (<a href="02-classifier.html" class="quarto-xref"><span>2&nbsp; Defining and detecting ‘trust’</span></a>); the assembled <strong>2000–2025 corpus</strong> is reported and interrogated in <a href="03-corpus.html" class="quarto-xref"><span>3&nbsp; The THEME corpus</span></a>; the construction <strong>pipeline</strong> is summarised visually in <a href="04-pipeline.html" class="quarto-xref"><span>4&nbsp; The THEME pipeline</span></a>; and every column of the dataset is catalogued in the <strong>codebook</strong> (<a href="05-codebook.html" class="quarto-xref"><span>5&nbsp; The THEME codebook</span></a>). A disciplinary-core test and a citation reference miner for sources that keyword search cannot see are planned for a later stage, building on the same evidence.</p>
 
 
 </section>

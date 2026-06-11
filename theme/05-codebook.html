@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; The corpus codebook – Building the TReMeDa Datasets</title>
+<title>5&nbsp; The THEME codebook – Building the TReMeDa Datasets</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -75,10 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -108,6 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="../tremeda.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -119,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/05-codebook.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/05-codebook.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -129,12 +134,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -174,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -192,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
       </ul>
@@ -210,20 +222,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/05-codebook.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/05-codebook.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-theme-codebook" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></h1>
+<h1 class="title"><span id="sec-theme-codebook" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-right">
 
     
   
@@ -285,20 +295,20 @@ Table&nbsp;5.1: Column families in corpus_derived.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_4fjeca34e5j6fv9gam90 = TinyTable.createTableFunctions("tinytable_4fjeca34e5j6fv9gam90");
+      const tableFns_avr2tt6w1mo93g473b5r = TinyTable.createTableFunctions("tinytable_avr2tt6w1mo93g473b5r");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_o9myv6tc7xdl9iwcpdds',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_0drkgglcthmcr3uekfvu',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_het3gsobbr4quyg0ntp8',}, 
+          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_3jp6r8jdceqvx2yiydz5',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_sb508x9cqyywnhh8atbf',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_i6p02681m7io4mabb0cq',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_4fjeca34e5j6fv9gam90.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_avr2tt6w1mo93g473b5r.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -307,12 +317,12 @@ Table&nbsp;5.1: Column families in corpus_derived.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_4fjeca34e5j6fv9gam90 td.tinytable_css_o9myv6tc7xdl9iwcpdds, #tinytable_4fjeca34e5j6fv9gam90 th.tinytable_css_o9myv6tc7xdl9iwcpdds {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_4fjeca34e5j6fv9gam90 td.tinytable_css_0drkgglcthmcr3uekfvu, #tinytable_4fjeca34e5j6fv9gam90 th.tinytable_css_0drkgglcthmcr3uekfvu { text-align: left; font-size: 0.9em }
-    #tinytable_4fjeca34e5j6fv9gam90 td.tinytable_css_het3gsobbr4quyg0ntp8, #tinytable_4fjeca34e5j6fv9gam90 th.tinytable_css_het3gsobbr4quyg0ntp8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_3jp6r8jdceqvx2yiydz5, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_3jp6r8jdceqvx2yiydz5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_sb508x9cqyywnhh8atbf, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_sb508x9cqyywnhh8atbf { text-align: left; font-size: 0.9em }
+    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_i6p02681m7io4mabb0cq, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_i6p02681m7io4mabb0cq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_4fjeca34e5j6fv9gam90" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_avr2tt6w1mo93g473b5r" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -361,9 +371,7 @@ Table&nbsp;5.1: Column families in corpus_derived.
 </div>
 <!-- snapshot (June 2026): 173 columns total across corpus_derived (75,302 rows). -->
 <p>The complete codebook is embedded below (also a standalone file at <code>data/codebook.html</code>):</p>
-<div class="column-screen-inset-right">
-<iframe src="../data/codebook.html" title="corpus_derived codebook" style="width:100%; height:80vh; border:1px solid #ccc; border-radius:6px;"></iframe>
-</div>
+<iframe src="../data/codebook.html" title="corpus_derived codebook" style="width:100%; height:300vh; border:0px solid #ccc; border-radius:0px;"></iframe>
 
 
 
@@ -768,7 +776,7 @@ Table&nbsp;5.1: Column families in corpus_derived.
     }
   });
   </script>
-<nav class="page-navigation">
+<nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
       <a href="../theme/04-pipeline.html" class="pagination-link" aria-label="The THEME pipeline">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The THEME pipeline</span></span>

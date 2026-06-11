@@ -60,10 +60,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -93,6 +97,7 @@ div.csl-indent {
 }</script>
 
 
+<link rel="stylesheet" href="../tremeda.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -117,9 +122,16 @@ div.csl-indent {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -159,7 +171,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -177,7 +189,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
       </ul>
@@ -210,11 +222,11 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#where-trust-lives-in-the-openalex-topic-map" id="toc-where-trust-lives-in-the-openalex-topic-map" class="nav-link" data-scroll-target="#where-trust-lives-in-the-openalex-topic-map"><span class="header-section-number">1.2.1</span> Where “trust” lives in the OpenAlex topic map</a></li>
   </ul></li>
-  <li><a href="#sec-databases-abstracts" id="toc-sec-databases-abstracts" class="nav-link" data-scroll-target="#sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone: the abstract is closing</a></li>
-  <li><a href="#sec-databases-selection" id="toc-sec-databases-selection" class="nav-link" data-scroll-target="#sec-databases-selection"><span class="header-section-number">1.4</span> The selection design: three moments</a>
+  <li><a href="#sec-databases-abstracts" id="toc-sec-databases-abstracts" class="nav-link" data-scroll-target="#sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone</a></li>
+  <li><a href="#sec-databases-selection" id="toc-sec-databases-selection" class="nav-link" data-scroll-target="#sec-databases-selection"><span class="header-section-number">1.4</span> The selection design</a>
   <ul class="collapse">
   <li><a href="#selection-in-the-curated-databases-a-precise-keyword-design" id="toc-selection-in-the-curated-databases-a-precise-keyword-design" class="nav-link" data-scroll-target="#selection-in-the-curated-databases-a-precise-keyword-design"><span class="header-section-number">1.4.1</span> Selection in the curated databases: a precise keyword design</a></li>
-  <li><a href="#selection-in-openalex-by-topic-not-by-words" id="toc-selection-in-openalex-by-topic-not-by-words" class="nav-link" data-scroll-target="#selection-in-openalex-by-topic-not-by-words"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic, not by words</a></li>
+  <li><a href="#selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts" id="toc-selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts" class="nav-link" data-scroll-target="#selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic and broad keyword search across titles and abstracts</a></li>
   </ul></li>
   <li><a href="#sec-databases-backfill" id="toc-sec-databases-backfill" class="nav-link" data-scroll-target="#sec-databases-backfill"><span class="header-section-number">1.5</span> Completing the only-OpenAlex region: the curated DOI-backfill</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.6</span> References</a></li>
@@ -290,7 +302,7 @@ div.csl-indent {
 </section>
 </section>
 <section id="sec-databases-abstracts" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone: the abstract is closing</h2>
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-databases-abstracts"><span class="header-section-number">1.3</span> Why we cannot rely on OpenAlex alone</h2>
 <p>A discovery design that leans on OpenAlex uses the abstract in three places at once: the keyword clause that finds candidate papers, any downstream abstract-level screen, and OpenAlex’s own abstract-fed topic labels. Anything that degrades the abstract degrades all three at once – and the degradation is not uniform: it falls hardest on closed-access, large-publisher, recent work, disproportionately the high-quality quantitative studies the project most wants to keep.</p>
 <p><strong>Abstracts are being withdrawn, and the incentive is AI.</strong> Aaron Tay’s <span class="citation" data-cites="tay2025petrol">(<a href="01-databases.html#ref-tay2025petrol" role="doc-biblioref">2025</a>)</span> analysis frames open abstracts as “the petrol tank for AI discovery” and measures the drain: Elsevier abstract coverage in OpenAlex fell from roughly 82% in November 2024 to 22.5% by September 2025, Springer Nature from about 50% to 35.8%. The OpenAlex maintainers describe the same process from inside – many abstracts were inherited from Microsoft Academic Graph without an open licence and have been removed on copyright grounds (Springer Nature, then ACS, OUP, Wiley, Cell Press, Elsevier and others). Now that AI companies will pay for training text, publishers have re-classified the abstract as a strategic asset and are closing the indirect channels open aggregators relied on, so the withdrawal will not simply reverse. Stansfield et al. <span class="citation" data-cites="stansfield2025openalex">(<a href="01-databases.html#ref-stansfield2025openalex" role="doc-biblioref">2025</a>)</span>, testing OpenAlex for systematic reviews, found previously retrievable studies became unfindable once their abstracts were removed, with recall drifting downward as the corpus changed underneath them.</p>
 <p><strong>The open-abstract commons was never full.</strong> The Initiative for Open Abstracts [I4OA; <span class="citation" data-cites="i4oa">Initiative for Open Abstracts (<a href="01-databases.html#ref-i4oa" role="doc-biblioref">2020</a>)</span>] asks publishers to deposit abstracts openly in Crossref; it succeeded with many smaller and fully-open publishers but not with the largest closed ones, and only on the order of 7% of Crossref works carry a deposited abstract. The open channel that should have absorbed the loss was always partial, and the scraped channel that masked that partiality is now closing.</p>
@@ -298,7 +310,7 @@ div.csl-indent {
 <p>For a baseline, Culbert et al. <span class="citation" data-cites="culbert2025reference">(<a href="01-databases.html#ref-culbert2025reference" role="doc-biblioref">2025</a>)</span> found OpenAlex abstract coverage of about 87% against over 92% for Web of Science and Scopus. The gap to the curated databases was already real before the latest withdrawals; it is widening month by month, and specifically for the closed-access, large-publisher, recent content the project cares about. <strong>That is the case for using all three sources rather than OpenAlex alone:</strong> the curated databases hold abstracts and curated keyword fields that OpenAlex is losing, while OpenAlex holds the open citation graph and the per-work topic net the curated databases lack. Each covers the others’ blind spots.</p>
 </section>
 <section id="sec-databases-selection" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-databases-selection"><span class="header-section-number">1.4</span> The selection design: three moments</h2>
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-databases-selection"><span class="header-section-number">1.4</span> The selection design</h2>
 <p>Because no single query is both precise and complete, the project operationalises “the trust we want” at <strong>three moments</strong>, each with different strengths and blind spots, and combines them:</p>
 <ol type="1">
 <li><strong>Query-time selection in the curated databases</strong> – a deliberately precise keyword design run on Scopus and Web of Science.</li>
@@ -337,8 +349,8 @@ AND PUBYEAR &gt; 1998 AND PUBYEAR &lt; 2027 AND LANGUAGE(English) AND (DOCTYPE(a
 )
 AND PY=(1999-2026) AND LA=(English) AND DT=(Article OR "Book Chapter")</code></pre>
 </section>
-<section id="selection-in-openalex-by-topic-not-by-words" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2" class="anchored" data-anchor-id="selection-in-openalex-by-topic-not-by-words"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic, not by words</h3>
+<section id="selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic and broad keyword search across titles and abstracts</h3>
 <p>OpenAlex is queried differently, because its strength is the machine-assigned <strong>topic</strong> of each work (<a href="#sec-ch4-oa-method" class="quarto-xref"><span>section 1.2</span></a>). Rather than restrict to one topic – which would capture only the trust-<em>defining</em> core – the pull uses a curated <strong>union of twelve topics</strong> where trust research concentrates across domains, intersected with the trust keyword family so that off-target members of those topics are filtered at the source. The twelve topics:</p>
 <div id="tbl-classifier-topics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -414,7 +426,7 @@ Table&nbsp;1.1: The twelve OpenAlex topics in the discovery union.
   language:en, 
   type:article|book-chapter, 
   publication_year:1999-2026</code></pre>
-<p>A by-DOI <strong>crosswalk</strong> then fetches the full OpenAlex record for every curated (Scopus/WoS) work not already in the topic pull, so the citation graph and OpenAlex metadata attach to every work. The collection scripts (<code>Scripts/collect/openalex-topic.R</code>, <code>Scripts/collect/openalex-crosswalk.R</code>) hold the exact parameters.</p>
+<p>The keyword search runs on <em>titles</em> and <em>abstracts</em> (and it seems to pick up keywords present in an abstract even when the abstract is now protected and not included in the pulled metadata). A by-DOI <strong>crosswalk</strong> then fetches the full OpenAlex record for every curated (Scopus/WoS) work not already in the topic pull, so the citation graph and OpenAlex metadata attach to every work. The collection scripts (<code>Scripts/collect/openalex-topic.R</code>, <code>Scripts/collect/openalex-crosswalk.R</code>) hold the exact parameters.</p>
 </section>
 </section>
 <section id="sec-databases-backfill" class="level2" data-number="1.5">
@@ -899,8 +911,8 @@ Science and Technology</em>, 63(12), pp. 2378–2392.
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../theme/02-classifier.html" class="pagination-link" aria-label="Defining and detecting trust">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../theme/02-classifier.html" class="pagination-link" aria-label="Defining and detecting 'trust'">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

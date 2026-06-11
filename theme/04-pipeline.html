@@ -41,10 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -77,6 +81,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
+<link rel="stylesheet" href="../tremeda.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -101,9 +106,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -143,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -161,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
       </ul>
@@ -233,7 +245,8 @@ ul.task-list li input[type="checkbox"] {
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-theme-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<pre class="mermaid mermaid-js" data-label="fig-theme-pipeline">flowchart TD
+<pre class="mermaid mermaid-js" data-label="fig-theme-pipeline">%%{init: {"flowchart": {"diagramPadding": 16, "useMaxWidth": false}}}%%
+flowchart TD
   classDef src    fill:#eaf1fb,stroke:#3b5b8c,color:#1b2a44,rx:5,ry:5;
   classDef auto   fill:#eaf6ee,stroke:#3f8f5b,color:#16361f,rx:5,ry:5;
   classDef manual fill:#fdf4e6,stroke:#c08a2e,color:#5a3d0e,rx:5,ry:5;
@@ -740,8 +753,8 @@ Figure&nbsp;4.1: The THEME construction pipeline: collection (raw, 1999–2026) 
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../theme/05-codebook.html" class="pagination-link" aria-label="The corpus codebook">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../theme/05-codebook.html" class="pagination-link" aria-label="The THEME codebook">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

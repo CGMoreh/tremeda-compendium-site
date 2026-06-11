@@ -1,0 +1,31 @@
+/* TReMeDa compendium – small HTML tweaks layered on top of the brand/theme.
+   Surface the book's "Download PDF" tool (from `downloads: [pdf]`) as a labelled button on its
+   own line in the left sidebar, instead of a bare icon tucked beside the title. */
+
+.sidebar-tools-main {
+  display: block;
+  width: 100%;
+  /* margin-top: 0.6rem; */
+}
+
+.sidebar-tools-main a.quarto-navigation-tool[aria-label="Download PDF"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0rem;
+  padding: 0.2rem;
+  border: 0px solid var(--bs-primary, #c2410c);
+  border-radius: 0.35rem;
+  color: var(--bs-primary, #c2410c);
+  font-size: 0.9rem;
+  line-height: 1.2;
+  opacity: 1;
+}
+
+.sidebar-tools-main a.quarto-navigation-tool[aria-label="Download PDF"]::after {
+  content: "Download PDF";
+}
+
+.sidebar-tools-main a.quarto-navigation-tool[aria-label="Download PDF"]:hover {
+  background: var(--bs-primary, #c2410c);
+  color: #fff;
+}

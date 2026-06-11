@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Defining and detecting trust – Building the TReMeDa Datasets</title>
+<title>2&nbsp; Defining and detecting ‘trust’ – Building the TReMeDa Datasets</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,10 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -109,6 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="../tremeda.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -120,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/02-classifier.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/02-classifier.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -133,9 +138,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -175,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -193,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The corpus codebook</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
       </ul>
@@ -224,8 +236,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sec-classifier-criteria" id="toc-sec-classifier-criteria" class="nav-link" data-scroll-target="#sec-classifier-criteria"><span class="header-section-number">2.3</span> The full classifier criteria</a>
   <ul class="collapse">
-  <li><a href="#in-scope-senses-trust_scope-in-scope" id="toc-in-scope-senses-trust_scope-in-scope" class="nav-link" data-scroll-target="#in-scope-senses-trust_scope-in-scope"><span class="header-section-number">2.3.1</span> In-scope senses (→ <code>trust_scope = in-scope</code>)</a></li>
-  <li><a href="#off-target-senses-trust_scope-out-of-scope" id="toc-off-target-senses-trust_scope-out-of-scope" class="nav-link" data-scroll-target="#off-target-senses-trust_scope-out-of-scope"><span class="header-section-number">2.3.2</span> Off-target senses (→ <code>trust_scope = out-of-scope</code>)</a></li>
+  <li><a href="#in-scope-senses-trust_scope-in-scope" id="toc-in-scope-senses-trust_scope-in-scope" class="nav-link" data-scroll-target="#in-scope-senses-trust_scope-in-scope"><span class="header-section-number">2.3.1</span> In-scope senses (<code>trust_scope = in-scope</code>)</a></li>
+  <li><a href="#off-target-senses-trust_scope-out-of-scope" id="toc-off-target-senses-trust_scope-out-of-scope" class="nav-link" data-scroll-target="#off-target-senses-trust_scope-out-of-scope"><span class="header-section-number">2.3.2</span> Off-target senses (<code>trust_scope = out-of-scope</code>)</a></li>
   <li><a href="#multiword-objects-matched-as-substrings-of-the-captured-object-before-single-tokens" id="toc-multiword-objects-matched-as-substrings-of-the-captured-object-before-single-tokens" class="nav-link" data-scroll-target="#multiword-objects-matched-as-substrings-of-the-captured-object-before-single-tokens"><span class="header-section-number">2.3.3</span> Multiword objects (matched as substrings of the captured object, before single tokens)</a></li>
   <li><a href="#special-handling" id="toc-special-handling" class="nav-link" data-scroll-target="#special-handling"><span class="header-section-number">2.3.4</span> Special handling</a></li>
   </ul></li>
@@ -237,9 +249,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/02-classifier.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/02-classifier.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-theme-classifier" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting trust</span></span></h1>
+<h1 class="title"><span id="sec-theme-classifier" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></h1>
 </div>
 
 
@@ -303,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>So the rules can be examined and reasoned about without reading the code, the complete criteria set is reproduced here (generated from <code>Scripts/trust_context.py</code>; the lexicon currently holds 15 senses – 11 in-scope, 4 off-target – and 49 multiword objects).</p>
 <p><strong>How a record is read.</strong> Two regular expressions scan the lower-cased title + abstract + merged keywords. The first captures the <strong>qualifier immediately before</strong> a trust word (“social trust” yields <code>social</code>); the second captures the <strong>object after</strong> a trust word (“trust/confidence/faith/reliance in/on/of X”, up to three words – “trust in the government” yields <code>government</code>). Each captured qualifier or object is mapped to a fine <strong>sense</strong> – multiword objects are tested first, then single tokens against the lexicon below, with stopwords skipped and object-only terms counted only as objects. The most frequent matched sense becomes <code>trust_sense</code>; <code>trust_scope</code> is <strong>in-scope</strong> if that sense is one of the eleven social-science senses, <strong>out-of-scope</strong> if one of the four off-target senses, and <strong>undetermined</strong> if nothing matched.</p>
 <section id="in-scope-senses-trust_scope-in-scope" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="in-scope-senses-trust_scope-in-scope"><span class="header-section-number">2.3.1</span> In-scope senses (→ <code>trust_scope = in-scope</code>)</h3>
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="in-scope-senses-trust_scope-in-scope"><span class="header-section-number">2.3.1</span> In-scope senses (<code>trust_scope = in-scope</code>)</h3>
 <ul>
 <li><strong>generalised/social</strong> – generalized, generalised, social, diffuse, general, thin, particularized, particularised, horizontal</li>
 <li><strong>interpersonal</strong> – interpersonal, mutual, dyadic, relational</li>
@@ -319,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="off-target-senses-trust_scope-out-of-scope" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="off-target-senses-trust_scope-out-of-scope"><span class="header-section-number">2.3.2</span> Off-target senses (→ <code>trust_scope = out-of-scope</code>)</h3>
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="off-target-senses-trust_scope-out-of-scope"><span class="header-section-number">2.3.2</span> Off-target senses (<code>trust_scope = out-of-scope</code>)</h3>
 <ul>
 <li><strong>consumer/marketing</strong> – consumer, consumers, customer, customers, brand, seller, sellers, vendor, vendors, purchase, shopping, retail, ecommerce, advertising, marketing, buyer, loyalty, marketplace, marketplaces, influencer, influencers</li>
 <li><strong>technology</strong> – technology, technological, automation, robot, robots, algorithm, algorithms, ai, artificial, autonomous, website, websites, app, apps, chatbot, platform, automated, machine, machines, internet, device, devices, smartphone, gpt, chatgpt, llm, llms, generative, metaverse, driverless, drone, drones, wearable, wearables, recommender</li>
