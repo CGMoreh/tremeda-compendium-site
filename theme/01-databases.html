@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -60,9 +60,9 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -192,6 +192,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/06-screening.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -229,7 +235,8 @@ div.csl-indent {
   <li><a href="#selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts" id="toc-selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts" class="nav-link" data-scroll-target="#selection-in-openalex-by-topic-and-broad-keyword-search-across-titles-and-abstracts"><span class="header-section-number">1.4.2</span> Selection in OpenAlex: by topic and broad keyword search across titles and abstracts</a></li>
   </ul></li>
   <li><a href="#sec-databases-backfill" id="toc-sec-databases-backfill" class="nav-link" data-scroll-target="#sec-databases-backfill"><span class="header-section-number">1.5</span> Completing the only-OpenAlex region: the curated DOI-backfill</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.6</span> References</a></li>
+  <li><a href="#sec-databases-licence" id="toc-sec-databases-licence" class="nav-link" data-scroll-target="#sec-databases-licence"><span class="header-section-number">1.6</span> The per-article licence warrant</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.7</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -307,6 +314,7 @@ div.csl-indent {
 <p><strong>Abstracts are being withdrawn, and the incentive is AI.</strong> Aaron Tay’s <span class="citation" data-cites="tay2025petrol">(<a href="01-databases.html#ref-tay2025petrol" role="doc-biblioref">2025</a>)</span> analysis frames open abstracts as “the petrol tank for AI discovery” and measures the drain: Elsevier abstract coverage in OpenAlex fell from roughly 82% in November 2024 to 22.5% by September 2025, Springer Nature from about 50% to 35.8%. The OpenAlex maintainers describe the same process from inside – many abstracts were inherited from Microsoft Academic Graph without an open licence and have been removed on copyright grounds (Springer Nature, then ACS, OUP, Wiley, Cell Press, Elsevier and others). Now that AI companies will pay for training text, publishers have re-classified the abstract as a strategic asset and are closing the indirect channels open aggregators relied on, so the withdrawal will not simply reverse. Stansfield et al. <span class="citation" data-cites="stansfield2025openalex">(<a href="01-databases.html#ref-stansfield2025openalex" role="doc-biblioref">2025</a>)</span>, testing OpenAlex for systematic reviews, found previously retrievable studies became unfindable once their abstracts were removed, with recall drifting downward as the corpus changed underneath them.</p>
 <p><strong>The open-abstract commons was never full.</strong> The Initiative for Open Abstracts [I4OA; <span class="citation" data-cites="i4oa">Initiative for Open Abstracts (<a href="01-databases.html#ref-i4oa" role="doc-biblioref">2020</a>)</span>] asks publishers to deposit abstracts openly in Crossref; it succeeded with many smaller and fully-open publishers but not with the largest closed ones, and only on the order of 7% of Crossref works carry a deposited abstract. The open channel that should have absorbed the loss was always partial, and the scraped channel that masked that partiality is now closing.</p>
 <p><strong>Even the abstracts that remain are partly corrupt.</strong> Kim, Holst and Ginis <span class="citation" data-cites="kim2026integrity">(<a href="01-databases.html#ref-kim2026integrity" role="doc-biblioref">2026</a>)</span> assessed 10,000 sampled OpenAlex abstracts and found <strong>12% of records flagged <code>has_abstract=True</code> do not contain a valid scientific abstract</strong> (PubMed conclusion-only snippets, repository metadata, web-scrape chrome, truncation, placeholders, wrong genre). The rate falls over time but the failures cluster by era, source and document type, so they bias rather than merely add noise.</p>
+<p><strong>The same failure is measurable inside this corpus.</strong> Scopus exports the literal string <code>[No abstract available]</code> where it holds no abstract, and the ladder that picks each record’s working abstract from the three channels originally took the first channel whose abstract field was non-empty. Twenty-three characters of nothing are non-empty, so the ladder stopped at Scopus, wrote the placeholder into the working field, and never looked at the OpenAlex or Web of Science text sitting in the same row. 1,417 records were counted as carrying an abstract on that basis, 1,382 of them holding a placeholder of that family and 35 a fragment shorter than 100 characters; 1,393 of the 1,417 fall inside the 2000–2025 analysis window. The ladder now falls through on usability rather than on non-emptiness, and re-running it recovered real text for 664 of those records from a channel it had been skipping, leaving the rest as the absences they always were. Reported in-window coverage fell from 97.4% to 96.3%, and the residual of works with no abstract anywhere rose from 1,859 to 2,595. Neither movement is a loss of data. Coverage measured on text a classifier can actually read moved the other way, from 95.4% to 96.3%, and the higher figure it replaces was an artefact of counting placeholders as abstracts. A later sweep of the open abstract APIs at Semantic Scholar, Crossref and Europe PMC supplied replacements for a further 2,766 records whose held abstract failed the pipeline’s own quality checks, which test for truncation, page furniture, body text, a foreign-language string and an abstract belonging to a different publication. This corpus’s instance of what Kim, Holst and Ginis measure is therefore both larger than a placeholder count alone would show and, for most of the affected records, repairable. Where coverage stands after all of that is reported in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a>.</p>
 <p>For a baseline, Culbert et al. <span class="citation" data-cites="culbert2025reference">(<a href="01-databases.html#ref-culbert2025reference" role="doc-biblioref">2025</a>)</span> found OpenAlex abstract coverage of about 87% against over 92% for Web of Science and Scopus. The gap to the curated databases was already real before the latest withdrawals; it is widening month by month, and specifically for the closed-access, large-publisher, recent content the project cares about. <strong>That is the case for using all three sources rather than OpenAlex alone:</strong> the curated databases hold abstracts and curated keyword fields that OpenAlex is losing, while OpenAlex holds the open citation graph and the per-work topic net the curated databases lack. Each covers the others’ blind spots.</p>
 </section>
 <section id="sec-databases-selection" class="level2" data-number="1.4">
@@ -435,8 +443,56 @@ Table&nbsp;1.1: The twelve OpenAlex topics in the discovery union.
 <p>A <strong>reverse check</strong> establishes which: for every pull-only work with a DOI, the live Scopus and Web of Science APIs are asked whether that DOI exists in their database at all (<code>Scripts/collect/reverse-check.py</code>). The works whose DOI does exist there – present in a curated database but missed by the curated search – are <strong>recoverable</strong>: their abstract and curated keyword fields are sitting in a record the keyword search never returned. A bulk by-DOI pull then fetches those full curated records (<code>Scripts/collect/backfill-build-queries.py</code> builds the queries; the exports are re-merged in assembly), enriching the pull-only works with curated abstracts, author/index keywords and Keywords Plus, and document types they otherwise lacked.</p>
 <p>Two safeguards matter. The backfill is <strong>metadata only</strong>: it fills the <code>Scopus_*</code> / <code>WoS_*</code> fields and is flagged (<code>scopus_backfilled</code> / <code>wos_backfilled</code> / <code>curated_backfill</code>), but it never sets the retrieval-sense membership flags <code>in_Scopus</code> / <code>in_WoS</code> – those continue to mean “the <em>search</em> returned it”, so every coverage, overlap and added-value result in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a> is unaffected by the backfill. And it respects the licence boundary: recovered abstracts are tagged licensed and used for local classification, never redistributed and never sent to an external service. What this backfill recovers, and how much of the abstract gap it closes, is reported in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a>.</p>
 </section>
-<section id="references" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="references"><span class="header-section-number">1.6</span> References</h2>
+<section id="sec-databases-licence" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-databases-licence"><span class="header-section-number">1.6</span> The per-article licence warrant</h2>
+<p>The second of those safeguards states one half of a rule. The other half is what permits any text to leave this machine at all, and it cannot be read off the presence of the text. An abstract sitting in OpenAlex is evidence that OpenAlex holds the string. It is not evidence that anyone has granted a right to copy that string, and the two are easy to conflate because an open aggregator feels like an open licence. The distinction matters here for the reason <a href="#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a> already gave: a large share of the abstracts OpenAlex holds are inheritances from Microsoft Academic Graph, deposited with no licence at all and attached to works that are otherwise closed, which is precisely the class publishers are now withdrawing. Of the 52,196 works in the analysis window that hold a usable OpenAlex abstract, 23,910 – 45.8% – sit on works OpenAlex itself records as closed access. A rule that read presence as permission would send the text of nearly twenty-four thousand closed-access works to an external service.</p>
+<p>The warrant is therefore fetched per work rather than inferred from access status. <code>Scripts/collect/openalex-licences.py</code> asks OpenAlex, for each of the 70,940 corpus works carrying an OpenAlex identifier, what licence is recorded on the work’s primary location, falling back to its best open-access location where the primary carries none. The pass ran on 30 July 2026, and nothing but work identifiers left the machine. 25,808 of those works carry an actual licence string; the remaining 45,132 carry none, which is what a closed work looks like from outside. The result is the column <code>OA_licence</code>, folded into the corpus at assembly and stamped with the date it was collected, since a publisher can retract or replace a licence and a warrant is only as current as the fetch behind it.</p>
+<p><code>abstract_externally_sendable</code> is the gate built on that column, and it is true only where both conditions hold: a usable OpenAlex abstract string is held for the work, and <code>OA_licence</code> names an explicit open licence. In the analysis window it is true for 21,527 of the 71,108 works. <code>other-oa</code> does not qualify. OpenAlex uses that value for a work that is open by some route with no recognised licence attached, which is evidentially the same position as no licence at all, so its 1,421 window works are treated as unwarranted. <code>abstract_licence</code>, the column that tags a backfilled abstract as licensed, names the channel that supplied a record’s working abstract and carries no warrant of its own.</p>
+<p>The warrant sorts into three tiers, each admitting everything the tier above it admits and adding one further restriction, so that tightening or loosening the boundary later is a filter on one column rather than a redraw of the population:</p>
+<div id="tbl-databases-warrant" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-databases-warrant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.2: The three nested warrant tiers in the analysis window.
+</figcaption>
+<div aria-describedby="tbl-databases-warrant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tier</th>
+<th>Licences it adds</th>
+<th style="text-align: right;">Added</th>
+<th style="text-align: right;">Cumulative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>strict</td>
+<td>cc-by, cc-by-sa, cc0, public-domain</td>
+<td style="text-align: right;">15,393</td>
+<td style="text-align: right;">15,393</td>
+</tr>
+<tr class="even">
+<td>non-commercial</td>
+<td>cc-by-nc, cc-by-nc-sa</td>
+<td style="text-align: right;">2,824</td>
+<td style="text-align: right;">18,217</td>
+</tr>
+<tr class="odd">
+<td>no-derivatives</td>
+<td>cc-by-nd, cc-by-nc-nd</td>
+<td style="text-align: right;">3,276</td>
+<td style="text-align: right;">21,493</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The full tier, 21,493 records, is the set whose title and abstract may be sent to an external service for classification. It falls a little short of the gate’s 21,527 because these counts apply the higher of two floors. An abstract needs 100 characters to count as usable at all, and 200 to carry a judgement about a study’s methodology. The no-derivatives tier is the one worth a second look before anything is published from it, because a coding label derived from an abstract is arguably not a derivative work of that abstract. That is a question about what may be redistributed rather than about what may be read, and keeping the tiers in a single column leaves it answerable later without redrawing anything.</p>
+<p>Read alongside the backfill safeguard, the two halves of the rule are symmetrical. What the gate opens is the OpenAlex text of a work whose own licence permits it, and only that. The curated abstracts recovered by the backfill arrive under the Scopus and Web of Science agreements and are never what is sent, whatever licence the work itself carries. Works with no warrant are not dropped. Their abstracts are read locally instead, by an open-weight model on university hardware. Eligibility is decided per article, in one column, as of a stated date. How the analysis window divides between the two channels is reported in <a href="03-corpus.html" class="quarto-xref"><span>Notebook 3</span></a>.</p>
+</section>
+<section id="references" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="references"><span class="header-section-number">1.7</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-alonsoalvarez2025coverage" class="csl-entry" role="listitem">
 Alonso-Álvarez, P. &amp; Eck, N.J. van (2025) <span>‘<a href="https://doi.org/10.1162/QSS.a.396">Coverage and metadata

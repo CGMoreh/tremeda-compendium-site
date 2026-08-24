@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Screening the corpus – Building the TReMeDa Datasets</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../theme/05-codebook.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../tremeda.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/06-screening.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Building the TReMeDa Datasets</a> 
+        <div class="sidebar-tools-main">
+    <a href="../Building-the-TReMeDa-Datasets.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">THEME – the thematic dataset</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/00-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/01-databases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bibliographic databases: Web of Science, Scopus, OpenAlex</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/02-classifier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Defining and detecting ‘trust’</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/03-corpus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The THEME corpus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/04-pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The THEME pipeline</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/05-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/06-screening.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">META – the meta-analytical dataset</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">METHOD – the methodological dataset</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-screening-codebook" id="toc-sec-screening-codebook" class="nav-link active" data-scroll-target="#sec-screening-codebook"><span class="header-section-number">6.1</span> Two variables and a frozen codebook</a></li>
+  <li><a href="#sec-screening-tracks" id="toc-sec-screening-tracks" class="nav-link" data-scroll-target="#sec-screening-tracks"><span class="header-section-number">6.2</span> Three tracks, divided by licence warrant</a></li>
+  <li><a href="#sec-screening-claude" id="toc-sec-screening-claude" class="nav-link" data-scroll-target="#sec-screening-claude"><span class="header-section-number">6.3</span> The open-licence pass</a></li>
+  <li><a href="#sec-screening-reliability" id="toc-sec-screening-reliability" class="nav-link" data-scroll-target="#sec-screening-reliability"><span class="header-section-number">6.4</span> Reliability, and the ceiling it sets</a></li>
+  <li><a href="#sec-screening-titleonly" id="toc-sec-screening-titleonly" class="nav-link" data-scroll-target="#sec-screening-titleonly"><span class="header-section-number">6.5</span> The title-only pass</a></li>
+  <li><a href="#sec-screening-local" id="toc-sec-screening-local" class="nav-link" data-scroll-target="#sec-screening-local"><span class="header-section-number">6.6</span> The local-model track</a></li>
+  <li><a href="#sec-screening-datasets" id="toc-sec-screening-datasets" class="nav-link" data-scroll-target="#sec-screening-datasets"><span class="header-section-number">6.7</span> The screening datasets</a></li>
+  <li><a href="#sec-screening-meta" id="toc-sec-screening-meta" class="nav-link" data-scroll-target="#sec-screening-meta"><span class="header-section-number">6.8</span> Into META</a></li>
+  <li><a href="#sec-screening-pending" id="toc-sec-screening-pending" class="nav-link" data-scroll-target="#sec-screening-pending"><span class="header-section-number">6.9</span> What is pending</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../theme/00-overview.html">THEME – the thematic dataset</a></li><li class="breadcrumb-item"><a href="../theme/06-screening.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-theme-screening" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Status: run and measured
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Screening sits between the assembled corpus and the extraction pool: each record in the analysis window is read and given two labels under a frozen codebook. The pass over the records that carry an open-licence warrant is complete and its reliability has been measured; the records with no warrant are staged for a locally deployed open-weight model on university HPC. The harness is <code>Scripts/screening/</code>, and the populations it draws are partitioned from <code>data/final/corpus_derived.parquet</code> by the rule computed below.</p>
+</div>
+</div>
+<p>The classifier of <a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a> reads each record’s title, abstract and keyword fields for a lexical cue and assigns a <code>trust_sense</code> and a <code>trust_scope</code>. It is a prior, cheap and auditable, and it is silent on 43.6% of the window. Screening is the reading that decides what the prior could not: a coder works through the supplied fields and answers two questions about each record, whether it concerns trust in the project’s sense and what kind of study it is. The two systems are held in separate columns and neither is computed from the other, so a disagreement between them stays visible and open to review; nothing is resolved silently at merge.</p>
+<p>This notebook sets out what is coded, how the corpus was divided between coders on a licence rule, what the completed pass produced and how reliably, what happens to the records too thin to code from an abstract, and what the remaining passes are waiting on.</p>
+<section id="sec-screening-codebook" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-screening-codebook"><span class="header-section-number">6.1</span> Two variables and a frozen codebook</h2>
+<p><strong><code>h_class</code></strong> asks whether the record is about trust in the project’s sense, in five values. <code>central</code> means the trust construct is what the paper is about, singled out in the sentences that say what the work does, measures or concludes. <code>edge-case</code> means a trust construct is present, measured and reported, but stands level with its neighbours – one of three or more factors carried through the same analysis in the same form. <code>out-of-scope</code> means the record is about reliance in a sense the project excludes: a consumer’s trust in a brand, a user’s trust in a device, a node’s trust in a protocol. <code>fake</code> means the matched string is a homonym naming no relation of reliance at all – an NHS Trust, a charitable trust, antitrust enforcement – and it counts the homonyms a keyword search on the word inevitably returns. <code>undetermined</code> means the supplied fields do not settle the question.</p>
+<p><strong><code>h_methodology</code></strong> asks what kind of study the record reports, in seven values: <code>theoretical</code>, <code>qualitative</code>, <code>quant</code>, <code>mixed</code>, <code>review-meta</code>, and two that record what the metadata fails to establish rather than what the study is. <code>empirical-uncertain</code> is for a record that plainly reports an empirical study whose design the supplied fields never name; <code>uncertain</code> is for a record that gives the coder nothing to work with. Separating those two matters downstream, because the first is a candidate for full-text review and the second is usually a record artefact.</p>
+<p>Each variable carries a written reasoning field, and the reasoning is as much of the deliverable as the label: it is what makes the set usable for calibrating an automatic classifier, and the only means of auditing a close call afterwards. Two diagnostic fields are coded on every row alongside them. <code>substantiveness</code> records how much of the record’s own claim the trust construct carries, and <code>evidence_basis</code> records which of the supplied fields the trust evidence actually sits in – whether the term stands in the abstract, only in a keyword field, or only in the extracted trust snippet.</p>
+<p>The codebook that governs all of this is version 3, frozen for production. It holds nine class rules (C1 to C9), thirteen methodology rules (M1 to M13), a rule 0 that requires the coder to name the trustee before coding anything else, and a rule 16 that instructs the coder to flag a configuration the codebook does not settle rather than legislate on it in passing. A further rule, P1, makes retrieval mandatory wherever the pipeline’s <code>abstract_flag</code> reports the held abstract truncated, foreign-language, page furniture, body text, or belonging to a different publication.</p>
+<p>Three calibration waves of 250 records each fixed that version, and the sequence is worth stating because it changed how the project decides when a codebook is finished. The original stopping rule required both a Cohen’s kappa above 0.90 on each variable and fewer than three recurring findings from a consistency sweep. Wave 1 met the kappa condition at the first attempt and missed the sweep condition by a factor of fourteen. Wave 2 recoded under the amended version and the sweep returned 43 findings where the first had returned 42, because each rule made more specific brought boundary cases into view that the vaguer rule had never had. Meanwhile the coding itself barely moved: 42 amendments shifted the labels by less than two percentage points above the noise floor of simply running the coder twice. The sweep count could therefore not serve as a stopping rule, since further edges were always available to find. Convergence was redefined on the coding rather than on the auditor, and version 3’s approved scope became <em>fix the contradictions, flag the gaps</em>. Its measured effect was as intended: the class coding did not move beyond noise, while the methodology coding moved four to six points in a net-conservative direction, mostly by recording what a record fails to establish instead of inferring a design from an index term.</p>
+</section>
+<section id="sec-screening-tracks" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-screening-tracks"><span class="header-section-number">6.2</span> Three tracks, divided by licence warrant</h2>
+<p>Sending an abstract to an external service is a question about rights, not about whether the text is to hand. A large share of the abstracts OpenAlex holds are unlicensed inheritances from the Microsoft Academic Graph, many of them attached to closed-access works, and they are being withdrawn as publishers reclassify abstracts as strategic assets. The project therefore partitions the analysis window on the work’s own licence, recorded per work in <code>OA_licence</code> and fetched from OpenAlex on 30 July 2026 (<a href="05-codebook.html#sec-codebook-abstract" class="quarto-xref"><span>section 5.2</span></a>).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>R session setup</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tinytable)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tinytable_tt_theme =</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">|&gt;</span> <span class="fu">theme_tinytable</span>() <span class="sc">|&gt;</span> <span class="fu">style_tt</span>(<span class="at">align =</span> <span class="st">"l"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">style_tt</span>(<span class="at">fontsize =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="dv">0</span>, <span class="at">fontsize =</span> <span class="fl">0.95</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The partition rule of Scripts/screening/build-populations.py, recomputed from the corpus.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The 200-character floor is the coding harness's MIN_ABSTRACT: below it an abstract cannot</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># carry a methodology judgement. The 100-character floor is the assemble stage's, which the</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># working `abstract` column has already been filtered on, placeholders included.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>scr <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data/final/corpus_derived.parquet"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"in_analysis_window"</span>, <span class="st">"abstract"</span>, <span class="st">"OA_abstract"</span>, <span class="st">"OA_licence"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(in_analysis_window) <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">licence =</span> <span class="fu">tolower</span>(<span class="fu">trimws</span>(<span class="fu">coalesce</span>(OA_licence, <span class="st">""</span>))),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">warrant =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      licence <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"cc-by"</span>, <span class="st">"cc-by-sa"</span>, <span class="st">"cc0"</span>, <span class="st">"public-domain"</span>) <span class="sc">~</span> <span class="st">"strict"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      licence <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"cc-by-nc"</span>, <span class="st">"cc-by-nc-sa"</span>)                   <span class="sc">~</span> <span class="st">"non-commercial"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      licence <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"cc-by-nd"</span>, <span class="st">"cc-by-nc-nd"</span>)                   <span class="sc">~</span> <span class="st">"no-derivatives"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>                                                        <span class="sc">~</span> <span class="st">""</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">oa_codeable  =</span> <span class="fu">nchar</span>(<span class="fu">trimws</span>(<span class="fu">coalesce</span>(OA_abstract, <span class="st">""</span>))) <span class="sc">&gt;=</span> <span class="dv">200</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_abstract =</span> <span class="fu">nchar</span>(<span class="fu">trimws</span>(<span class="fu">coalesce</span>(abstract, <span class="st">""</span>)))    <span class="sc">&gt;=</span> <span class="dv">100</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">track =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      oa_codeable <span class="sc">&amp;</span> warrant <span class="sc">!=</span> <span class="st">""</span> <span class="sc">~</span> <span class="st">"Open-licence warrant – coded externally"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      has_abstract                <span class="sc">~</span> <span class="st">"No warrant, abstract held – local model"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>                        <span class="sc">~</span> <span class="st">"No abstract anywhere – title and metadata"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tracks <span class="ot">&lt;-</span> scr <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.by =</span> track, <span class="at">Records =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Records)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Track =</span> track)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>tracks <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="fu">tibble</span>(<span class="at">Track =</span> <span class="st">"Total (analysis window)"</span>, <span class="at">Records =</span> <span class="fu">sum</span>(tracks<span class="sc">$</span>Records))) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"Records"</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="fu">nrow</span>(tracks) <span class="sc">+</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="st">"t"</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-screening-tracks" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-tracks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.1: The 2000–2025 analysis window partitioned into the three screening tracks.
+</figcaption>
+<div aria-describedby="tbl-screening-tracks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_gs8tsxxyr2c3qcxmev8x = TinyTable.createTableFunctions("tinytable_gs8tsxxyr2c3qcxmev8x");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_l88yq270zo79uwoy9eb8',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_t2cfn76j3hc1fxra3ant',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_3miibabihsm32f3ysexn',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_gs8tsxxyr2c3qcxmev8x.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_gs8tsxxyr2c3qcxmev8x td.tinytable_css_l88yq270zo79uwoy9eb8, #tinytable_gs8tsxxyr2c3qcxmev8x th.tinytable_css_l88yq270zo79uwoy9eb8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_gs8tsxxyr2c3qcxmev8x td.tinytable_css_t2cfn76j3hc1fxra3ant, #tinytable_gs8tsxxyr2c3qcxmev8x th.tinytable_css_t2cfn76j3hc1fxra3ant { text-align: left; font-size: 0.9em }
+    #tinytable_gs8tsxxyr2c3qcxmev8x td.tinytable_css_3miibabihsm32f3ysexn, #tinytable_gs8tsxxyr2c3qcxmev8x th.tinytable_css_3miibabihsm32f3ysexn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_gs8tsxxyr2c3qcxmev8x" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Track</th>
+                <th scope="col" data-row="0" data-col="2">Records</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">No warrant, abstract held – local model</td>
+                  <td data-row="1" data-col="2">47,097</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">Open-licence warrant – coded externally</td>
+                  <td data-row="2" data-col="2">21,493</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">No abstract anywhere – title and metadata</td>
+                  <td data-row="3" data-col="2">2,518</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">Total (analysis window)</td>
+                  <td data-row="4" data-col="2">71,108</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (August 2026): open-licence 21,493 | no warrant 47,097 | no abstract 2,518 | total 71,108 -->
+<p>The three tracks are disjoint and cover the window exactly once. The first holds the records whose OpenAlex abstract is long enough to code and whose work carries a licence naming its terms; only these may have their title and abstract sent to an external service, and <code>abstract_externally_sendable</code> is the column that says so. The second holds every other record with a usable abstract from any channel, including every abstract repaired or supplied by the August 2026 retrieval sweep, and its coding is assigned to an open-weight model on Newcastle HPC (<a href="#sec-screening-local" class="quarto-xref"><span>section 6.6</span></a>). The third holds the records with no abstract at any index, for which API retrieval is exhausted.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nesting order, loosest restriction first: each tier admits everything above it and adds its own.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tier_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"strict"</span>, <span class="st">"non-commercial"</span>, <span class="st">"no-derivatives"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scr <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(warrant <span class="sc">!=</span> <span class="st">""</span>, oa_codeable) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">.by =</span> warrant, <span class="at">Records =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">match</span>(warrant, tier_order)) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Cumulative =</span> <span class="fu">cumsum</span>(Records)) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">Warrant tier</span><span class="st">`</span> <span class="ot">=</span> warrant, <span class="st">`</span><span class="at">Records added</span><span class="st">`</span> <span class="ot">=</span> Records) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="fu">c</span>(<span class="st">"Records added"</span>, <span class="st">"Cumulative"</span>), <span class="at">digits =</span> <span class="dv">0</span>, <span class="at">num_mark_big =</span> <span class="st">","</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-screening-warrant" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-warrant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.2: Licence warrant tiers within the externally coded track. The tiers are nested, so each row reports the records its own licences add and the running total admitted up to and including that tier.
+</figcaption>
+<div aria-describedby="tbl-screening-warrant-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_8azn134bs02fpyehf8p3 = TinyTable.createTableFunctions("tinytable_8azn134bs02fpyehf8p3");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_bobkrr1stlo3v5ripqc9',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 } ], css_id: 'tinytable_css_c9djworcfbxs4fu8bawt',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_1e9kholwlrszxrzfvzvp',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_8azn134bs02fpyehf8p3.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_8azn134bs02fpyehf8p3 td.tinytable_css_bobkrr1stlo3v5ripqc9, #tinytable_8azn134bs02fpyehf8p3 th.tinytable_css_bobkrr1stlo3v5ripqc9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_8azn134bs02fpyehf8p3 td.tinytable_css_c9djworcfbxs4fu8bawt, #tinytable_8azn134bs02fpyehf8p3 th.tinytable_css_c9djworcfbxs4fu8bawt { text-align: left; font-size: 0.9em }
+    #tinytable_8azn134bs02fpyehf8p3 td.tinytable_css_1e9kholwlrszxrzfvzvp, #tinytable_8azn134bs02fpyehf8p3 th.tinytable_css_1e9kholwlrszxrzfvzvp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_8azn134bs02fpyehf8p3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">Warrant tier</th>
+                <th scope="col" data-row="0" data-col="2">Records added</th>
+                <th scope="col" data-row="0" data-col="3">Cumulative</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">strict</td>
+                  <td data-row="1" data-col="2">15,393</td>
+                  <td data-row="1" data-col="3">15,393</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">non-commercial</td>
+                  <td data-row="2" data-col="2">2,824</td>
+                  <td data-row="2" data-col="3">18,217</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">no-derivatives</td>
+                  <td data-row="3" data-col="2">3,276</td>
+                  <td data-row="3" data-col="3">21,493</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<!-- snapshot (August 2026), records added / cumulative:
+ strict 15,393 / 15,393 | non-commercial 2,824 / 18,217 | no-derivatives 3,276 / 21,493 -->
+<p>The tiers are nested, so a later decision to tighten or loosen the boundary is a filter on one column rather than a fresh draw. <code>strict</code> is cc-by, cc-by-sa, cc0 and public-domain, which bar neither redistribution nor derivatives; <code>non-commercial</code> adds cc-by-nc and cc-by-nc-sa; <code>no-derivatives</code> adds cc-by-nd and cc-by-nc-nd, and is the tier worth a second look before publication, since a coding label derived from an abstract is arguably not a derivative work of it. One value is deliberately excluded. OpenAlex records <code>other-oa</code> for a work that is open by some route with no recognised licence attached, which is the same evidential position as no licence at all, so its 1,421 window records carry no warrant.</p>
+</section>
+<section id="sec-screening-claude" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-screening-claude"><span class="header-section-number">6.3</span> The open-licence pass</h2>
+<p>The externally coded pass was dispatched on 2 August 2026 and completed on 8 August: all 21,493 records, in 86 batches of 250, one Claude coding agent per batch, under frozen codebook v3, with P1 retrieval performed inline wherever <code>abstract_flag</code> fired.</p>
+<p>Batch size was settled by experiment. Wave 2 coded the same 250 records four times, at 25, 50, 100 and 250 records per agent, and found no degradation anywhere in that range: every arm returned a complete and valid file, the quote rate never left 100%, and at the largest batch reasoning length shrank by 0.06 characters per record, which is fifteen characters across the whole batch. Pairwise agreement between arms showed no monotone trend, and the two largest arms agreed with each other more closely than either agreed with the smallest. What did move was self-rated difficulty, which fell steadily with batch size while agreement stayed put – so <code>difficulty</code> is not comparable across batch sizes, and a production run has to use one size throughout for that field to be readable at all. The size was then chosen on throughput: at 250 records and sixteen concurrent slots the open-licence pass of 21,493 records takes about four hours of running time.</p>
+<p>Durability comes from the result files. Every agent writes its own as it finishes, <code>screen.py pending</code> reports exactly which batches have no file, and recovery is re-dispatching that list. The run crossed four session-limit windows – completing 16, 32, 16 and 22 batches in them – and lost nothing at any of the four breaks.</p>
+<p>Three checks ran before the results were collected. Completeness was 21,493 of 21,493, every result stamped <code>codebook_version: v3</code>, with no invalid files. Quote fidelity across 27,586 quoted spans was 97.8% verbatim in the record, with a further 0.8% quoting text the coder had retrieved under P1 and 2.2% unverified, most of that measurement artefact. P1 compliance was 1,192 of the 1,200 flagged abstracts, or 99% – that check being what stops a coder reading a truncated or misattached abstract and coding from it regardless.</p>
+<div id="tbl-screening-labels" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-labels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.3: Labels assigned in the open-licence pass, 21,493 records under codebook v3.
+</figcaption>
+<div aria-describedby="tbl-screening-labels-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>variable</th>
+<th>label</th>
+<th style="text-align: right;">records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>h_class</code></td>
+<td>edge-case</td>
+<td style="text-align: right;">12,059</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>central</td>
+<td style="text-align: right;">7,426</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>out-of-scope</td>
+<td style="text-align: right;">1,108</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>fake</td>
+<td style="text-align: right;">877</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>undetermined</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td><code>h_methodology</code></td>
+<td>quant</td>
+<td style="text-align: right;">11,448</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>qualitative</td>
+<td style="text-align: right;">3,940</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>theoretical</td>
+<td style="text-align: right;">3,121</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>mixed</td>
+<td style="text-align: right;">1,004</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>empirical-uncertain</td>
+<td style="text-align: right;">993</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>review-meta</td>
+<td style="text-align: right;">956</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>uncertain</td>
+<td style="text-align: right;">31</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Quantitative and mixed-methods work together accounts for 12,452 records, which is the population the extraction stage draws from. The 23 <code>undetermined</code> and 31 <code>uncertain</code> rows are the measure of how rarely a licensed abstract of at least 200 characters leaves a coder with nothing to say.</p>
+</section>
+<section id="sec-screening-reliability" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-screening-reliability"><span class="header-section-number">6.4</span> Reliability, and the ceiling it sets</h2>
+<p>Five of the 86 batches were seeded in advance and coded a second time by independent agents forbidden to read the first pass – 1,250 records in all, a blind rather than an adjudicated recode.</p>
+<div id="tbl-screening-reliability" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.4: Inter-pass agreement on 1,250 blind-recoded records.
+</figcaption>
+<div aria-describedby="tbl-screening-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>comparison</th>
+<th style="text-align: right;">raw agreement</th>
+<th style="text-align: right;">kappa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>h_class</code>, five categories</td>
+<td style="text-align: right;">92.3%</td>
+<td style="text-align: right;">0.858</td>
+</tr>
+<tr class="even">
+<td><code>h_methodology</code>, seven categories</td>
+<td style="text-align: right;">92.4%</td>
+<td style="text-align: right;">0.885</td>
+</tr>
+<tr class="odd">
+<td>in-scope against not</td>
+<td style="text-align: right;">98.2%</td>
+<td style="text-align: right;">0.879</td>
+</tr>
+<tr class="even">
+<td>quant or mixed against not (the META gate)</td>
+<td style="text-align: right;">96.2%</td>
+<td style="text-align: right;">0.923</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Verbatim quote fidelity against title and abstract was 97.86% over the 2,383 quoted spans in that subset.</p>
+<p>The collapsed rows say where the full-category disagreement lives. Class disagreement is almost entirely the <code>central</code> against <code>edge-case</code> boundary, and it is symmetric – 38 records moving up and 32 moving down – which is churn on the claim-sentence test rather than a screening loss, since both values pass into the extraction pool. The decision the funnel actually depends on, whether a record is quantitative or mixed, is the most reliable in the table.</p>
+<p>That last figure is also a ceiling, and it governs what the local model may be asked to achieve. The blind pass measures the reference coding against itself, so a model trained on those labels that agreed with them more closely than they agree with each other would be fitting their noise rather than learning the codebook. Two of the acceptance gates in the handover kit were set on that reasoning: quant-or-mixed recall at 0.94 and rule 16 flag emission at 0.78, each just below the reference coder’s own measured self-agreement on the same quantity, 0.945 and 0.788. A gate set above that line would fail a perfect clone.</p>
+<p>A second reliability strand measures the coding against a human reading rather than against itself. A first human round in June 2026 coded 116 records and returned much weaker agreement with a machine coding of the same records – kappa 0.39 on <code>h_class</code> and 0.50 on <code>h_methodology</code> – under a protocol that predates codebook v3, and the disagreements it exposed are a large part of what v3 was written from. A second round is prepared: 400 records drawn blind from the completed open-licence pass and stratified so that the thin categories carry enough cases to say something about, coded under the frozen codebook without sight of the machine labels. Its human-machine agreement will be reported beside the machine-machine figures above rather than in place of them, since the two answer different questions.</p>
+</section>
+<section id="sec-screening-titleonly" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-screening-titleonly"><span class="header-section-number">6.5</span> The title-only pass</h2>
+<p>The 2,518 records with no abstract at any index were not deferred. Book chapters, editorials and front matter dominate the group, and of the 1,736 that carry a DOI, the August 2026 retrieval sweep returned a usable abstract for none. The sweep did fill 77 records that had held nothing, and those left the group for the local-model track, taking it from 2,595 to its present size; for the residue that remains, API retrieval is exhausted, so waiting for text was not going to change their position. They were coded from title and metadata alone in eleven batches through the same harness, under codebook v3 as applied by a written title-only protocol.</p>
+<p>The labels are weak by design, and two fields put that weakness in the data itself. <code>evidence_basis</code> records which supplied field the trust evidence sits in, which for this population can never be the abstract. <code>p1_status</code> carries a byte-exact marker on every row – “P1 check not performed; no external retrieval available” – because the coding has to be reproducible from the batch file alone. The pass is stamped <code>v3-titleonly</code> and is never mixed into the open-licence deliverable, since the reliability figures above describe abstract-based coding and nothing else.</p>
+<div id="tbl-screening-titleonly" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-titleonly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.5: Labels assigned in the title-only pass, 2,518 records.
+</figcaption>
+<div aria-describedby="tbl-screening-titleonly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>variable</th>
+<th>label</th>
+<th style="text-align: right;">records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>h_class</code></td>
+<td>central</td>
+<td style="text-align: right;">1,484</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>fake</td>
+<td style="text-align: right;">620</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>edge-case</td>
+<td style="text-align: right;">364</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>undetermined</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>out-of-scope</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td><code>h_methodology</code></td>
+<td>uncertain</td>
+<td style="text-align: right;">1,230</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>empirical-uncertain</td>
+<td style="text-align: right;">733</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>theoretical</td>
+<td style="text-align: right;">390</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>review-meta</td>
+<td style="text-align: right;">156</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>quant</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>qualitative</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The shape is the one the protocol predicted. Codes that require a named design are nearly unreachable without an abstract, so <code>quant</code> is reached on seven records and the two uncertainty codes take 78% of the pass between them. The high <code>fake</code> share is the homonym harvest of a population dominated by book chapters and front matter. Quote fidelity, measured with the pairing-aware span extractor over the full record, was 1,821 spans with none unverified.</p>
+<p>What to do with these records is the open question. Three candidate tests would route them into the full-text extraction stage, and they select very different populations: the existing quant-or-mixed gate takes 7 records, adding <code>empirical-uncertain</code> as this pass’s stand-in for a design that full text would resolve takes 578, and taking everything not positively excluded takes 1,484. The rest become candidates for documented exclusion, which is a decision the project intends to record rather than let happen by attrition.</p>
+</section>
+<section id="sec-screening-local" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-screening-local"><span class="header-section-number">6.6</span> The local-model track</h2>
+<p>The 47,097 records with a usable abstract and no licence warrant are assigned to an open-weight model on Newcastle HPC, and every one of them now holds a working abstract: the retrieval sweep repaired 2,766 defective texts and supplied 77 missing ones from Semantic Scholar, Crossref and Europe PMC. That mattered for this track specifically, because the local run codes from batch files on nodes with no network access, so an abstract too damaged to read cannot be repaired at coding time.</p>
+<p>The handover kit is self-contained: standing the model up needs nothing from the compendium repository. It carries the frozen codebook condensed into a system prompt a 32B-class model can hold, worked exemplars, a JSON schema for constrained decoding, the generation client, and a scoring harness. The training splits reserve the 1,250 blind-pass records entirely, so they can serve as the evaluation reference, and the split is reproducible from a recorded seed. The kit also ships a self-test in which the harness scores the blind second pass against the first and reproduces the project’s kappa figures to three decimals – the point being that whoever runs it can check the measuring instrument before trusting a number it gives them about a new model.</p>
+<p>The sequence is baseline first. The model is evaluated on the reserved batches as it comes, against the gates described above, before any fine-tuning is considered; a model that clears them untuned makes the training splits unnecessary.</p>
+</section>
+<section id="sec-screening-datasets" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="sec-screening-datasets"><span class="header-section-number">6.7</span> The screening datasets</h2>
+<p>Each stage of the funnel has a <code>_raw</code> dataset holding everything that enters it and a <code>_prod</code> dataset holding what leaves, and each stage’s <code>_prod</code> is the next stage’s input. A track name inserted between the two marks a partial build covering one coding track only, so the passes stay separable in the methods reporting whatever is later done with their union.</p>
+<div id="tbl-screening-datasets" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.6: The THEME screening datasets and their state, August 2026.
+</figcaption>
+<div aria-describedby="tbl-screening-datasets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>dataset</th>
+<th style="text-align: right;">rows</th>
+<th>what it holds</th>
+<th>state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>theme_raw</code></td>
+<td style="text-align: right;">75,302</td>
+<td>every corpus record, open columns only, keyed on <code>record_id</code></td>
+<td>built</td>
+</tr>
+<tr class="even">
+<td><code>theme_claude_prod</code></td>
+<td style="text-align: right;">21,493</td>
+<td>the open-licence track under codebook v3</td>
+<td>built</td>
+</tr>
+<tr class="odd">
+<td><code>theme_titleonly_prod</code></td>
+<td style="text-align: right;">2,518</td>
+<td>the abstract-less records, weak labels</td>
+<td>built</td>
+</tr>
+<tr class="even">
+<td><code>theme_local_prod</code></td>
+<td style="text-align: right;">47,097</td>
+<td>the no-warrant track, coded on HPC</td>
+<td>pending the local run</td>
+</tr>
+<tr class="odd">
+<td><code>theme_prod</code></td>
+<td style="text-align: right;">–</td>
+<td>both tracks combined and pruned on <code>h_class</code> and <code>trust_scope</code></td>
+<td>pending</td>
+</tr>
+<tr class="even">
+<td><code>meta_raw</code></td>
+<td style="text-align: right;">11,654</td>
+<td>the quantitative candidates carried forward</td>
+<td>built, one track only</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><code>theme_raw</code> reads only the columns that carry no redistribution restriction: every field prefixed <code>Scopus_</code> or <code>WoS_</code> is left behind, and <code>record_id</code> (<a href="05-codebook.html#sec-codebook-record-id" class="quarto-xref"><span>section 5.1</span></a>) sits in first position as the key everything else joins on.</p>
+</section>
+<section id="sec-screening-meta" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="sec-screening-meta"><span class="header-section-number">6.8</span> Into META</h2>
+<p><code>meta_raw</code> is the candidate pool for full-text extraction, and three filters build it from the open-licence codings in order.</p>
+<div id="tbl-screening-meta-filters" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-screening-meta-filters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.7: The filter chain from the screened corpus into the extraction pool.
+</figcaption>
+<div aria-describedby="tbl-screening-meta-filters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 28%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>filter</th>
+<th>rule</th>
+<th style="text-align: right;">removed</th>
+<th style="text-align: right;">remaining</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>h_class</code> must be central or edge-case</td>
+<td style="text-align: right;">2,008</td>
+<td style="text-align: right;">19,485</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>h_methodology</code> must be quant or mixed</td>
+<td style="text-align: right;">7,735</td>
+<td style="text-align: right;">11,750</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>trust_scope</code> must not be out-of-scope, unless <code>h_class</code> is central</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">11,654</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Filter 2 is the gate the funnel depends on, and it is deliberately quant <em>or</em> mixed: mixed-methods work reports numerical results and belongs in the extraction pool. It is also the most reliable decision the coding makes, at kappa 0.923.</p>
+<p>Filter 3 carries two rulings worth stating. Records the lexical classifier left <code>undetermined</code> are kept, because the classifier failing to resolve a sense says nothing about the record – only an explicit out-of-scope verdict removes one. And a record a coder judged <code>central</code> stays whatever the triage said, since the coder read the text and the triage matched words; the 124 records kept that way retain <code>trust_scope</code> of <code>out-of-scope</code> in the data, so they remain directly filterable for the manual review intended later.</p>
+<p>The resulting pool is 11,654 records: 5,200 central and 6,454 edge-case, 10,720 quant and 934 mixed, with 7,875 in scope on the lexical sense, 3,655 undetermined and the 124 kept on the central override. It is a candidate pool rather than a work list. The criteria that narrow it to the set whose full texts are actually sourced are still being designed, and because the pool is built from one coding track it will be rebuilt from the union of both once the local run lands.</p>
+<p>The parsing question at the far end is settled. A pilot on 24 June 2026 put 21 PDFs through GROBID v0.9.0: all 21 parsed, and 923 trust-bearing sentences were extracted from them. The method bank that selects those sentences needs precision tuning before it runs at scale. The extraction field list is drafted but not yet settled, and settling it is what locks the schema the extraction stage decodes against, so it has to come before any of <code>meta_prod</code> can be built.</p>
+</section>
+<section id="sec-screening-pending" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="sec-screening-pending"><span class="header-section-number">6.9</span> What is pending</h2>
+<p>Five things are outstanding.</p>
+<p>The <strong>local production run</strong> has to happen: the model has to clear the acceptance gates on the reserved evaluation batches, then code the 47,097 records, after which <code>theme_local_prod</code> and <code>theme_prod</code> can be built and <code>meta_raw</code> rebuilt from the union of the two tracks.</p>
+<p>The <strong>routing test for the title-coded records</strong> has to be chosen from the three candidates, and the records it does not select recorded as documented exclusions.</p>
+<p>The <strong>extraction field list</strong> has to be fixed, since the schema for the extraction stage cannot be built against a moving target, and the <strong>HPC project request</strong> has to be filed before any of that compute can be scheduled.</p>
+<p>Finally, <code>meta_raw</code> will need <strong>full texts</strong>. Everything above operates on bibliographic metadata; the extraction stage is the first that needs the papers themselves, and PDF sourcing against the pool has not begun.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../theme/05-codebook.html" class="pagination-link" aria-label="The THEME codebook">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -68,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../theme/06-screening.html" rel="next">
 <link href="../theme/04-pipeline.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -75,9 +76,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -207,6 +208,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The THEME codebook</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../theme/06-screening.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -255,32 +262,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The codebook is generated from the derivation registry (<code>Scripts/derivations.yaml</code>) and the dataset itself by <code>Scripts/codebook.py</code>, which writes <code>data/codebook.html</code>. It documents <strong>every</strong> column of <code>corpus_derived</code> – its pipeline stage, the function that builds it, a description, fill rate and an example value – so provenance and documentation live in one place and cannot drift from the data.</p>
+<p>The codebook is generated from the derivation registry (<code>Scripts/derivations.yaml</code>) and the dataset itself by <code>Scripts/codebook.py</code>, which writes <code>data/final/codebook.html</code>. It documents <strong>every</strong> column of <code>corpus_derived</code> – its pipeline stage, the function that builds it, a description, fill rate and an example value – so provenance and documentation live in one place and cannot drift from the data.</p>
 </div>
 </div>
-<p><code>corpus_derived.parquet</code> is the analysis dataset (one row per unique work). Its columns fall into a small number of families: the <strong>identity</strong> and <strong>membership</strong> fields and the <strong>derived</strong> classification come from the assemble and derive stages and are documented one by one in the registry; the bulk of the width is the <strong>raw source metadata</strong> carried verbatim from each source (<code>OA_*</code>, <code>Scopus_*</code>, <code>WoS_*</code>), auto-documented by the codebook generator. The table below summarises the families; the full column-by-column codebook follows.</p>
+<p><code>corpus_derived.parquet</code> is the analysis dataset (one row per unique work). Its columns fall into a small number of families: the <strong>identity</strong> and <strong>membership</strong> fields, the resolved <strong>abstract</strong> with its provenance and licence flags, and the <strong>derived</strong> trust classification are built by the assemble and derive stages and documented one by one in the registry; the bulk of the width is the <strong>raw source metadata</strong> carried verbatim from each source (<code>OA_*</code>, <code>Scopus_*</code>, <code>WoS_*</code>), auto-documented by the codebook generator.</p>
+<section id="sec-codebook-record-id" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-codebook-record-id"><span class="header-section-number">5.1</span> The record key</h2>
+<p>The first column of the dataset is <code>record_id</code>, the project-wide key, and every dataset built downstream of the corpus joins on it rather than deriving a key of its own. It is computed once, in the derive stage, on a ladder of provider-issued identifiers taken in order: the bare OpenAlex work id (the <code>https://openalex.org/</code> prefix stripped) where the work has one, which covers 70,940 of the 75,302 rows; failing that <code>doi:</code> and the DOI, 976 rows; failing that the vendor identifier already present in the open <code>url</code> column, which gives <code>scopus:</code> for 2,780 rows, <code>wos:</code> for 605, and <code>url:</code> with the landing page as a last resort for one. Every rung is an identifier some provider has already issued, so the key regenerates from the record alone and needs no register maintained beside the data – which is why it was preferred to a project-minted surrogate. It is unique and non-null on all 75,302 rows, and both the pipeline and every build that consumes it fail loudly if that ever ceases to hold.</p>
+</section>
+<section id="sec-codebook-abstract" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-codebook-abstract"><span class="header-section-number">5.2</span> The abstract and licence columns</h2>
+<p>Eight columns describe the working abstract and the terms on which it may be used. <code>abstract</code> is the text itself, chosen by the ladder set out in <a href="04-pipeline.html" class="quarto-xref"><span>Notebook 4</span></a>; <code>abstract_source</code> and <code>abstract_licence</code> record which channel supplied it; <code>abstract_backfilled</code> marks the ones that arrived through the curated DOI-backfill; and <code>abstract_retrieved</code> names the open API and the date for the records filled by the August 2026 retrieval sweep, which is blank where the working abstract came from the original feeds. The remaining three carry the rights question. <code>abstract_open_available</code> says that a usable OpenAlex abstract string is held, <code>OA_licence</code> records the licence OpenAlex holds against the work itself, and <code>abstract_externally_sendable</code> is true only where both conditions are met – a usable string <em>and</em> an explicit open licence slug.</p>
+<p>The registry is emphatic about the distinction those columns draw, because it is easy to lose. Holding an OpenAlex abstract is a claim about text and says nothing about rights: many OpenAlex abstracts are unlicensed Microsoft Academic Graph inheritances attached to closed-access works, and they are being withdrawn as publishers reclassify abstracts as strategic assets. External transmission is warranted by the work’s own licence, never by the presence of text, and <code>abstract_externally_sendable</code> is the only column that expresses that warrant. The screening partition (<a href="06-screening.html" class="quarto-xref"><span>Notebook 6</span></a>) rests on that warrant, applying a slightly higher abstract-length floor of its own.</p>
+</section>
+<section id="sec-codebook-families" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-codebook-families"><span class="header-section-number">5.3</span> Column families</h2>
+<p>Family membership is decided by the registry rather than by the column name, because a name can mislead about where a column comes from. <code>OA_licence</code> wears the raw-OpenAlex prefix while being an assemble-stage build: it is folded in by <code>OA_id</code> from a separate per-work licence fetch (<code>data/raw/licences/oa_work_licences.parquet</code>) and belongs with the abstract fields whose external gate it decides. Sorting on the prefix first would file it among the raw OpenAlex search metadata and move a column out of the family that explains it. So the rule below reads the registry first, and falls back on the prefix only for the undocumented long tail of raw source metadata.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(tinytable)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(purrr); <span class="fu">library</span>(tinytable)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tinytable_tt_theme =</span> <span class="cf">function</span>(x) {</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="sc">|&gt;</span> <span class="fu">theme_tinytable</span>() <span class="sc">|&gt;</span> <span class="fu">style_tt</span>(<span class="at">align =</span> <span class="st">"l"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">style_tt</span>(<span class="at">fontsize =</span> <span class="fl">0.9</span>) <span class="sc">|&gt;</span> <span class="fu">style_tt</span>(<span class="at">i =</span> <span class="dv">0</span>, <span class="at">fontsize =</span> <span class="fl">0.95</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(<span class="st">"data/final/corpus_derived.parquet"</span>)<span class="sc">$</span>schema<span class="sc">$</span>names</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fam <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"OA_"</span>)     <span class="sc">~</span> <span class="st">"OpenAlex (raw source)"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"Scopus_"</span>) <span class="sc">~</span> <span class="st">"Scopus (raw source)"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"WoS_"</span>)    <span class="sc">~</span> <span class="st">"Web of Science (raw source)"</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"^trust_|^sense_|scope_conflict"</span>, nm) <span class="sc">~</span> <span class="st">"Derived: trust classification"</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"^in_|backfill|^n_sources|^sources|oa_source_type"</span>, nm) <span class="sc">~</span> <span class="st">"Membership + backfill provenance"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grepl</span>(<span class="st">"abstract"</span>, nm) <span class="sc">~</span> <span class="st">"Abstract (resolved + flags)"</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Identity / year / document type / content"</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Family =</span> fam, <span class="at">n =</span> <span class="dv">1</span>L) <span class="sc">|&gt;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Family, <span class="at">name =</span> <span class="st">"Columns"</span>, <span class="at">wt =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Columns)) <span class="sc">|&gt;</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"Columns"</span>, <span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Registry groups, mapped onto the display families. Several groups share one family</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># because the codebook itself documents them separately; this table is the summary.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>group_family <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">identity       =</span> <span class="st">"Identity / year / document type / content"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">year           =</span> <span class="st">"Identity / year / document type / content"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">doctype        =</span> <span class="st">"Identity / year / document type / content"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">content        =</span> <span class="st">"Identity / year / document type / content"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">membership     =</span> <span class="st">"Membership + backfill provenance"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">abstract       =</span> <span class="st">"Abstract (resolved + flags)"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">classification =</span> <span class="st">"Derived: trust classification"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Registry first, prefix second. A column the registry documents as an assemble- or</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># derive-stage build takes the family of its registry group whatever its name looks like;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># OA_licence is the case that makes the order load-bearing.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>built <span class="ot">&lt;-</span> yaml<span class="sc">::</span><span class="fu">read_yaml</span>(<span class="st">"Scripts/derivations.yaml"</span>)<span class="sc">$</span>variables <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keep</span>(\(v) <span class="fu">isTRUE</span>(v<span class="sc">$</span>stage <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"assemble"</span>, <span class="st">"derive"</span>)))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>registry_family <span class="ot">&lt;-</span> group_family[<span class="fu">map_chr</span>(built, \(v) v<span class="sc">$</span>group)] <span class="sc">|&gt;</span> <span class="fu">set_names</span>(<span class="fu">names</span>(built))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  nm <span class="sc">%in%</span> <span class="fu">names</span>(registry_family) <span class="sc">~</span> registry_family[nm],</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"OA_"</span>)     <span class="sc">~</span> <span class="st">"OpenAlex (raw source)"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"Scopus_"</span>) <span class="sc">~</span> <span class="st">"Scopus (raw source)"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">startsWith</span>(nm, <span class="st">"WoS_"</span>)    <span class="sc">~</span> <span class="st">"Web of Science (raw source)"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Identity / year / document type / content"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Family =</span> fam, <span class="at">n =</span> <span class="dv">1</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Family, <span class="at">name =</span> <span class="st">"Columns"</span>, <span class="at">wt =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Columns)) <span class="sc">|&gt;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">format_tt</span>(<span class="at">j =</span> <span class="st">"Columns"</span>, <span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="tbl-codebook-families" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -295,20 +328,20 @@ Table&nbsp;5.1: Column families in corpus_derived.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_avr2tt6w1mo93g473b5r = TinyTable.createTableFunctions("tinytable_avr2tt6w1mo93g473b5r");
+      const tableFns_dj0tns8jn13mlqkfq12n = TinyTable.createTableFunctions("tinytable_dj0tns8jn13mlqkfq12n");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_3jp6r8jdceqvx2yiydz5',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_sb508x9cqyywnhh8atbf',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_i6p02681m7io4mabb0cq',}, 
+          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_y3d0k05nwluttyo9doxm',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 } ], css_id: 'tinytable_css_aby3htj9g0jtqzhyh54i',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_o6fm304txoskwt1or2iq',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_avr2tt6w1mo93g473b5r.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_dj0tns8jn13mlqkfq12n.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -317,12 +350,12 @@ Table&nbsp;5.1: Column families in corpus_derived.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_3jp6r8jdceqvx2yiydz5, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_3jp6r8jdceqvx2yiydz5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_sb508x9cqyywnhh8atbf, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_sb508x9cqyywnhh8atbf { text-align: left; font-size: 0.9em }
-    #tinytable_avr2tt6w1mo93g473b5r td.tinytable_css_i6p02681m7io4mabb0cq, #tinytable_avr2tt6w1mo93g473b5r th.tinytable_css_i6p02681m7io4mabb0cq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_dj0tns8jn13mlqkfq12n td.tinytable_css_y3d0k05nwluttyo9doxm, #tinytable_dj0tns8jn13mlqkfq12n th.tinytable_css_y3d0k05nwluttyo9doxm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_dj0tns8jn13mlqkfq12n td.tinytable_css_aby3htj9g0jtqzhyh54i, #tinytable_dj0tns8jn13mlqkfq12n th.tinytable_css_aby3htj9g0jtqzhyh54i { text-align: left; font-size: 0.9em }
+    #tinytable_dj0tns8jn13mlqkfq12n td.tinytable_css_o6fm304txoskwt1or2iq, #tinytable_dj0tns8jn13mlqkfq12n th.tinytable_css_o6fm304txoskwt1or2iq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_avr2tt6w1mo93g473b5r" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_dj0tns8jn13mlqkfq12n" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -346,19 +379,19 @@ Table&nbsp;5.1: Column families in corpus_derived.
                 </tr>
                 <tr>
                   <td data-row="4" data-col="1">Identity / year / document type / content</td>
-                  <td data-row="4" data-col="2">15</td>
+                  <td data-row="4" data-col="2">17</td>
                 </tr>
                 <tr>
                   <td data-row="5" data-col="1">Membership + backfill provenance</td>
-                  <td data-row="5" data-col="2">14</td>
+                  <td data-row="5" data-col="2">12</td>
                 </tr>
                 <tr>
-                  <td data-row="6" data-col="1">Derived: trust classification</td>
-                  <td data-row="6" data-col="2">7</td>
+                  <td data-row="6" data-col="1">Abstract (resolved + flags)</td>
+                  <td data-row="6" data-col="2">8</td>
                 </tr>
                 <tr>
-                  <td data-row="7" data-col="1">Abstract (resolved + flags)</td>
-                  <td data-row="7" data-col="2">4</td>
+                  <td data-row="7" data-col="1">Derived: trust classification</td>
+                  <td data-row="7" data-col="2">7</td>
                 </tr>
         </tbody>
       </table>
@@ -369,11 +402,14 @@ Table&nbsp;5.1: Column families in corpus_derived.
 </figure>
 </div>
 </div>
-<!-- snapshot (June 2026): 173 columns total across corpus_derived (75,302 rows). -->
-<p>The complete codebook is embedded below (also a standalone file at <code>data/codebook.html</code>):</p>
-<iframe src="../data/codebook.html" title="corpus_derived codebook" style="width:100%; height:300vh; border:0px solid #ccc; border-radius:0px;"></iframe>
+<!-- snapshot (August 2026): 177 columns total across corpus_derived (75,302 rows).
+WoS raw 72 | Scopus raw 33 | OpenAlex raw 28 | identity/year/doctype/content 17 |
+membership + backfill 12 | abstract 8 | trust classification 7. -->
+<p>The complete codebook is embedded below (also a standalone file at <code>data/final/codebook.html</code>):</p>
+<iframe src="../data/final/codebook.html" title="corpus_derived codebook" style="width:100%; height:300vh; border:0px solid #ccc; border-radius:0px;"></iframe>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -783,6 +819,9 @@ Table&nbsp;5.1: Column families in corpus_derived.
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../theme/06-screening.html" class="pagination-link" aria-label="Screening the corpus">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Screening the corpus</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
