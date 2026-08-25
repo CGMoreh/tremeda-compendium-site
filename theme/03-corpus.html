@@ -238,9 +238,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-corpus-sizes" id="toc-sec-corpus-sizes" class="nav-link" data-scroll-target="#sec-corpus-sizes"><span class="header-section-number">3.2</span> The collection</a></li>
   <li><a href="#sec-corpus-coverage" id="toc-sec-corpus-coverage" class="nav-link" data-scroll-target="#sec-corpus-coverage"><span class="header-section-number">3.3</span> Coverage: does the OpenAlex database contain the curated records?</a></li>
   <li><a href="#sec-corpus-overlap" id="toc-sec-corpus-overlap" class="nav-link" data-scroll-target="#sec-corpus-overlap"><span class="header-section-number">3.4</span> Overlap and uniqueness</a></li>
-  <li><a href="#sec-corpus-subsets" id="toc-sec-corpus-subsets" class="nav-link" data-scroll-target="#sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does OpenAlex’s classifier add value?</a></li>
+  <li><a href="#sec-corpus-subsets" id="toc-sec-corpus-subsets" class="nav-link" data-scroll-target="#sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does the OpenAlex classifier add value?</a></li>
   <li><a href="#sec-corpus-reverse" id="toc-sec-corpus-reverse" class="nav-link" data-scroll-target="#sec-corpus-reverse"><span class="header-section-number">3.6</span> The only-OpenAlex region: recoverable or genuinely unique?</a></li>
-  <li><a href="#sec-corpus-where" id="toc-sec-corpus-where" class="nav-link" data-scroll-target="#sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust signal sits in each database</a></li>
+  <li><a href="#sec-corpus-where" id="toc-sec-corpus-where" class="nav-link" data-scroll-target="#sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust term sits in each database</a></li>
   <li><a href="#sec-corpus-trend" id="toc-sec-corpus-trend" class="nav-link" data-scroll-target="#sec-corpus-trend"><span class="header-section-number">3.8</span> How trust research has grown, 2000–2025</a></li>
   <li><a href="#sec-corpus-triage" id="toc-sec-corpus-triage" class="nav-link" data-scroll-target="#sec-corpus-triage"><span class="header-section-number">3.9</span> The trust-sense triage across the corpus</a></li>
   <li><a href="#sec-corpus-noabstract" id="toc-sec-corpus-noabstract" class="nav-link" data-scroll-target="#sec-corpus-noabstract"><span class="header-section-number">3.10</span> What is still without an abstract</a></li>
@@ -333,15 +333,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="sec-corpus-audit" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-corpus-audit"><span class="header-section-number">3.1</span> What the 2015 audit established</h2>
-<p>Before this corpus was assembled, a focused audit on a single complete year (2015) tested the design across the three databases. It is not re-run here – it is preserved, runnable, in <code>Scripts/2015-audit/</code> – but it settled four things that motivated the collection approach, all of which the full corpus below then confirms at scale:</p>
+<p>Before this corpus was assembled, a focused audit on a single complete year (2015) tested the design across the three databases. It is preserved, runnable, in <code>Scripts/2015-audit/</code> rather than re-run here, but it settled four things that motivated the collection approach, all of which the full corpus below then confirms at scale:</p>
 <ol type="1">
 <li><strong>Coverage is near-total.</strong> OpenAlex contained essentially all (98.9–100%) of the trust research the curated Scopus and Web of Science searches returned, so OpenAlex can serve as the discovery substrate and citation backbone.</li>
-<li><strong>No single query retrieves it all.</strong> The OpenAlex topic-union retrieved under a tenth of the curated trust OpenAlex itself contains, and Web of Science was largely a subset of Scopus – because trust is studied <em>inside</em> hundreds of substantive topics, not in one.</li>
+<li><strong>No single query retrieves it all.</strong> The OpenAlex topic-union retrieved under a tenth of the curated trust that OpenAlex itself contains, and Web of Science was largely a subset of Scopus – because trust is studied <em>inside</em> hundreds of substantive topics, not in one.</li>
 <li><strong>The databases are complementary.</strong> Each channel held in-scope works the others missed, so recall has to come from merging all three by DOI, with precision imposed afterwards by the classifier and the screen.</li>
-<li><strong>The only-OpenAlex works are mostly recoverable.</strong> About two-thirds of the works only OpenAlex returned existed in a curated database after all – missed by the keyword <em>query</em>, not absent from the <em>database</em> – which is what later makes the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) worthwhile.</li>
+<li><strong>The only-OpenAlex works are mostly recoverable.</strong> About two-thirds of the works that only OpenAlex returned existed in a curated database after all – missed by the keyword <em>query</em>, not absent from the <em>database</em> – which is what later makes the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) worthwhile.</li>
 </ol>
-<p>This notebook applies the same three searches (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>, <a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>section 1.4</span></a>) to the whole period and reports the result not as a test but as the <strong>assembled corpus</strong> the rest of the project works from. To resolve publication-year boundary mismatches across databases, the pull spans 1999–2026; 1999 and 2026 are buffer years, and the analysis window is <strong>2000–2025</strong> (a work enters the window if <em>any</em> source dates it inside it). Of 75,302 unique works in the full pull, <strong>71,108 fall in the analysis window</strong>; the rest are dated only to a buffer year in every source.</p>
-<p>Two terms recur throughout, with the same meaning as in the databases notebook (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>). The <strong>OpenAlex pull</strong> is the set of works the twelve-topic search returned; the <strong>OpenAlex database</strong> is what OpenAlex holds regardless of any query. The same split applies to the curated side – the <strong>curated searches</strong> (the Scopus and Web of Science keyword queries) versus the <strong>curated databases</strong> (those two indexes in full). ‘Recoverable’ therefore means present in a curated database but not returned by the curated searches, and a work can sit in the OpenAlex-pull-only region yet still exist in a curated database – a distinction that matters directly for the abstract gap (<a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>).</p>
+<p>This notebook applies the same three searches (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>, <a href="01-databases.html#sec-databases-selection" class="quarto-xref"><span>section 1.4</span></a>) to the whole period and reports the result not as a test but as the <strong>assembled corpus</strong> that the rest of the project works from. To resolve publication-year boundary mismatches across databases, the pull spans 1999–2026; 1999 and 2026 are buffer years, and the analysis window is <strong>2000–2025</strong> (a work enters the window if <em>any</em> source dates it inside it). Of 75,302 unique works in the full pull, <strong>71,108 fall in the analysis window</strong>; the rest are dated only to a buffer year in every source.</p>
+<p>Two terms recur throughout, with the same meaning as in the databases notebook (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>). The <strong>OpenAlex pull</strong> is the set of works that the twelve-topic search returned; the <strong>OpenAlex database</strong> is what OpenAlex holds regardless of any query. The same split applies to the curated side – the <strong>curated searches</strong> (the Scopus and Web of Science keyword queries) versus the <strong>curated databases</strong> (those two indexes in full). ‘Recoverable’ therefore means present in a curated database but not returned by the curated searches, and a work can sit in the OpenAlex-pull-only region yet still exist in a curated database – a distinction that matters directly for the abstract gap (<a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>).</p>
 </section>
 <section id="sec-corpus-sizes" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="sec-corpus-sizes"><span class="header-section-number">3.2</span> The collection</h2>
@@ -369,20 +369,20 @@ Table&nbsp;3.1: Works returned by each search, 2000–2025 analysis window (dedu
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_j6s0y1re9velflsmumg5 = TinyTable.createTableFunctions("tinytable_j6s0y1re9velflsmumg5");
+      const tableFns_yajkxuzb7hrv6el7qzxp = TinyTable.createTableFunctions("tinytable_yajkxuzb7hrv6el7qzxp");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_gsok5ryilc88bq3r5b9s',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_jctse4od7y87faet997c',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_e1c4cieng9yp1xf53nzz',}, 
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_hexv01g2ewrc3iz4m8jk',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_t5o98m830fk4j4mw4wbu',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_1y5wcyqmycwfpcmgf2mo',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_j6s0y1re9velflsmumg5.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_yajkxuzb7hrv6el7qzxp.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -391,12 +391,12 @@ Table&nbsp;3.1: Works returned by each search, 2000–2025 analysis window (dedu
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_j6s0y1re9velflsmumg5 td.tinytable_css_gsok5ryilc88bq3r5b9s, #tinytable_j6s0y1re9velflsmumg5 th.tinytable_css_gsok5ryilc88bq3r5b9s {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_j6s0y1re9velflsmumg5 td.tinytable_css_jctse4od7y87faet997c, #tinytable_j6s0y1re9velflsmumg5 th.tinytable_css_jctse4od7y87faet997c { text-align: left; font-size: 0.9em }
-    #tinytable_j6s0y1re9velflsmumg5 td.tinytable_css_e1c4cieng9yp1xf53nzz, #tinytable_j6s0y1re9velflsmumg5 th.tinytable_css_e1c4cieng9yp1xf53nzz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_yajkxuzb7hrv6el7qzxp td.tinytable_css_hexv01g2ewrc3iz4m8jk, #tinytable_yajkxuzb7hrv6el7qzxp th.tinytable_css_hexv01g2ewrc3iz4m8jk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_yajkxuzb7hrv6el7qzxp td.tinytable_css_t5o98m830fk4j4mw4wbu, #tinytable_yajkxuzb7hrv6el7qzxp th.tinytable_css_t5o98m830fk4j4mw4wbu { text-align: left; font-size: 0.9em }
+    #tinytable_yajkxuzb7hrv6el7qzxp td.tinytable_css_1y5wcyqmycwfpcmgf2mo, #tinytable_yajkxuzb7hrv6el7qzxp th.tinytable_css_1y5wcyqmycwfpcmgf2mo {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_j6s0y1re9velflsmumg5" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_yajkxuzb7hrv6el7qzxp" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -462,20 +462,20 @@ Table&nbsp;3.2: Presence of each curated record in the OpenAlex database, full c
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_g8sm5rbtbkxqnfswfwcl = TinyTable.createTableFunctions("tinytable_g8sm5rbtbkxqnfswfwcl");
+      const tableFns_85yqalo036c7v03d1c0y = TinyTable.createTableFunctions("tinytable_85yqalo036c7v03d1c0y");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '2', j: 1 }, { i: '2', j: 2 }, { i: '2', j: 3 }, { i: '2', j: 4 }, { i: '2', j: 5 }, { i: '2', j: 6 }, { i: '2', j: 7 } ], css_id: 'tinytable_css_bu5clp8asgslmz6fii4z',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '1', j: 2 }, { i: '1', j: 3 }, { i: '1', j: 4 }, { i: '1', j: 5 }, { i: '1', j: 6 }, { i: '1', j: 7 } ], css_id: 'tinytable_css_ys2gqrxc2hjbnerv0vyd',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 } ], css_id: 'tinytable_css_rekmc9s56dskuu40r24d',}, 
+          { positions: [ { i: '2', j: 1 }, { i: '2', j: 2 }, { i: '2', j: 3 }, { i: '2', j: 4 }, { i: '2', j: 5 }, { i: '2', j: 6 }, { i: '2', j: 7 } ], css_id: 'tinytable_css_2qtfimp2c8ar55wr62ad',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '1', j: 2 }, { i: '1', j: 3 }, { i: '1', j: 4 }, { i: '1', j: 5 }, { i: '1', j: 6 }, { i: '1', j: 7 } ], css_id: 'tinytable_css_qg457qmjqemyyy31t31b',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 } ], css_id: 'tinytable_css_dazfddva5ggrory9l9mm',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_g8sm5rbtbkxqnfswfwcl.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_85yqalo036c7v03d1c0y.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -484,12 +484,12 @@ Table&nbsp;3.2: Presence of each curated record in the OpenAlex database, full c
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_g8sm5rbtbkxqnfswfwcl td.tinytable_css_bu5clp8asgslmz6fii4z, #tinytable_g8sm5rbtbkxqnfswfwcl th.tinytable_css_bu5clp8asgslmz6fii4z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_g8sm5rbtbkxqnfswfwcl td.tinytable_css_ys2gqrxc2hjbnerv0vyd, #tinytable_g8sm5rbtbkxqnfswfwcl th.tinytable_css_ys2gqrxc2hjbnerv0vyd { text-align: left; font-size: 0.9em }
-    #tinytable_g8sm5rbtbkxqnfswfwcl td.tinytable_css_rekmc9s56dskuu40r24d, #tinytable_g8sm5rbtbkxqnfswfwcl th.tinytable_css_rekmc9s56dskuu40r24d {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_85yqalo036c7v03d1c0y td.tinytable_css_2qtfimp2c8ar55wr62ad, #tinytable_85yqalo036c7v03d1c0y th.tinytable_css_2qtfimp2c8ar55wr62ad {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_85yqalo036c7v03d1c0y td.tinytable_css_qg457qmjqemyyy31t31b, #tinytable_85yqalo036c7v03d1c0y th.tinytable_css_qg457qmjqemyyy31t31b { text-align: left; font-size: 0.9em }
+    #tinytable_85yqalo036c7v03d1c0y td.tinytable_css_dazfddva5ggrory9l9mm, #tinytable_85yqalo036c7v03d1c0y th.tinytable_css_dazfddva5ggrory9l9mm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_g8sm5rbtbkxqnfswfwcl" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_85yqalo036c7v03d1c0y" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -534,7 +534,7 @@ Table&nbsp;3.2: Presence of each curated record in the OpenAlex database, full c
 <!-- snapshot (June 2026):
 Scopus:          DOI'd 45,898 | in OA 45,179 (98.4%) | absent 719 (1.6%) | no-DOI 2,728
 Web of Science:  DOI'd 34,326 | in OA 34,007 (99.1%) | absent 319 (0.9%) | no-DOI 1,118 -->
-<p>The single-year result holds across the quarter-century: genuine absence is <strong>1.6%</strong> of DOI’d Scopus records and <strong>0.9%</strong> of Web of Science (an upper bound – a few malformed DOIs fail to resolve). <strong>The OpenAlex database contains essentially all the trust research the curated searches return</strong>, so it can serve as the discovery substrate and citation backbone, with curated records recoverable by DOI.</p>
+<p>The single-year result holds across the quarter-century: genuine absence is <strong>1.6%</strong> of DOI’d Scopus records and <strong>0.9%</strong> of Web of Science (an upper bound – a few malformed DOIs fail to resolve). <strong>The OpenAlex database contains essentially all the trust research that the curated searches return</strong>, so it can serve as the discovery substrate and citation backbone, with curated records recoverable by DOI.</p>
 </section>
 <section id="sec-corpus-overlap" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-corpus-overlap"><span class="header-section-number">3.4</span> Overlap and uniqueness</h2>
@@ -562,20 +562,20 @@ Table&nbsp;3.3: Pairwise retrieval overlap across the window corpus.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_ww77khr16gqr3x6d3iv5 = TinyTable.createTableFunctions("tinytable_ww77khr16gqr3x6d3iv5");
+      const tableFns_8sao15locpyllfip9u1x = TinyTable.createTableFunctions("tinytable_8sao15locpyllfip9u1x");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_l61pi3fivqjzoo7ifdxx',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_u5s5ajg6qmz92ipcnsrj',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_82qk5m4adpusp9eygsfq',}, 
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_7rtnhlkz833h05op4hv1',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_0z8id4sawlzlnfkfxci7',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_hxz2it6xgfhil3jkbaer',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_ww77khr16gqr3x6d3iv5.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_8sao15locpyllfip9u1x.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -584,12 +584,12 @@ Table&nbsp;3.3: Pairwise retrieval overlap across the window corpus.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_ww77khr16gqr3x6d3iv5 td.tinytable_css_l61pi3fivqjzoo7ifdxx, #tinytable_ww77khr16gqr3x6d3iv5 th.tinytable_css_l61pi3fivqjzoo7ifdxx {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_ww77khr16gqr3x6d3iv5 td.tinytable_css_u5s5ajg6qmz92ipcnsrj, #tinytable_ww77khr16gqr3x6d3iv5 th.tinytable_css_u5s5ajg6qmz92ipcnsrj { text-align: left; font-size: 0.9em }
-    #tinytable_ww77khr16gqr3x6d3iv5 td.tinytable_css_82qk5m4adpusp9eygsfq, #tinytable_ww77khr16gqr3x6d3iv5 th.tinytable_css_82qk5m4adpusp9eygsfq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_8sao15locpyllfip9u1x td.tinytable_css_7rtnhlkz833h05op4hv1, #tinytable_8sao15locpyllfip9u1x th.tinytable_css_7rtnhlkz833h05op4hv1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_8sao15locpyllfip9u1x td.tinytable_css_0z8id4sawlzlnfkfxci7, #tinytable_8sao15locpyllfip9u1x th.tinytable_css_0z8id4sawlzlnfkfxci7 { text-align: left; font-size: 0.9em }
+    #tinytable_8sao15locpyllfip9u1x td.tinytable_css_hxz2it6xgfhil3jkbaer, #tinytable_8sao15locpyllfip9u1x th.tinytable_css_hxz2it6xgfhil3jkbaer {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_ww77khr16gqr3x6d3iv5" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_8sao15locpyllfip9u1x" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -625,10 +625,10 @@ Table&nbsp;3.3: Pairwise retrieval overlap across the window corpus.
 </div>
 </div>
 <!-- snapshot: Scopus-in-OA 5,480 (11.3%) | WoS-in-OA 4,687 (13.2%) | WoS-in-Scopus 30,843 (87.0%) | Scopus-in-WoS (63.4%) -->
-<p>The OpenAlex pull retrieves about 11–13% of the curated trust the database overwhelmingly contains, and Web of Science is largely a subset of Scopus (87%) – both curated searches run the same precise query, while the OpenAlex pull draws a different boundary. <em>Why</em> each search returns less than its database holds was settled at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>) and is consistent with the corpus: the dominant filter is substantive – trust is scattered across topics outside the twelve-topic net – with document-type exclusions accounting for much of the reverse gap.</p>
+<p>The OpenAlex pull retrieves about 11–13% of the curated trust that the database overwhelmingly contains, and Web of Science is largely a subset of Scopus (87%) – both curated searches run the same precise query, while the OpenAlex pull draws a different boundary. <em>Why</em> each search returns less than its database holds was settled at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>) and is consistent with the corpus: the dominant filter is substantive – trust is scattered across topics outside the twelve-topic net – with document-type exclusions accounting for much of the reverse gap.</p>
 </section>
 <section id="sec-corpus-subsets" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does OpenAlex’s classifier add value?</h2>
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-corpus-subsets"><span class="header-section-number">3.5</span> The Venn regions: does the OpenAlex classifier add value?</h2>
 <p>Each work sits in one of seven Venn regions and is triaged by the trust-sense classifier (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) into in-scope, out-of-scope or undetermined.</p>
 <div class="cell">
 <details class="code-fold">
@@ -660,20 +660,20 @@ Table&nbsp;3.4: The window corpus by Venn region and trust_scope.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_unek6r3ez9md3fub8ntz = TinyTable.createTableFunctions("tinytable_unek6r3ez9md3fub8ntz");
+      const tableFns_l37t2sd9vec7cfrc15t4 = TinyTable.createTableFunctions("tinytable_l37t2sd9vec7cfrc15t4");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 }, { i: '8', j: 4 }, { i: '8', j: 5 } ], css_id: 'tinytable_css_pux8lal9ffyunmagj4x0',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '6', j: 4 }, { i: '7', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 }, { i: '6', j: 5 }, { i: '7', j: 5 } ], css_id: 'tinytable_css_rf22vs8dbd8chrm975eo',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_nxw2r79z5mf8djxsqkvd',}, 
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 }, { i: '8', j: 4 }, { i: '8', j: 5 } ], css_id: 'tinytable_css_py8ksoqzxmtqiremff87',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '5', j: 4 }, { i: '6', j: 4 }, { i: '7', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '5', j: 5 }, { i: '6', j: 5 }, { i: '7', j: 5 } ], css_id: 'tinytable_css_k0p0z44kb3bgzyzfzym4',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_i48ap43v1u6zdozrnru7',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_unek6r3ez9md3fub8ntz.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_l37t2sd9vec7cfrc15t4.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -682,12 +682,12 @@ Table&nbsp;3.4: The window corpus by Venn region and trust_scope.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_unek6r3ez9md3fub8ntz td.tinytable_css_pux8lal9ffyunmagj4x0, #tinytable_unek6r3ez9md3fub8ntz th.tinytable_css_pux8lal9ffyunmagj4x0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
-    #tinytable_unek6r3ez9md3fub8ntz td.tinytable_css_rf22vs8dbd8chrm975eo, #tinytable_unek6r3ez9md3fub8ntz th.tinytable_css_rf22vs8dbd8chrm975eo { text-align: left; font-size: 0.9em }
-    #tinytable_unek6r3ez9md3fub8ntz td.tinytable_css_nxw2r79z5mf8djxsqkvd, #tinytable_unek6r3ez9md3fub8ntz th.tinytable_css_nxw2r79z5mf8djxsqkvd {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_l37t2sd9vec7cfrc15t4 td.tinytable_css_py8ksoqzxmtqiremff87, #tinytable_l37t2sd9vec7cfrc15t4 th.tinytable_css_py8ksoqzxmtqiremff87 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_l37t2sd9vec7cfrc15t4 td.tinytable_css_k0p0z44kb3bgzyzfzym4, #tinytable_l37t2sd9vec7cfrc15t4 th.tinytable_css_k0p0z44kb3bgzyzfzym4 { text-align: left; font-size: 0.9em }
+    #tinytable_l37t2sd9vec7cfrc15t4 td.tinytable_css_i48ap43v1u6zdozrnru7, #tinytable_l37t2sd9vec7cfrc15t4 th.tinytable_css_i48ap43v1u6zdozrnru7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_unek6r3ez9md3fub8ntz" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_l37t2sd9vec7cfrc15t4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -774,11 +774,11 @@ Table&nbsp;3.4: The window corpus by Venn region and trust_scope.
  Scopus+WoS        26,602 | in 16,781 out 733   und 9,088
  all three          4,241 | in 3,496  out 31    und 714
  Total             71,108 | in 37,910 out 2,163 und 31,035 -->
-<p>The added-value finding replicates with force. OpenAlex’s topic search found <strong>17,881 trust works that both curated keyword searches missed</strong>; just 1.1% are out-of-scope, 28% are in-scope, and the rest await the content screen. The conclusion is bidirectional – the only-Scopus region holds 8,754 in-scope works the other two searches miss, the only-WoS region 2,572 – so no single channel is sufficient; the curated keyword searches contribute the largest blocks of uniquely-relevant recall, and works found in all three are the most clearly in-scope (82%).</p>
+<p>The added-value finding of the audit replicates at scale: the OpenAlex topic search found <strong>17,881 trust works that both curated keyword searches missed</strong>; just 1.1% are out-of-scope, 28% are in-scope, and the rest await the content screen. The conclusion is bidirectional – the only-Scopus region holds 8,754 in-scope works that the other two searches miss, the only-WoS region 2,572 – so no single channel is sufficient; the curated keyword searches contribute the largest blocks of uniquely-relevant recall, and works found in all three are the most clearly in-scope (82%).</p>
 </section>
 <section id="sec-corpus-reverse" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="sec-corpus-reverse"><span class="header-section-number">3.6</span> The only-OpenAlex region: recoverable or genuinely unique?</h2>
-<p>The Venn table shows OpenAlex’s topic search surfaced 17,881 works the curated searches missed, but not whether those works are <em>genuinely</em> outside the subscription databases or merely missed by the curated <em>queries</em>. A reverse check settles it, exactly as at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>): for every only-OpenAlex work with a DOI, the live Scopus and Web of Science APIs were asked whether the DOI exists in their database at all (<code>Scripts/collect/reverse-check.py</code>), capturing the curated document type where it does.</p>
+<p>The Venn table shows that the OpenAlex topic search surfaced 17,881 works that the curated searches missed, but not whether those works are <em>genuinely</em> outside the subscription databases or merely missed by the curated <em>queries</em>. A reverse check settles it, exactly as at the single year (<a href="#sec-corpus-audit" class="quarto-xref"><span>section 3.1</span></a>): for every only-OpenAlex work with a DOI, the live Scopus and Web of Science APIs were asked whether the DOI exists in their database at all (<code>Scripts/collect/reverse-check.py</code>), capturing the curated document type where it does.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -808,20 +808,20 @@ Table&nbsp;3.5: The only-OpenAlex region split by the reverse check against the 
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_ii29jxtg5o7wujk69u0h = TinyTable.createTableFunctions("tinytable_ii29jxtg5o7wujk69u0h");
+      const tableFns_dwppc45hdi0z24drp990 = TinyTable.createTableFunctions("tinytable_dwppc45hdi0z24drp990");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_cnqe2ve07t0sgqdh3mu2',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_js9hq5d4f4hfnbxa0ibd',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_k52p6ibz6o3dooky8gf7',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_i0qm6cjzhhxx53dcwb5a',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_fp6isn7z16l8mf3q4lul',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_amgsnyqgtmepjg09izy2',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_ii29jxtg5o7wujk69u0h.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_dwppc45hdi0z24drp990.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -830,12 +830,12 @@ Table&nbsp;3.5: The only-OpenAlex region split by the reverse check against the 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_ii29jxtg5o7wujk69u0h td.tinytable_css_cnqe2ve07t0sgqdh3mu2, #tinytable_ii29jxtg5o7wujk69u0h th.tinytable_css_cnqe2ve07t0sgqdh3mu2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_ii29jxtg5o7wujk69u0h td.tinytable_css_js9hq5d4f4hfnbxa0ibd, #tinytable_ii29jxtg5o7wujk69u0h th.tinytable_css_js9hq5d4f4hfnbxa0ibd { text-align: left; font-size: 0.9em }
-    #tinytable_ii29jxtg5o7wujk69u0h td.tinytable_css_k52p6ibz6o3dooky8gf7, #tinytable_ii29jxtg5o7wujk69u0h th.tinytable_css_k52p6ibz6o3dooky8gf7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_dwppc45hdi0z24drp990 td.tinytable_css_i0qm6cjzhhxx53dcwb5a, #tinytable_dwppc45hdi0z24drp990 th.tinytable_css_i0qm6cjzhhxx53dcwb5a {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_dwppc45hdi0z24drp990 td.tinytable_css_fp6isn7z16l8mf3q4lul, #tinytable_dwppc45hdi0z24drp990 th.tinytable_css_fp6isn7z16l8mf3q4lul { text-align: left; font-size: 0.9em }
+    #tinytable_dwppc45hdi0z24drp990 td.tinytable_css_amgsnyqgtmepjg09izy2, #tinytable_dwppc45hdi0z24drp990 th.tinytable_css_amgsnyqgtmepjg09izy2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_ii29jxtg5o7wujk69u0h" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_dwppc45hdi0z24drp990" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -897,20 +897,20 @@ Table&nbsp;3.6: Curated document type of the recoverable only-OpenAlex works (to
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_95bda8tbgyrtdvzd0be3 = TinyTable.createTableFunctions("tinytable_95bda8tbgyrtdvzd0be3");
+      const tableFns_mzfzvhx7jlg03q9unm3v = TinyTable.createTableFunctions("tinytable_mzfzvhx7jlg03q9unm3v");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_ston25hc94da0fi1cuhr',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_vuqauoytbshe7nlkmnq1',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_5eyju0jl6cbqxs52qc30',}, 
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_v4g1q538l642oqxoqttp',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_qwjgfo6d2nx7xn4jrpy7',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_6ba8ffsx9o8593g0tvou',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_95bda8tbgyrtdvzd0be3.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_mzfzvhx7jlg03q9unm3v.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -919,12 +919,12 @@ Table&nbsp;3.6: Curated document type of the recoverable only-OpenAlex works (to
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_95bda8tbgyrtdvzd0be3 td.tinytable_css_ston25hc94da0fi1cuhr, #tinytable_95bda8tbgyrtdvzd0be3 th.tinytable_css_ston25hc94da0fi1cuhr {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_95bda8tbgyrtdvzd0be3 td.tinytable_css_vuqauoytbshe7nlkmnq1, #tinytable_95bda8tbgyrtdvzd0be3 th.tinytable_css_vuqauoytbshe7nlkmnq1 { text-align: left; font-size: 0.9em }
-    #tinytable_95bda8tbgyrtdvzd0be3 td.tinytable_css_5eyju0jl6cbqxs52qc30, #tinytable_95bda8tbgyrtdvzd0be3 th.tinytable_css_5eyju0jl6cbqxs52qc30 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_mzfzvhx7jlg03q9unm3v td.tinytable_css_v4g1q538l642oqxoqttp, #tinytable_mzfzvhx7jlg03q9unm3v th.tinytable_css_v4g1q538l642oqxoqttp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_mzfzvhx7jlg03q9unm3v td.tinytable_css_qwjgfo6d2nx7xn4jrpy7, #tinytable_mzfzvhx7jlg03q9unm3v th.tinytable_css_qwjgfo6d2nx7xn4jrpy7 { text-align: left; font-size: 0.9em }
+    #tinytable_mzfzvhx7jlg03q9unm3v td.tinytable_css_6ba8ffsx9o8593g0tvou, #tinytable_mzfzvhx7jlg03q9unm3v th.tinytable_css_6ba8ffsx9o8593g0tvou {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_95bda8tbgyrtdvzd0be3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_mzfzvhx7jlg03q9unm3v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -978,11 +978,11 @@ Table&nbsp;3.6: Curated document type of the recoverable only-OpenAlex works (to
 <!-- snapshot (June 2026): only-OA window 17,881; with-DOI 15,618; in Scopus 9,459; in WoS 7,239;
  in either (recoverable) 9,946 (64%); in neither (OpenAlex-unique) 5,672 (36%); no-DOI 2,263.
  recoverable doctype: Article 7,288; Book Chapter 616; Conference Paper 505; Review 366; Editorial 333; Meeting 290 -->
-<p>The single-year pattern holds at scale. Of the only-OpenAlex works with a DOI, <strong>9,946 (64%) are recoverable</strong> – they exist in Scopus or Web of Science, the curated <em>queries</em> simply did not return them – and only <strong>5,672 (36%) are genuinely outside both subscription databases</strong>, OpenAlex’s true unique contribution. The recoverable works’ curated document types are dominated by <strong>Article (7,288) and Book Chapter (616)</strong> – exactly the types the curated query accepts, so these are genuine in-scope articles the keyword or field match failed to return – with the genres the query excludes by document type (Conference Paper 505, Review 366, Editorial 333, Meeting 290) a substantial but minority share that OpenAlex admits under its coarse “article” type. These 9,946 recoverable works are the target of the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>), which reached 9,719 of them and enriched those with curated abstracts and keywords; what that recovers is reported in <a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>.</p>
+<p>The single-year pattern holds at scale. Of the only-OpenAlex works with a DOI, <strong>9,946 (64%) are recoverable</strong> – they exist in Scopus or Web of Science, the curated <em>queries</em> simply did not return them – and only <strong>5,672 (36%) are genuinely outside both subscription databases</strong>, the true unique contribution of OpenAlex. Among the recoverable works, the curated document types are dominated by <strong>Article (7,288) and Book Chapter (616)</strong> – exactly the types that the curated query accepts, so these are genuine in-scope articles that the keyword or field match failed to return – with the genres that the query excludes by document type (Conference Paper 505, Review 366, Editorial 333, Meeting 290) a substantial but minority share that OpenAlex admits under its coarse ‘article’ type. These 9,946 recoverable works are the target of the curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>), which reached 9,719 of them and enriched those with curated abstracts and keywords; what that recovers is reported in <a href="#sec-corpus-noabstract" class="quarto-xref"><span>section 3.10</span></a>.</p>
 </section>
 <section id="sec-corpus-where" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust signal sits in each database</h2>
-<p>A question that bridges to whatever screens the corpus next: in which field of each database’s record does the trust term actually appear? The classifier and any abstract-level screen can read a match in the title or abstract directly; a match only in the keyword fields – Web of Science’s cited-reference-derived Keywords Plus above all (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) – is findable but needs the keyword fields read; and a work a search returned on a trust term now absent from its held title, abstract and keywords is the abstract-withdrawal tail made visible. The table scans each returned record’s held fields for the trust word family (computed inline, not stored in the dataset; it approximates the finer categories of the single-year audit).</p>
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-corpus-where"><span class="header-section-number">3.7</span> Where the trust term sits in each database</h2>
+<p>A question that bridges to whatever screens the corpus next: in which field of the record held by each database does the trust term actually appear? The classifier and any abstract-level screen can read a match in the title or abstract directly; a match only in the keyword fields – the cited-reference-derived Keywords Plus in Web of Science above all (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) – is findable but needs the keyword fields read; and a work that a search returned on a trust term now absent from its held title, abstract and keywords is the abstract-withdrawal tail made visible. The table scans the held fields of each returned record for the trust word family (computed inline, not stored in the dataset; it approximates the finer categories of the single-year audit).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1007,7 +1007,7 @@ Table&nbsp;3.6: Curated document type of the recoverable only-OpenAlex works (to
 <div id="tbl-corpus-where" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-where-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.7: Where the trust term sits in each source’s held record (works that source returned).
+Table&nbsp;3.7: Where the trust term sits in the record held by each source (works that source returned).
 </figcaption>
 <div aria-describedby="tbl-corpus-where-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1017,20 +1017,20 @@ Table&nbsp;3.7: Where the trust term sits in each source’s held record (works 
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_1ouec3cs3x2dhnk19z0u = TinyTable.createTableFunctions("tinytable_1ouec3cs3x2dhnk19z0u");
+      const tableFns_e4lvasgft70ubuhrjnoh = TinyTable.createTableFunctions("tinytable_e4lvasgft70ubuhrjnoh");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 }, { i: '3', j: 4 }, { i: '3', j: 5 } ], css_id: 'tinytable_css_80l5nkf0ujtifusblust',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 } ], css_id: 'tinytable_css_o7j02szlvlzgw7tjfg69',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_qny7gi7gvlip7v9m19b3',}, 
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 }, { i: '3', j: 4 }, { i: '3', j: 5 } ], css_id: 'tinytable_css_l1xelxkfoc1khgngclhn',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '1', j: 5 }, { i: '2', j: 5 } ], css_id: 'tinytable_css_un0okhrirk6ygygksnq4',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_jgyq36jd6p9qv5lzvjn7',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_1ouec3cs3x2dhnk19z0u.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_e4lvasgft70ubuhrjnoh.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1039,12 +1039,12 @@ Table&nbsp;3.7: Where the trust term sits in each source’s held record (works 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_1ouec3cs3x2dhnk19z0u td.tinytable_css_80l5nkf0ujtifusblust, #tinytable_1ouec3cs3x2dhnk19z0u th.tinytable_css_80l5nkf0ujtifusblust {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_1ouec3cs3x2dhnk19z0u td.tinytable_css_o7j02szlvlzgw7tjfg69, #tinytable_1ouec3cs3x2dhnk19z0u th.tinytable_css_o7j02szlvlzgw7tjfg69 { text-align: left; font-size: 0.9em }
-    #tinytable_1ouec3cs3x2dhnk19z0u td.tinytable_css_qny7gi7gvlip7v9m19b3, #tinytable_1ouec3cs3x2dhnk19z0u th.tinytable_css_qny7gi7gvlip7v9m19b3 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_e4lvasgft70ubuhrjnoh td.tinytable_css_l1xelxkfoc1khgngclhn, #tinytable_e4lvasgft70ubuhrjnoh th.tinytable_css_l1xelxkfoc1khgngclhn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_e4lvasgft70ubuhrjnoh td.tinytable_css_un0okhrirk6ygygksnq4, #tinytable_e4lvasgft70ubuhrjnoh th.tinytable_css_un0okhrirk6ygygksnq4 { text-align: left; font-size: 0.9em }
+    #tinytable_e4lvasgft70ubuhrjnoh td.tinytable_css_jgyq36jd6p9qv5lzvjn7, #tinytable_e4lvasgft70ubuhrjnoh th.tinytable_css_jgyq36jd6p9qv5lzvjn7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_1ouec3cs3x2dhnk19z0u" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_e4lvasgft70ubuhrjnoh" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1091,11 +1091,11 @@ Table&nbsp;3.7: Where the trust term sits in each source’s held record (works 
  OpenAlex pull (23,807): title/abstract 21,432 | keywords-only 184 | elsewhere/withheld 2,191
  Scopus (48,626):        title/abstract 46,330 | keywords-only 578 | elsewhere/withheld 1,718
  Web of Science (35,444): title/abstract 33,428 | keywords-only 1,018 | elsewhere/withheld 998 -->
-<p>For most records the trust signal is in the title or abstract, where any screen can read it. The exceptions are instructive. <strong>Web of Science carries the most keyword-only matches (1,018)</strong> – its Keywords Plus, generated from the titles of a work’s cited references, retrieves studies that engage the trust literature heavily without naming trust in their own text. <strong>OpenAlex shows the largest “elsewhere/withheld” tail (2,191)</strong>: works its topic search returned on a trust term that is no longer present in the held title, abstract or keywords – the abstract drought (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) made visible, since the search index remembered a match the record no longer exposes. Both are arguments for retaining the curated keyword fields and for the abstract backfill: the trust signal is not always where a naive title-and-abstract screen would look.</p>
+<p>For most records the trust term is in the title or abstract, where any screen can read it. <strong>Web of Science carries the most keyword-only matches (1,018)</strong> – its Keywords Plus, generated from the titles of the references that a work cites, retrieves studies that engage the trust literature heavily without naming trust in their own text. <strong>OpenAlex shows the largest ‘elsewhere/withheld’ tail (2,191)</strong>: works that its topic search returned on a trust term that is no longer present in the held title, abstract or keywords – the abstract drought (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>) made visible, since the search index remembered a match the record no longer exposes. Both are arguments for retaining the curated keyword fields and for the abstract backfill: the trust term is not always where a naive title-and-abstract screen would look.</p>
 </section>
 <section id="sec-corpus-trend" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="sec-corpus-trend"><span class="header-section-number">3.8</span> How trust research has grown, 2000–2025</h2>
-<p>The corpus shows what a single year cannot: the trajectory of the field and of each search’s grip on it.</p>
+<p>The corpus shows what a single year cannot: how the field has grown, and how firmly each search has held it.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1141,18 +1141,18 @@ Figure&nbsp;3.1: Trust-research works per year, 2000–2025: the deduplicated un
 <img src="03-corpus_files/figure-html/fig-corpus-trend-scope-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corpus-trend-scope-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: Trust-research works per year by trust_scope, 2000–2025: in-scope, undetermined and out-of-scope. The in-scope share holds steady across the period, so the growth is growth in relevant trust research, not in noise.
+Figure&nbsp;3.2: Trust-research works per year by trust_scope, 2000–2025: in-scope, undetermined and out-of-scope. The in-scope share holds steady across the period, so the growth is concentrated in relevant trust research.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <!-- snapshot (August 2026): in-scope 172 (2000) -> 5,869 (2025); undetermined 237 -> 2,859; out-of-scope 3 -> 269 -->
-<p>Three things stand out. The field has grown roughly twentyfold – from about 412 works in 2000 to several thousand a year by the early 2020s. The curated searches scale with that growth while the OpenAlex topic-union flattens (it levels off around 1,000–2,000 works a year and dips in the most recent years), consistent with a fixed twelve-topic net capturing a shrinking fraction of a widening field and with the abstract drought eroding the keyword clause OpenAlex depends on (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>). The 2025 column is depressed for OpenAlex and inflated for the curated databases by online-first effects at the collection boundary, so the final year is read as provisional. And throughout, the <strong>in-scope share holds steady</strong> (<a href="#fig-corpus-trend-scope" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>): the growth is growth in relevant trust research, not in noise, with out-of-scope work a thin, roughly constant band.</p>
+<p>Three things stand out. The field has grown roughly twentyfold – from about 412 works in 2000 to several thousand a year by the early 2020s. The curated searches scale with that growth while the OpenAlex topic-union flattens (it levels off around 1,000–2,000 works a year and dips in the most recent years), consistent with a fixed twelve-topic net capturing a shrinking fraction of a widening field and with the abstract drought eroding the keyword clause that OpenAlex depends on (<a href="01-databases.html" class="quarto-xref"><span>Notebook 1</span></a>). The 2025 column is depressed for OpenAlex and inflated for the curated databases by online-first effects at the collection boundary, so the final year is read as provisional. And throughout, the <strong>in-scope share holds steady</strong> (<a href="#fig-corpus-trend-scope" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>): the growth is growth in relevant trust research, not in noise, with out-of-scope work a thin, roughly constant band.</p>
 </section>
 <section id="sec-corpus-triage" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="sec-corpus-triage"><span class="header-section-number">3.9</span> The trust-sense triage across the corpus</h2>
-<p>The record-level classifier (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) labels every work’s <code>trust_scope</code> and records where the sense came from. Across the window corpus:</p>
+<p>The record-level classifier (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) labels <code>trust_scope</code> for every work and records where the sense came from. Across the window corpus:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1178,20 +1178,20 @@ Table&nbsp;3.8: The trust_scope triage over the window corpus, and where each re
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_2ehxn0uga8ie4qfvsij0 = TinyTable.createTableFunctions("tinytable_2ehxn0uga8ie4qfvsij0");
+      const tableFns_shebp0yvloknql70h9tf = TinyTable.createTableFunctions("tinytable_shebp0yvloknql70h9tf");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_68l627j30tmmqcbfhbdz',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_c5fajcdywjo51kriootd',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_udlgx62brndqruedxr1s',}, 
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_wmhpr7sy1rb1ru0bapbm',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_5x5z3w4vcfe8czhxiwkt',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_0384vgip1i8w4zhmkw7u',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_2ehxn0uga8ie4qfvsij0.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_shebp0yvloknql70h9tf.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1200,12 +1200,12 @@ Table&nbsp;3.8: The trust_scope triage over the window corpus, and where each re
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_2ehxn0uga8ie4qfvsij0 td.tinytable_css_68l627j30tmmqcbfhbdz, #tinytable_2ehxn0uga8ie4qfvsij0 th.tinytable_css_68l627j30tmmqcbfhbdz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
-    #tinytable_2ehxn0uga8ie4qfvsij0 td.tinytable_css_c5fajcdywjo51kriootd, #tinytable_2ehxn0uga8ie4qfvsij0 th.tinytable_css_c5fajcdywjo51kriootd { text-align: left; font-size: 0.9em }
-    #tinytable_2ehxn0uga8ie4qfvsij0 td.tinytable_css_udlgx62brndqruedxr1s, #tinytable_2ehxn0uga8ie4qfvsij0 th.tinytable_css_udlgx62brndqruedxr1s {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_shebp0yvloknql70h9tf td.tinytable_css_wmhpr7sy1rb1ru0bapbm, #tinytable_shebp0yvloknql70h9tf th.tinytable_css_wmhpr7sy1rb1ru0bapbm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_shebp0yvloknql70h9tf td.tinytable_css_5x5z3w4vcfe8czhxiwkt, #tinytable_shebp0yvloknql70h9tf th.tinytable_css_5x5z3w4vcfe8czhxiwkt { text-align: left; font-size: 0.9em }
+    #tinytable_shebp0yvloknql70h9tf td.tinytable_css_0384vgip1i8w4zhmkw7u, #tinytable_shebp0yvloknql70h9tf th.tinytable_css_0384vgip1i8w4zhmkw7u {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_2ehxn0uga8ie4qfvsij0" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_shebp0yvloknql70h9tf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1257,7 +1257,7 @@ Table&nbsp;3.8: The trust_scope triage over the window corpus, and where each re
 <div id="tbl-corpus-sense-basis" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-sense-basis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.9: Where each work’s combined sense came from (none = undetermined)
+Table&nbsp;3.9: Where the combined sense of each work came from (none = undetermined)
 </figcaption>
 <div aria-describedby="tbl-corpus-sense-basis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1267,20 +1267,20 @@ Table&nbsp;3.9: Where each work’s combined sense came from (none = undetermine
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_9ujysdhedymgd9v1jt3w = TinyTable.createTableFunctions("tinytable_9ujysdhedymgd9v1jt3w");
+      const tableFns_o084m1p0ixthzvdfkdig = TinyTable.createTableFunctions("tinytable_o084m1p0ixthzvdfkdig");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_cs9kv2uucg3zqzlpc3k5',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_8rasm9cn4cksjgj9r4fd',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_sr0a6aeghuy1ad3tozxj',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 } ], css_id: 'tinytable_css_0r7j0hm0wyikecww3cq8',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_56xs2i4m84dhgctxt8cn',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_xmms3lcaaxz1bjngkute',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_9ujysdhedymgd9v1jt3w.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_o084m1p0ixthzvdfkdig.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1289,12 +1289,12 @@ Table&nbsp;3.9: Where each work’s combined sense came from (none = undetermine
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_9ujysdhedymgd9v1jt3w td.tinytable_css_cs9kv2uucg3zqzlpc3k5, #tinytable_9ujysdhedymgd9v1jt3w th.tinytable_css_cs9kv2uucg3zqzlpc3k5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
-    #tinytable_9ujysdhedymgd9v1jt3w td.tinytable_css_8rasm9cn4cksjgj9r4fd, #tinytable_9ujysdhedymgd9v1jt3w th.tinytable_css_8rasm9cn4cksjgj9r4fd { text-align: left; font-size: 0.9em }
-    #tinytable_9ujysdhedymgd9v1jt3w td.tinytable_css_sr0a6aeghuy1ad3tozxj, #tinytable_9ujysdhedymgd9v1jt3w th.tinytable_css_sr0a6aeghuy1ad3tozxj {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_o084m1p0ixthzvdfkdig td.tinytable_css_0r7j0hm0wyikecww3cq8, #tinytable_o084m1p0ixthzvdfkdig th.tinytable_css_0r7j0hm0wyikecww3cq8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_o084m1p0ixthzvdfkdig td.tinytable_css_56xs2i4m84dhgctxt8cn, #tinytable_o084m1p0ixthzvdfkdig th.tinytable_css_56xs2i4m84dhgctxt8cn { text-align: left; font-size: 0.9em }
+    #tinytable_o084m1p0ixthzvdfkdig td.tinytable_css_xmms3lcaaxz1bjngkute, #tinytable_o084m1p0ixthzvdfkdig th.tinytable_css_xmms3lcaaxz1bjngkute {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_9ujysdhedymgd9v1jt3w" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_o084m1p0ixthzvdfkdig" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1339,14 +1339,14 @@ Table&nbsp;3.9: Where each work’s combined sense came from (none = undetermine
  leading in-scope: political 14,468; institutional/systems 6,238; generalised/social 5,865; interpersonal 2,784;
    clinical/relational-health 1,904; science/experts 1,827; media/information 1,519
  leading out-of-scope: technology 1,234; consumer/marketing 640; commercial-finance 150; security/computing 139 -->
-<p>The rule places <strong>53.3%</strong> of window works in-scope, <strong>3.0%</strong> out-of-scope, and leaves <strong>43.6%</strong> undetermined for the screen. Reading the keyword fields is not cosmetic: <strong>2,114 works were classified from their keywords alone</strong> (their title and abstract said nothing the rule could catch), and a further 8,801 had text and keywords agree; only <strong>212 works</strong> carry a scope conflict – a small, explicit review queue rather than a silent guess. The leading in-scope senses are political, institutional and generalised/social trust; the out-of-scope side is dominated by technology and consumer trust, exactly the contamination the triage is meant to hold back. Undetermined is the large residual by design (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) – it is the screen’s main queue, not a verdict of irrelevance.</p>
+<p>The rule places <strong>53.3%</strong> of window works in-scope, <strong>3.0%</strong> out-of-scope, and leaves <strong>43.6%</strong> undetermined for the screen. Reading the keyword fields is not cosmetic: <strong>2,114 works were classified from their keywords alone</strong> (their title and abstract said nothing that the rule could catch), and a further 8,801 had text and keywords agree; only <strong>212 works</strong> carry a scope conflict – a small, explicit review queue rather than a silent guess. The leading in-scope senses are political, institutional and generalised/social trust; the out-of-scope side is dominated by technology and consumer trust, exactly the contamination that the triage is meant to hold back. Undetermined is the large residual by design (<a href="02-classifier.html" class="quarto-xref"><span>Notebook 2</span></a>) – it is the main queue for the screen, not a verdict of irrelevance.</p>
 </section>
 <section id="sec-corpus-noabstract" class="level2" data-number="3.10">
 <h2 data-number="3.10" class="anchored" data-anchor-id="sec-corpus-noabstract"><span class="header-section-number">3.10</span> What is still without an abstract</h2>
 <p>The classifier and any downstream screen depend on the abstract, so the works that lack one are worth characterising. The residual reached its present size of <strong>2,518</strong> works in three passes, the middle of which raised it.</p>
 <p>The curated by-DOI backfill (<a href="01-databases.html#sec-databases-backfill" class="quarto-xref"><span>section 1.5</span></a>) ran first. It recovered curated records for 9,719 window works, most of them in the recoverable only-OpenAlex block identified in <a href="#sec-corpus-reverse" class="quarto-xref"><span>section 3.6</span></a>, and supplied an abstract wherever the curated record carried one. Measured on the abstract ladder as it then stood, the residual fell from 3,278 works to 1,859.</p>
-<p>The ladder was then found to be accepting text it should not have. In 1,417 in-window records the field an abstract would occupy held a placeholder string or a fragment of under a hundred characters – a copyright notice, a running header, a truncated opening line – and the ladder had counted each of them as an abstract. Reclassifying them as the absences they always were took the residual up to 2,595 and measured coverage down from 97.4% to 96.3%. The fall records a correction: the text it removes was never usable. It is also this corpus’s own instance of the failure Kim, Holst and Ginis report for 12% of the OpenAlex records flagged as carrying an abstract (<a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a>).</p>
-<p>The third pass went outside the assembled sources. <code>Scripts/collect/retrieve-abstracts.py</code> queried 7,454 distinct DOIs against Semantic Scholar, Crossref and Europe PMC – identifiers only, with no held text leaving the machine – and folded 2,843 usable abstracts into the corpus as the active record. Seventy-seven of them filled records that held nothing at all, and the remaining 2,766 replaced texts that were present but failed the quality checks the ladder fix had introduced. Each retrieved abstract carries its source and its retrieval date in <code>abstract_retrieved</code>, and each is licensed for local processing only, so nothing folded in this way becomes externally sendable. The residual settled at <strong>2,518</strong> works and coverage at <strong>96.5%</strong>.</p>
+<p>The ladder was then found to be accepting text it should not have. In 1,417 in-window records the field that an abstract would occupy held a placeholder string or a fragment of under a hundred characters – a copyright notice, a running header, a truncated opening line – and the ladder had counted each of them as an abstract. Reclassifying them as the absences they always were took the residual up to 2,595 and measured coverage down from 97.4% to 96.3%. The fall records a correction: the text it removes was never usable. It is also the same failure that Kim, Holst and Ginis report for 12% of the OpenAlex records flagged as carrying an abstract (<a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a>), observed inside this corpus.</p>
+<p>The third pass went outside the assembled sources. <code>Scripts/collect/retrieve-abstracts.py</code> queried 7,454 distinct DOIs against Semantic Scholar, Crossref and Europe PMC – identifiers only, with no held text leaving the machine – and folded 2,843 usable abstracts into the corpus as the active record. Seventy-seven of them filled records that held nothing at all, and the remaining 2,766 replaced texts that were present but failed the quality checks that the ladder fix had introduced. Each retrieved abstract carries its source and its retrieval date in <code>abstract_retrieved</code>, and each is licensed for local processing only, so nothing folded in this way becomes externally sendable. The residual settled at <strong>2,518</strong> works and coverage at <strong>96.5%</strong>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1362,7 +1362,7 @@ Table&nbsp;3.9: Where each work’s combined sense came from (none = undetermine
 <div id="tbl-corpus-abstract-source" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corpus-abstract-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.10: Where each window work’s working abstract comes from, after the curated backfill, the ladder fix and the open-API sweep.
+Table&nbsp;3.10: The source of the working abstract for each window work, after the curated backfill, the ladder fix and the open-API sweep.
 </figcaption>
 <div aria-describedby="tbl-corpus-abstract-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1372,20 +1372,20 @@ Table&nbsp;3.10: Where each window work’s working abstract comes from, after t
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_avfgrdg3lv0uw4ekj4p7 = TinyTable.createTableFunctions("tinytable_avfgrdg3lv0uw4ekj4p7");
+      const tableFns_j7hlmawj2d4sqe0r401q = TinyTable.createTableFunctions("tinytable_j7hlmawj2d4sqe0r401q");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_l6avap0lbnuwacmwuo93',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_zfz0e7nhtikvh8sp2mxr',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_2as55x3wfvutnv20vrj1',}, 
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_abkbn3oqhqkf6gia6z87',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_bam7pvb4mq5fq54o3v5f',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_ywl5icvyd7r4x6ibv1jc',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_avfgrdg3lv0uw4ekj4p7.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_j7hlmawj2d4sqe0r401q.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1394,12 +1394,12 @@ Table&nbsp;3.10: Where each window work’s working abstract comes from, after t
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_avfgrdg3lv0uw4ekj4p7 td.tinytable_css_l6avap0lbnuwacmwuo93, #tinytable_avfgrdg3lv0uw4ekj4p7 th.tinytable_css_l6avap0lbnuwacmwuo93 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
-    #tinytable_avfgrdg3lv0uw4ekj4p7 td.tinytable_css_zfz0e7nhtikvh8sp2mxr, #tinytable_avfgrdg3lv0uw4ekj4p7 th.tinytable_css_zfz0e7nhtikvh8sp2mxr { text-align: left; font-size: 0.9em }
-    #tinytable_avfgrdg3lv0uw4ekj4p7 td.tinytable_css_2as55x3wfvutnv20vrj1, #tinytable_avfgrdg3lv0uw4ekj4p7 th.tinytable_css_2as55x3wfvutnv20vrj1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_j7hlmawj2d4sqe0r401q td.tinytable_css_abkbn3oqhqkf6gia6z87, #tinytable_j7hlmawj2d4sqe0r401q th.tinytable_css_abkbn3oqhqkf6gia6z87 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_j7hlmawj2d4sqe0r401q td.tinytable_css_bam7pvb4mq5fq54o3v5f, #tinytable_j7hlmawj2d4sqe0r401q th.tinytable_css_bam7pvb4mq5fq54o3v5f { text-align: left; font-size: 0.9em }
+    #tinytable_j7hlmawj2d4sqe0r401q td.tinytable_css_ywl5icvyd7r4x6ibv1jc, #tinytable_j7hlmawj2d4sqe0r401q th.tinytable_css_ywl5icvyd7r4x6ibv1jc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_avfgrdg3lv0uw4ekj4p7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_j7hlmawj2d4sqe0r401q" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1487,20 +1487,20 @@ Table&nbsp;3.11: Characteristics of the works still with no abstract from any so
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_c34pbitxi2l30lwifoyp = TinyTable.createTableFunctions("tinytable_c34pbitxi2l30lwifoyp");
+      const tableFns_0ll1deazsg28e545sal9 = TinyTable.createTableFunctions("tinytable_0ll1deazsg28e545sal9");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_1cvn78iihqomcbwtxwyj',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_ibdj3omyk8nk7gjr0cni',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_bbsi8sfqx2b5bz1jk69z',}, 
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_pc7hidohoi9s0tvue4yk',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 } ], css_id: 'tinytable_css_5jluvrzyc9xty16qpyxd',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_dwlfk1vzw97z79ywmp6m',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_c34pbitxi2l30lwifoyp.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_0ll1deazsg28e545sal9.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1509,12 +1509,12 @@ Table&nbsp;3.11: Characteristics of the works still with no abstract from any so
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_c34pbitxi2l30lwifoyp td.tinytable_css_1cvn78iihqomcbwtxwyj, #tinytable_c34pbitxi2l30lwifoyp th.tinytable_css_1cvn78iihqomcbwtxwyj {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
-    #tinytable_c34pbitxi2l30lwifoyp td.tinytable_css_ibdj3omyk8nk7gjr0cni, #tinytable_c34pbitxi2l30lwifoyp th.tinytable_css_ibdj3omyk8nk7gjr0cni { text-align: left; font-size: 0.9em }
-    #tinytable_c34pbitxi2l30lwifoyp td.tinytable_css_bbsi8sfqx2b5bz1jk69z, #tinytable_c34pbitxi2l30lwifoyp th.tinytable_css_bbsi8sfqx2b5bz1jk69z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_0ll1deazsg28e545sal9 td.tinytable_css_pc7hidohoi9s0tvue4yk, #tinytable_0ll1deazsg28e545sal9 th.tinytable_css_pc7hidohoi9s0tvue4yk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left; font-size: 0.9em }
+    #tinytable_0ll1deazsg28e545sal9 td.tinytable_css_5jluvrzyc9xty16qpyxd, #tinytable_0ll1deazsg28e545sal9 th.tinytable_css_5jluvrzyc9xty16qpyxd { text-align: left; font-size: 0.9em }
+    #tinytable_0ll1deazsg28e545sal9 td.tinytable_css_dwlfk1vzw97z79ywmp6m, #tinytable_0ll1deazsg28e545sal9 th.tinytable_css_dwlfk1vzw97z79ywmp6m {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_c34pbitxi2l30lwifoyp" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_0ll1deazsg28e545sal9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1549,7 +1549,7 @@ Table&nbsp;3.11: Characteristics of the works still with no abstract from any so
 type: article 1,488; book chapter 1,008   |   only in the pull: 1,962 (78%)
 oa_source_type: journal 1,006; (none) 809; not in OpenAlex 282; ebook platform 259; book series 162
 in_OA_db true 2,236 / false 282   |   with a DOI 1,736 / without 782 -->
-<p>The residual is <strong>78% (1,962) pull-only</strong>, so the works no curated search returned still dominate it, but the other 556 were returned by Scopus or Web of Science and have no abstract in those records either – 282 of them have no OpenAlex record at all, and 274 carry no DOI on which any retrieval could be attempted. Its largest single venue category is now <code>journal</code> (1,006 works, 981 of them typed as articles), ahead of the sourceless venues (809), ebook platforms (259) and book series (162) where book chapters sit. The residual therefore reaches into the mainstream of journal publishing: about a thousand of these are ordinary articles whose abstract is deposited nowhere the pipeline can reach, which is the abstract withdrawal described in <a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a> working on the individual record. A further thousand are book chapters, where an abstract was often never written.</p>
+<p>The residual is <strong>78% (1,962) pull-only</strong>, so the works that no curated search returned still dominate it, but the other 556 were returned by Scopus or Web of Science and have no abstract in those records either – 282 of them have no OpenAlex record at all, and 274 carry no DOI on which any retrieval could be attempted. Its largest single venue category is now <code>journal</code> (1,006 works, 981 of them typed as articles), ahead of the sourceless venues (809), ebook platforms (259) and book series (162) where book chapters sit. The residual therefore reaches into the mainstream of journal publishing: about a thousand of these are ordinary articles whose abstract is deposited nowhere that the pipeline can reach, which is the abstract withdrawal described in <a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a> working on the individual record. A further thousand are book chapters, where an abstract was often never written.</p>
 <p>Splitting the pull-only majority by the reverse check (<a href="#tbl-corpus-reverse" class="quarto-xref">Table&nbsp;<span>3.5</span></a>) shows what the three passes left behind:</p>
 <div class="cell">
 <details class="code-fold">
@@ -1583,20 +1583,20 @@ Table&nbsp;3.12: The residual abstract-less pull-only works split by the reverse
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_1qn1rardp4y4vddyf2z2 = TinyTable.createTableFunctions("tinytable_1qn1rardp4y4vddyf2z2");
+      const tableFns_h814c04ulvd1e5k83ema = TinyTable.createTableFunctions("tinytable_h814c04ulvd1e5k83ema");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_7tkbbgntzlox5oztjjtf',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_7ckbbjq0xmgarvh8ilsp',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_k1qktb5dig1fyry3a750',}, 
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_lgetghzey50hvs09gvq1',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_hokftkzteg8amx034rfl',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_w251uqm1ucmt8umq8zqp',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_1qn1rardp4y4vddyf2z2.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_h814c04ulvd1e5k83ema.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1605,12 +1605,12 @@ Table&nbsp;3.12: The residual abstract-less pull-only works split by the reverse
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_1qn1rardp4y4vddyf2z2 td.tinytable_css_7tkbbgntzlox5oztjjtf, #tinytable_1qn1rardp4y4vddyf2z2 th.tinytable_css_7tkbbgntzlox5oztjjtf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
-    #tinytable_1qn1rardp4y4vddyf2z2 td.tinytable_css_7ckbbjq0xmgarvh8ilsp, #tinytable_1qn1rardp4y4vddyf2z2 th.tinytable_css_7ckbbjq0xmgarvh8ilsp { text-align: left; font-size: 0.9em }
-    #tinytable_1qn1rardp4y4vddyf2z2 td.tinytable_css_k1qktb5dig1fyry3a750, #tinytable_1qn1rardp4y4vddyf2z2 th.tinytable_css_k1qktb5dig1fyry3a750 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
+    #tinytable_h814c04ulvd1e5k83ema td.tinytable_css_lgetghzey50hvs09gvq1, #tinytable_h814c04ulvd1e5k83ema th.tinytable_css_lgetghzey50hvs09gvq1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.9em }
+    #tinytable_h814c04ulvd1e5k83ema td.tinytable_css_hokftkzteg8amx034rfl, #tinytable_h814c04ulvd1e5k83ema th.tinytable_css_hokftkzteg8amx034rfl { text-align: left; font-size: 0.9em }
+    #tinytable_h814c04ulvd1e5k83ema td.tinytable_css_w251uqm1ucmt8umq8zqp, #tinytable_h814c04ulvd1e5k83ema th.tinytable_css_w251uqm1ucmt8umq8zqp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; font-weight: bold; text-align: left; font-size: 0.95em }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_1qn1rardp4y4vddyf2z2" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_h814c04ulvd1e5k83ema" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1652,19 +1652,19 @@ Table&nbsp;3.12: The residual abstract-less pull-only works split by the reverse
 <section id="sec-corpus-datasets" class="level2" data-number="3.11">
 <h2 data-number="3.11" class="anchored" data-anchor-id="sec-corpus-datasets"><span class="header-section-number">3.11</span> The assembled dataset</h2>
 <p>The pipeline writes the analysis dataset to <code>data/final/corpus_derived.parquet</code>, 75,302 rows by 177 columns; the assembled base before classification is <code>corpus_raw.parquet</code> in the same folder, the intermediate spine and the OpenAlex citation graph live in <code>data/intermediate/</code>, and every column is documented in <code>codebook.html</code> (<a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>, generated from the derivation registry). Parquet is the canonical format (read directly by these notebooks via R <code>arrow</code>); a CSV can be produced from any dataset on demand in one line of R or Python (see the RA guide). The first of those columns is <code>record_id</code>, a non-null unique key derived once in the derive stage from whichever provider-issued identifier the record carries. Everything downstream joins on it rather than re-deriving it, and the ladder it is built from is set out with the other columns in <a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>.</p>
-<p>Of the 71,108 window works, <strong>68,590 (96.5%) carry a working abstract</strong>. Whether an abstract exists and whether it may be sent anywhere are separate questions, and the corpus keeps them in separate columns, because the presence of text is evidence about text and not a grant of rights. <code>abstract_open_available</code> is true for <strong>52,196</strong> window works and records only that a usable OpenAlex string is held – many of those strings are unlicensed Microsoft Academic Graph inheritances attached to closed-access works, and they are the ones being withdrawn on copyright grounds (<a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a>). The warrant for external transmission is instead the work’s own licence, fetched per work by <code>collect/openalex-licences.py</code> and recorded in <code>OA_licence</code>. <code>abstract_externally_sendable</code> is true only where a usable OpenAlex string is held <em>and</em> that licence carries an explicit open slug, which is the case for <strong>21,527</strong> window works, a little under a third of the abstracts the corpus holds.</p>
-<p>The screen that reads these abstracts applies a slightly stricter floor than the flag does, requiring 200 characters of OpenAlex abstract rather than the ladder’s 100, and on that floor the window divides three ways: <strong>21,493</strong> records whose licence permits external coding, <strong>47,097</strong> that hold a usable abstract but no warrant and are coded by an open-weight model run locally, and the <strong>2,518</strong> with no abstract at all. Each abstract is tagged with its source, its licence, whether it was backfilled and, where it came from an open API, its retrieval source and date, so external eligibility and any future redistribution are decided per work rather than by discarding data. The citation graph (2.77M edges) supports the reference miner; it is kept out of the working dataset so the corpus stays lean.</p>
+<p>Of the 71,108 window works, <strong>68,590 (96.5%) carry a working abstract</strong>. Whether an abstract exists and whether it may be sent anywhere are separate questions, and the corpus keeps them in separate columns, because the presence of text is evidence about text and not a grant of rights. <code>abstract_open_available</code> is true for <strong>52,196</strong> window works and records only that a usable OpenAlex string is held – many of those strings are unlicensed Microsoft Academic Graph inheritances attached to closed-access works, and they are the ones being withdrawn on copyright grounds (<a href="01-databases.html#sec-databases-abstracts" class="quarto-xref"><span>section 1.3</span></a>). The warrant for external transmission is instead the licence on the work itself, fetched per work by <code>collect/openalex-licences.py</code> and recorded in <code>OA_licence</code>. <code>abstract_externally_sendable</code> is true only where a usable OpenAlex string is held <em>and</em> that licence carries an explicit open slug, which is the case for <strong>21,527</strong> window works, a little under a third of the abstracts that the corpus holds.</p>
+<p>The screen that reads these abstracts applies a slightly stricter floor than the flag does, requiring 200 characters of OpenAlex abstract rather than the ladder floor of 100, and on that floor the window divides three ways: <strong>21,493</strong> records whose licence permits external coding, <strong>47,097</strong> that hold a usable abstract but no warrant and are coded by an open-weight model run locally, and the <strong>2,518</strong> with no abstract at all. Each abstract is tagged with its source, its licence, whether it was backfilled and, where it came from an open API, its retrieval source and date, so external eligibility and any future redistribution are decided per work rather than by discarding data. The citation graph (2.77M edges) supports the reference miner; it is kept out of the working dataset so the corpus stays lean.</p>
 </section>
 <section id="sec-corpus-rec" class="level2" data-number="3.12">
 <h2 data-number="3.12" class="anchored" data-anchor-id="sec-corpus-rec"><span class="header-section-number">3.12</span> What the corpus establishes</h2>
 <ol type="1">
 <li><strong>Coverage holds at scale.</strong> The OpenAlex database contains 98.4–99.1% of what the curated searches return across 2000–2025; it serves as the discovery substrate and citation backbone.</li>
 <li><strong>Discovery is multi-channel by necessity.</strong> The topic-union retrieves about an eighth of the curated trust it contains, and that fraction shrinks over time; recall comes from complementary channels merged by DOI.</li>
-<li><strong>The classifier’s value is real and large.</strong> The OpenAlex search surfaces 17,881 in-scope-dense, low-noise trust works the keyword searches miss; the curated searches contribute the largest blocks of uniquely-relevant recall. Precision is imposed downstream by the trust-sense triage, the document-type detail, and the content screen.</li>
+<li><strong>The added value of the topic classifier is real and large.</strong> The OpenAlex search surfaces 17,881 in-scope-dense, low-noise trust works that the keyword searches miss; the curated searches contribute the largest blocks of uniquely-relevant recall. Precision is imposed downstream by the trust-sense triage, the document-type detail, and the content screen.</li>
 <li><strong>Three passes closed most of the abstract gap, and the middle one corrected the measurement.</strong> The curated by-DOI backfill recovered curated records for 9,719 pull-only works and enriched the corpus with curated keywords and document types; the ladder fix then reclassified 1,417 placeholder strings as the absences they always were, which took measured coverage down; and the open-API sweep supplied 2,843 working abstracts. Coverage stands at 96.5%, with 2,518 works that lack an abstract anywhere.</li>
 <li><strong>Holding an abstract and being allowed to send it are different states, and the corpus records both.</strong> A usable OpenAlex string is held for 52,196 window works; 21,527 of them carry a licence that permits external transmission. The screening partition follows the licence: 21,493 records coded externally, 47,097 by a locally run open-weight model, 2,518 from title and metadata alone.</li>
 </ol>
-<p>The 2015 audit chose the design; the 2000–2025 corpus confirms it and is the dataset the downstream stages read. Screening has since run over the externally codeable track under a frozen codebook, and extraction and reduction work from what it selects. Every column is catalogued in the codebook (<a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>).</p>
+<p>The 2015 audit chose the design; the 2000–2025 corpus confirms it and is the dataset that the downstream stages read. Screening has since run over the externally codeable track under a frozen codebook, and extraction and reduction work from what it selects. Every column is catalogued in the codebook (<a href="05-codebook.html" class="quarto-xref"><span>Notebook 5</span></a>).</p>
 
 
 </section>
